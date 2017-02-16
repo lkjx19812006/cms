@@ -1,0 +1,16 @@
+{
+    "zh": [{
+        "name": "zh_home",
+        "path": "/home"
+    },{
+        "name": "zh_test",
+        "path": "/test"
+    }],
+    "en": [{
+        "name": "en_home",
+        "path": "/home"
+    },{
+        "name": "en_test",
+        "path": "/test"
+    }]
+}
