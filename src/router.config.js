@@ -1,4 +1,7 @@
+import Vue from 'vue'
 import navConfig from './router.config.json';
+import VueRouter from 'vue-router'
+Vue.use(VueRouter);
 
 const registerRoute = (navConfig) => {
   let route = [];
@@ -7,7 +10,7 @@ const registerRoute = (navConfig) => {
     route.push({
       path: "/"+lang,
       component: require("./pages/"+lang+"/home.vue"),
-      redirect: `/${ lang }/home`,
+      redirect: `/${ lang }/main`,
       children: [],
        meta: {
         lang
@@ -30,7 +33,6 @@ const registerRoute = (navConfig) => {
     });
   });
   function addRoute(page, lang, index) {
-    
     const component = require("./pages/"+lang+page.path+".vue");
     let child = {
       path: page.path.slice(1),
@@ -49,7 +51,17 @@ const registerRoute = (navConfig) => {
   return route;
 };
 
-let route = registerRoute(navConfig);
+let routes = registerRoute(navConfig);
+routes.push({
+  path: '/login',
+  name: 'login',
+  component: require('./pages/login.vue')
+});
+
+const router = new VueRouter({
+    mode: 'history',
+    routes
+});
 
 
-export default route;
+export default router;

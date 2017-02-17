@@ -1,21 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueRouter from 'vue-router'
+
 import store from './store'
-import routes from './router.config'
+import router from './router.config'
 import { sync } from 'vuex-router-sync'
 import * as filters from './filters'
-import ElementUI from 'element-ui'
-import locale from 'element-ui/lib/locale/lang/en'
 
-
-Vue.use(ElementUI, { locale })
-Vue.use(VueRouter);
-
-const router = new VueRouter({
-    mode: 'history',
-    routes
-});
 
 
 // sync the router with the vuex store.

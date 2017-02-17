@@ -1,5 +1,11 @@
 import 'es6-promise/auto'
 import { app, store } from './app'
+import Vue from 'vue'
+import VueResource from 'vue-resource'
+import Element  from 'element-ui'
+
+Vue.use(Element)
+Vue.use(VueResource)
 
 // prime the store with server-initialized state.
 // the state is determined during SSR and inlined in the page markup.

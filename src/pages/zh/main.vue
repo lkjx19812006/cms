@@ -1,7 +1,7 @@
 <template>
     <div class="cart">
-        <h2>{{langConfig.test}}test</h2>
-        <p v-show="!products.length"><i>test-add</i></p>
+        <h2>{{langConfig.cartTitle}}maindfgdfgdfg</h2>
+        <p v-show="!products.length"><i>{{langConfig.addCart}}</i></p>
         <ul>
             <li v-for="p in products">
                 {{ p.title }} - {{ p.price }} x {{ p.quantity }}
@@ -18,6 +18,7 @@
 import {
     mapGetters
 } from 'vuex'
+
 let _self = this;
 
 function fetchItem(store) {
@@ -27,7 +28,7 @@ function fetchItem(store) {
 }
 
 export default {
-    name: 'test-view',
+    name: 'main-view',
     data() {
         return {
             loading: true
@@ -37,14 +38,14 @@ export default {
         products() {
             return this.$store.state.products.all
         },
-        langConfig() {
-            return require('../../i18n/' + this.$route.meta.lang + '.i18n.json')
+        langConfig(){
+            return require('../../i18n/' + this.$route.meta.lang + '.i18n.json') 
         }
     },
     methods: {
         checkout(param) {
-            console.log(param);
-            console.log(this.$store.state.products);
+            this.$router.push('/en')
+
         }
     },
     preFetch: fetchItem
