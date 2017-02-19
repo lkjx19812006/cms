@@ -1,5 +1,4 @@
-import shop from '../../api/shop'
-import * as types from '../mutation-types'
+
 
 // initial state
 const state = {
@@ -13,25 +12,16 @@ const getters = {
 
 // actions
 const actions = {
-    [types.TEST]({ commit }) {
+    TEST({ commit }) {
         return new Promise((resolve, reject) => {
-            shop.getProducts(products => {
-                commit(types.RECEIVE_PRODUCTS, { products })
-                resolve(products);
-            })
+           resolve(['fdsdf']);
         })
     }
 }
 
 // mutations
 const mutations = {
-    [types.RECEIVE_PRODUCTS](state, { products }) {
-        state.all = products
-    },
-
-    [types.ADD_TO_CART](state, { id }) {
-        state.all.find(p => p.id === id).inventory--
-    }
+    
 }
 
 export default {

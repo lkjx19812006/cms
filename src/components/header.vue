@@ -6,7 +6,6 @@
     margin 0
     color #34495e
     width 100%
-    float left
     height 100px
     border-bottom 1px solid #ddd
     line-height 100px

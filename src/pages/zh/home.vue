@@ -6,12 +6,15 @@
   width 100%
   .right 
       float right
-      width 70%
+      width 80%
+      .home_content
+        padding 20px
   .side_left
       float left
-      width 30%
+      width 20%
       background #fff
       height 100%
+     
   
 a
   color #34495e
@@ -25,10 +28,13 @@ a
         </div>
         <div class="right">
             <main-header></main-header>
+            <div class="home_content">
             <transition name="fade" mode="out-in">
                 <router-view></router-view>
             </transition>
+            </div>
         </div>
+        <div style="clear:both"></div>
     </div>
 </template>
 <script>

@@ -1,15 +1,19 @@
 {
     "zh": [{
         "name": "主页",
-        "path": "/main"
+        "path": "/main",
+        "index":"0"
     }, {
         "name": "资源列表",
+        "index":"1",
         "children": [{
-            "path": "/test",
-            "title": "供应列表"
-        }, {
             "path": "/resource",
-            "title": "求购列表"
+            "title": "低价资源",
+            "index":"1-0"
+        }, {
+            "path": "/need",
+            "title": "紧急求购",
+            "index":"1-1"
         }]
     }]
 }

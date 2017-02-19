@@ -38,31 +38,20 @@ export default {
                     }
                 }, function(response) {
                     _self.fullscreenLoading = false;
-                    if (response.code != '1c01') {
-                        _self.$message({
-                            showClose: true,
-                            message: response.msg,
-                            type: 'error'
-                        });
+                    window.localStorage.KEY = response.biz_result.KEY;
+                    window.localStorage.SID = response.biz_result.SID;
+                    common.KEY = window.localStorage.KEY;
+                    common.SID = window.localStorage.SID;
+                    common.getDate();
+                    if (window.history.length == 1) {
+                        _self.$router.push('/home');
                     } else {
-                        window.localStorage.KEY = response.biz_result.KEY;
-                        window.localStorage.SID = response.biz_result.SID;
-                        common.KEY = window.localStorage.KEY;
-                        common.SID = window.localStorage.SID;
-                        common.getDate();
-
-                        if (window.history.length == 1) {
-                            _self.$router.push('/home');
-                        } else {
-
-                            window.history.go(-1);
-                        }
+                        window.history.go(-1);
                     }
                 },
                 function(err) {
                     _self.fullscreenLoading = false;
                 })
-
         }
     }
 }
