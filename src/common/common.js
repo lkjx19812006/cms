@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import CryptoJS from "crypto-js"
 
-
-
 let common = new Vue({
     data: {
         customerId: '',
@@ -22,6 +20,33 @@ let common = new Vue({
         }
     },
     methods: {
+        formatOnShell(status) {
+            let statue = '';
+            switch (status) {
+                case 1:
+                    statue = '申请上架';
+                    break;
+                case 2:
+                    statue = '上架';
+                    break;
+                case -2:
+                    statue = '上架失败';
+                    break;
+                case 3:
+                    statue = '申请下架';
+                    break;
+                case 4:
+                    statue = '下架';
+                    break;
+                case 0:
+                    statue = '初始';
+                    break;
+                default:
+                    statue = '未知状态';
+                    break;
+            }
+            return statue;
+        },
         addSID(url) {
             if (this.SID && this.SID != undefined) {
                 return url + ';jsessionid=' + this.SID;
@@ -36,13 +61,12 @@ let common = new Vue({
                     var timestamp = Date.parse(new Date());
                     window.localStorage.difTime = response.data.biz_result.time - timestamp;
                     _self.difTime = window.localStorage.difTime;
-
-                }else{
-                   _self.$message({
-                    showClose: true,
-                    message: response.msg,
-                    type: 'error'
-                }); 
+                } else {
+                    _self.$message({
+                        showClose: true,
+                        message: response.msg,
+                        type: 'error'
+                    });
                 }
             }, (err) => {
                 _self.$message({

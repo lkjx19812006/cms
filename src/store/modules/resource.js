@@ -1,11 +1,12 @@
-import common from '../../common/common'
 import httpService from '../../common/httpService'
+import config from '../../common/common.config.json'
 // initial state
 // shape: [{ id, quantity }]
 const state = {
     needList: [],
-    resourceList: [],
-    checkoutStatus: null
+    resourceList: { list: [] },
+    checkoutStatus: null,
+    ppl: {list:[]}
 }
 
 // getters
@@ -19,21 +20,62 @@ const getters = {
 const actions = {
     getResourceList({ commit, state }, param) {
         return new Promise((resolve, reject) => {
-            httpService.commonPost(common.urlCommon + common.apiUrl.most, param,
+            httpService.commonPost(param.path, param,
+                function(res) {
+                    commit('getResourceList', res);
+                    commit('formatOnShell');
+                    resolve(res);
+                },
+                function(err) {
+                    reject(err);
+                })
+        })
+    },
+    getPpl({ commit, state }, param) {
+
+        return new Promise((resolve, reject) => {
+            httpService.commonPost(param.path, param,
+                function(res) {
+                    commit('initPpl', res);
+                    resolve(res);
+                },
+                function(err) {
+                    reject(err);
+                })
+        })
+    },
+    makeTop({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            httpService.commonPost(param.path, param,
                 function(res) {
                     resolve(res);
-                    state.resourceList=res.biz_result.list;
                 },
                 function(err) {
                     reject(err);
                 })
         })
     }
+
 }
 
 // mutations
 const mutations = {
-
+    formatOnShell(state) {
+        for (let i = 0; i < state.resourceList.list.length; i++) {
+            let item = state.resourceList.list[i];
+            item.onSell = config.onSell[item.onSell]
+        }
+    },
+    getResourceList(state, res) {
+        state.resourceList = res.biz_result;
+    },
+    initPpl(state, res) {
+        for(let i =0;i<res.biz_result.list.length;i++){
+            let item = res.biz_result.list[i];
+            item.value=item.keyWord;
+        }
+        state.ppl = res.biz_result;
+    }
 }
 
 export default {

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import navConfig from './router.config.json';
 import VueRouter from 'vue-router'
+
 Vue.use(VueRouter);
 
 const registerRoute = (navConfig) => {

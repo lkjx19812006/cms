@@ -26,6 +26,10 @@ module.exports = {
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process
     rules: [
+      { 
+      test: /\.css$/, 
+      loader: 'style-loader!css-loader' 
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -40,7 +44,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif|svg|woff|eot|ttf)$/,
         loader: 'url-loader',
         options: {
           limit: 10000,

@@ -4,7 +4,9 @@ import store from './store'
 import router from './router.config'
 import { sync } from 'vuex-router-sync'
 import * as filters from './filters'
+import Element  from 'element-ui'
 
+Vue.use(Element)
 
 
 // sync the router with the vuex store.

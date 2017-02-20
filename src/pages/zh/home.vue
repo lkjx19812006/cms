@@ -45,7 +45,7 @@ import {
 import MainHeader from '../../components/header.vue';
 import SideNav from '../../components/side-nav.vue';
 import navsData from '../../router.config.json';
-
+import common from '../../common/common.js'
 let _self = this;
 
 function fetchItem(store) {
@@ -79,6 +79,15 @@ export default {
             this.$router.push('/en')
 
         }
+    },
+     mounted(){
+     if(!window.localStorage.KEY){
+          this.$router.push('/login');   
+     }else{
+                    common.KEY = window.localStorage.KEY;
+                    common.SID = window.localStorage.SID;
+                    common.getDate();
+     }
     },
     preFetch: fetchItem
 }
