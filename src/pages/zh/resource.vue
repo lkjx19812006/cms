@@ -57,12 +57,12 @@
                 </el-row>
             </div>
             <div class="sort-button">
-                <el-autocomplete style="margin-right:20px" v-model="searchValue" :fetch-suggestions="querySearchAsync" placeholder="请输入药材名称" @select="handleSelect"></el-autocomplete>
-                <el-button type="primary" @click="sortDefault()">重置排序</el-button>
+                <el-button type="primary" @click="sortDefault()" style="float:right">重置排序</el-button>
+                <el-autocomplete style="margin-right:20px;float:right" v-model="searchValue" :fetch-suggestions="querySearchAsync" placeholder="请输入药材名称" @select="handleSelect"></el-autocomplete>
             </div>
         </div>
         <div v-if="resourceList.length>0" class="table">
-            <el-table v-bind:data="resourceList" border style="width:1123px;margin:auto" max-height="550" @selection-change="handleSelectionChange" v-loading.body="loading">
+            <el-table v-bind:data="resourceList" border style="width:1106x;margin:auto" max-height="550" @selection-change="handleSelectionChange" :v-loading.body="loading">
                 <el-table-column type="selection" fixed="left" width="55">
                 </el-table-column>
                 <el-table-column prop="breedName" label="药材名称" width="150">
@@ -85,18 +85,17 @@
                         <el-button @click.native.prevent="sortDefault(scope.$index)" type="text" size="small" v-if="showReset(scope.$index)">
                             重置
                         </el-button>
-                        
                     </template>
                 </el-table-column>
             </el-table>
-            <div class="pagination">
-                <el-pagination @current-change="handleCurrentChange" :current-page="httpParam.pn" layout="total, prev, pager, next, jumper" :total="400">
-                </el-pagination>
-                </el-col>
-            </div>
         </div>
         <div v-if="resourceList.length==0">
             暂无数据
+        </div>
+        <div class="pagination">
+            <el-pagination @current-change="handleCurrentChange" :current-page="httpParam.pn" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+            </el-col>
         </div>
     </div>
 </template>
@@ -114,14 +113,16 @@ let param = {
     location: ["", ""],
     sampling: -1,
     pn: 1,
-    pSize: 20
+    pSize: 10
 };
 
 function fetchItem(store) {
     return store.dispatch('getResourceList', {
-        biz_module: 'intentionService',
-        biz_method: 'querySupplyList',
-        biz_param: param,
+        body: {
+            biz_module: 'intentionService',
+            biz_method: 'querySupplyList',
+            biz_param: param
+        },
         path: common.urlCommon + common.apiUrl.most
     });
 }
@@ -184,9 +185,17 @@ export default {
         resourceList() {
             return this.$store.state.resource.resourceList.list
         },
+        total() {
+            return this.$store.state.resource.resourceList.total
+        }
+    },
+    mounted() {
+        if (this.$store.state.resource.resourceList.list.length == 0) {
+            this.getHttp();
+        }
     },
     methods: {
-        showReset(val){
+        showReset(val) {
             return this.resourceList[val].sort;
         },
         handleCurrentChange(val) {
@@ -204,20 +213,21 @@ export default {
                 this.httpParam[item.param] = subItem.key;
             }
             this.getHttp();
-
         },
         getHttp() {
             let _self = this;
             this.loading = true
             this.$store.dispatch('getResourceList', {
-                biz_module: 'intentionService',
-                biz_method: 'querySupplyList',
-                biz_param: _self.httpParam,
+                body: {
+                    biz_module: 'intentionService',
+                    biz_method: 'querySupplyList',
+                    biz_param: _self.httpParam
+                },
                 path: common.urlCommon + common.apiUrl.most
             }).then(() => {
-                this.loading = false
+                _self.loading = false
             }, () => {
-                this.loading = false
+                _self.loading = false
             });
         },
         makeTop(index) {
@@ -237,18 +247,21 @@ export default {
                 body.time = Date.parse(new Date()) + parseInt(common.difTime);
                 body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
             }
-            body.path = url;
-            this.$store.dispatch('makeTop', body).then(() => {
+            let obj = {
+                body: body,
+                path: url
+            }
+            this.$store.dispatch('makeTop', obj).then(() => {
                 _self.httpParam.pn = 1;
                 _self.getHttp();
             }, () => {
-                this.loading = false
+                _self.loading = false
             });
         },
         sortDefault(param) {
-            let resourceId='';
-            if(param){
-                resourceId=this.resourceList[param].id;
+            let resourceId = '';
+            if (param) {
+                resourceId = this.resourceList[param].id;
             }
             let _self = this;
             this.loading = true;
@@ -266,17 +279,23 @@ export default {
                 body.time = Date.parse(new Date()) + parseInt(common.difTime);
                 body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
             }
-            body.path = url;
-            this.$store.dispatch('makeTop', body).then(() => {
+            let obj = {
+                body: body,
+                path: url
+            }
+            this.$store.dispatch('makeTop', obj).then(() => {
                 _self.httpParam.pn = 1;
                 _self.getHttp();
             }, () => {
-                this.loading = false
+                _self.loading = false
             });
         },
         querySearchAsync(queryString, cb) {
             if (!queryString) {
-                cb([{value:'全部',keyWord:''}]);
+                cb([{
+                    value: '全部',
+                    keyWord: ''
+                }]);
                 return;
             }
             let _self = this;
@@ -292,14 +311,16 @@ export default {
                         pSize: 20
                     }
                 }
-                body.path = url;
-                _self.$store.dispatch('getPpl', body).then(() => {
+                let obj = {
+                    body: body,
+                    path: url
+                }
+                _self.$store.dispatch('getPpl', obj).then(() => {
                     cb(_self.$store.state.resource.ppl.list);
                 }, () => {
                     cb([]);
                 });
             }, 300);
-
         },
         handleSelect(item) {
             this.httpParam.keyWord = item.keyWord;

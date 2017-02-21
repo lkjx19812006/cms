@@ -15,5 +15,9 @@
             "title": "紧急求购",
             "index":"1-1"
         }]
+    },{
+        "name": "消息推送",
+        "path": "/newsSend",
+        "index":"2"
     }]
 }

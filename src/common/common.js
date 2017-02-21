@@ -54,13 +54,14 @@ let common = new Vue({
                 return url;
             }
         },
-        getDate() {
+        getDate(cb) {
             let _self = this;
             this.$http.get(this.urlCommon + this.apiUrl.getDate).then((response) => {
                 if (response.data.code == '1c01') {
                     var timestamp = Date.parse(new Date());
                     window.localStorage.difTime = response.data.biz_result.time - timestamp;
                     _self.difTime = window.localStorage.difTime;
+                    if(cb)cb();
                 } else {
                     _self.$message({
                         showClose: true,

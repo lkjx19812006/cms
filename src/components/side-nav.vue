@@ -2,6 +2,7 @@
 .nav_side 
     background-color #eef1f6 
     color #fff 
+    height 100%
     .logo 
         background-color #fff 
         height 100px 
@@ -10,7 +11,7 @@
         background-size 50% 50%
 </style>
 <template>
-    <div class="nav_side" :style="{ minHeight: wrapperHeight + 'px' }">
+    <div class="nav_side" >
         <div class="logo">
         </div>
         <el-menu v-bind:default-active="getDefaultIndex" class="el-menu-vertical-demo">
@@ -70,9 +71,6 @@ export default {
              return _self.deIndex;
         }
 
-    },
-    mounted() {
-        this.wrapperHeight = document.documentElement.clientHeight; 
     },
     methods: {
         menuIndex: function(index) {

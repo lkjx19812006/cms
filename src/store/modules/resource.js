@@ -3,7 +3,7 @@ import config from '../../common/common.config.json'
 // initial state
 // shape: [{ id, quantity }]
 const state = {
-    needList: [],
+    needList: {list:[]},
     resourceList: { list: [] },
     checkoutStatus: null,
     ppl: {list:[]}
@@ -20,7 +20,7 @@ const getters = {
 const actions = {
     getResourceList({ commit, state }, param) {
         return new Promise((resolve, reject) => {
-            httpService.commonPost(param.path, param,
+            httpService.commonPost(param.path, param.body,
                 function(res) {
                     commit('getResourceList', res);
                     commit('formatOnShell');
@@ -31,10 +31,21 @@ const actions = {
                 })
         })
     },
-    getPpl({ commit, state }, param) {
-
+     getNeedList({ commit, state }, param) {
         return new Promise((resolve, reject) => {
-            httpService.commonPost(param.path, param,
+            httpService.commonPost(param.path, param.body,
+                function(res) {
+                    commit('getNeedList', res);
+                    resolve(res);
+                },
+                function(err) {
+                    reject(err);
+                })
+        })
+    },
+    getPpl({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            httpService.commonPost(param.path, param.body,
                 function(res) {
                     commit('initPpl', res);
                     resolve(res);
@@ -46,7 +57,7 @@ const actions = {
     },
     makeTop({ commit, state }, param) {
         return new Promise((resolve, reject) => {
-            httpService.commonPost(param.path, param,
+            httpService.commonPost(param.path, param.body,
                 function(res) {
                     resolve(res);
                 },
@@ -63,6 +74,13 @@ const mutations = {
     formatOnShell(state) {
         for (let i = 0; i < state.resourceList.list.length; i++) {
             let item = state.resourceList.list[i];
+            item.onSell = config.onSell[item.onSell]
+        }
+    },
+    getNeedList(state,res){
+        state.needList = res.biz_result;
+         for (let i = 0; i < state.needList.list.length; i++) {
+            let item = state.needList.list[i];
             item.onSell = config.onSell[item.onSell]
         }
     },

@@ -4,6 +4,7 @@
   font-size 15px
   float left
   width 100%
+  height 100%
   .right 
       float right
       width 80%
@@ -14,12 +15,9 @@
       width 20%
       background #fff
       height 100%
-     
-  
 a
   color #34495e
   text-decoration none
-
 </style>
 <template>
     <div class="content">
@@ -29,9 +27,9 @@ a
         <div class="right">
             <main-header></main-header>
             <div class="home_content">
-            <transition name="fade" mode="out-in">
-                <router-view></router-view>
-            </transition>
+               <!--  <transition name="fade" mode="out-in"> -->
+                    <router-view></router-view>
+               <!--  </transition> -->
             </div>
         </div>
         <div style="clear:both"></div>
@@ -58,7 +56,7 @@ export default {
     name: 'home-view',
     data() {
         return {
-             lang: this.$route.meta.lang,
+            lang: this.$route.meta.lang,
             navsData
         }
     },
@@ -77,17 +75,34 @@ export default {
     methods: {
         checkout(param) {
             this.$router.push('/en')
-
         }
     },
-     mounted(){
-     if(!window.localStorage.KEY){
-          this.$router.push('/login');   
-     }else{
-                    common.KEY = window.localStorage.KEY;
-                    common.SID = window.localStorage.SID;
-                    common.getDate();
-     }
+    mounted() {
+        let _self = this;
+        if (!window.localStorage.KEY) {
+            this.$router.push('/login');
+        } else {
+            common.KEY = window.localStorage.KEY;
+            common.SID = window.localStorage.SID;
+            common.getDate(
+              function() {
+                let url = common.urlCommon + common.apiUrl.most
+                let body = {
+                    biz_module: 'userService',
+                    biz_method: 'getCmsUserInfo'
+                }
+                url = common.addSID(url);
+                body.version = 1;
+                body.time = Date.parse(new Date()) + parseInt(common.difTime);
+                body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
+                _self.$store.dispatch('getUserInformation', {
+                    body: body,
+                    path: url
+                }).then(() => {}, () => {});
+            }
+            );
+
+        }
     },
     preFetch: fetchItem
 }
