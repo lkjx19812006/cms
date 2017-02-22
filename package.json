@@ -34,6 +34,7 @@
     "babel-plugin-component": "^0.9.0",
     "buble": "^0.15.1",
     "buble-loader": "^0.4.0",
+    "cookie-parser": "^1.4.3",
     "crypto-js": "^3.1.9-1",
     "css-loader": "^0.26.1",
     "element-ui": "^1.1.6",

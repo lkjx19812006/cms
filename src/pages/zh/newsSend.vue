@@ -1,19 +1,4 @@
 <style scoped>
-.sort {
-    text-align: center;
-    background-color: #fff;
-    position: relative;
-    float: right;
-    height: 80px;
-    width: 100%;
-}
-
-.sort .sort-button {
-    position: absolute;
-    bottom: 20px;
-    right: 50px;
-}
-
 .table {
     padding-top: 20px;
     text-align: center;
@@ -29,11 +14,6 @@
 </style>
 <template>
     <div class="content">
-        <div class="sort">
-            <div class="sort-button">
-                <el-button type="primary" @click="add()">新增</el-button>
-            </div>
-        </div>
         <div v-if="resourceList.length>0" class="table">
             <el-table v-bind:data="resourceList" border style="width:1106px;margin:auto" max-height="550" @selection-change="handleSelectionChange" v-loading.body="loading">
                 <el-table-column type="selection" fixed="left" width="55">
@@ -65,7 +45,6 @@
         <div class="pagination">
             <el-pagination @current-change="handleCurrentChange" :current-page="httpParam.pn" layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
-            </el-col>
         </div>
     </div>
 </template>
@@ -74,23 +53,19 @@ import {
     mapGetters
 } from 'vuex'
 import common from '../../common/common.js'
-
 let param = {
-    sort: {
-        "shelve_time": "0",
-        "price": "0"
-    },
-    location: ["", ""],
-    sampling: -1,
+    type: -1,
+    title: '',
     pn: 1,
     pSize: 10
 };
 
-function fetchItem(store) {
+function fetchItem(store,cookie) {
+    console.log(cookie)
     return store.dispatch('getResourceList', {
         body: {
-            biz_module: 'intentionService',
-            biz_method: 'querySupplyList',
+            biz_module: 'pushService',
+            biz_method: 'queryPushList',
             biz_param: param
         },
         path: common.urlCommon + common.apiUrl.most
@@ -104,16 +79,9 @@ export default {
             loading: false,
             httpParam: param,
             timeout: null,
-            type: [{
-                key: 1,
-                value: '资源'
-            }, {
-                key: 2,
-                value: '活动'
-            }, {
-                key: 3,
-                value: '订单'
-            }, ]
+            dialogShow: {
+                dialogCreate: false
+            }
         }
     },
     computed: {

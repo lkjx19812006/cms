@@ -61,7 +61,7 @@
                             <el-input v-model="userInformation.password" type="password"></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                            <el-button type="primary" @click="submitForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">登录</el-button>
                             <el-button @click="resetForm('ruleForm')">重置</el-button>
                         </el-form-item>
                     </el-form>
@@ -85,7 +85,7 @@ export default {
                 username: '',
                 password: ''
             },
-            fullscreenLoading: true,
+            fullscreenLoading: false,
             rules: {
                 username: [{
                     required: true,
@@ -104,6 +104,7 @@ export default {
     methods: {
         submitForm(formName) {
             let _self = this;
+            _self.fullscreenLoading = true;
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     _self.$store.dispatch('login', {
@@ -115,32 +116,34 @@ export default {
                         },
                         path: common.urlCommon + common.apiUrl.login
                     }).then((response) => {
-                        _self.fullscreenLoading = false;
+
                         window.localStorage.KEY = response.biz_result.KEY;
                         window.localStorage.SID = response.biz_result.SID;
                         common.KEY = window.localStorage.KEY;
                         common.SID = window.localStorage.SID;
+                        _self.setCookie('KEY',common.KEY);
+                        _self.setCookie('SID',common.SID);
                         common.getDate(
                             function() {
-                            let url = common.urlCommon + common.apiUrl.most
-                            let body = {
-                                biz_module: 'userService',
-                                biz_method: 'getCmsUserInfo'
+                                let url = common.urlCommon + common.apiUrl.most
+                                let body = {
+                                    biz_module: 'userService',
+                                    biz_method: 'getCmsUserInfo'
+                                }
+                                url = common.addSID(url);
+                                body.version = 1;
+                                body.time = Date.parse(new Date()) + parseInt(common.difTime);
+                                body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
+                                this.$store.dispatch('getUserInformation', {
+                                    body: body,
+                                    path: url
+                                }).then(() => {}, () => {});
                             }
-                            url = common.addSID(url);
-                            body.version = 1;
-                            body.time = Date.parse(new Date()) + parseInt(common.difTime);
-                            body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
-                            this.$store.dispatch('getUserInformation', {
-                                body: body,
-                                path: url
-                            }).then(() => {}, () => {});
-                        }
                         );
 
-                         _self.$router.push('/zh/main');
+                        _self.$router.push('/zh/main');
                         // if (window.history.length == 1) {
-                           
+
                         // } else {
                         //     window.history.go(-1);
                         // }
@@ -156,6 +159,13 @@ export default {
         },
         resetForm(formName) {
             this.$refs[formName].resetFields();
+        },
+
+        setCookie(name, value) {
+            var Days = 1;
+            var exp = new Date();
+            exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+            document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
         }
     }
 }

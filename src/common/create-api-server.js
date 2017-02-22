@@ -2,6 +2,7 @@ import http from 'http'
 
 var httpService = {
 
+
 };
 
 httpService.commonPost = function(url, data, suc, err) {

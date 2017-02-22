@@ -8,7 +8,9 @@ const isDev = process.env.NODE_ENV !== 'production'
 // state of our application before actually rendering it.
 // Since data fetching is async, this function is expected to
 // return a Promise that resolves to the app instance.
-export default context => {
+export default (param) => {
+  let context=param.context;
+  console.log(param.cookie)
   const s = isDev && Date.now()
   router.push(context.url)
   const matchedComponents = router.getMatchedComponents()
@@ -23,7 +25,7 @@ export default context => {
   // updated.
   return Promise.all(matchedComponents.map(component => {
     if (component.preFetch) {
-      return component.preFetch(store)
+      return component.preFetch(store,param.cookie)
     }
   })).then(() => {
     isDev && console.log(`data pre-fetch: ${Date.now() - s}ms`)
