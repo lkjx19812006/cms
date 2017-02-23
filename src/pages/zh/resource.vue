@@ -61,7 +61,7 @@
                 <el-autocomplete style="margin-right:20px;float:right" v-model="searchValue" :fetch-suggestions="querySearchAsync" placeholder="请输入药材名称" @select="handleSelect"></el-autocomplete>
             </div>
         </div>
-        <div v-if="resourceList.length>0" class="table">
+        <div class="table">
             <el-table v-bind:data="resourceList" border style="width:1106x;margin:auto" max-height="550" @selection-change="handleSelectionChange" :v-loading.body="loading">
                 <el-table-column type="selection" fixed="left" width="55">
                 </el-table-column>
@@ -88,9 +88,6 @@
                     </template>
                 </el-table-column>
             </el-table>
-        </div>
-        <div v-if="resourceList.length==0">
-            暂无数据
         </div>
         <div class="pagination">
             <el-pagination @current-change="handleCurrentChange" :current-page="httpParam.pn" layout="total, prev, pager, next, jumper" :total="total">

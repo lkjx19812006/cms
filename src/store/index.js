@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import news from './modules/news'
 import user from './modules/user'
 import products from './modules/products'
 import resource from './modules/resource'
@@ -12,7 +13,8 @@ export default new Vuex.Store({
   modules: {
     user,
     products,
-    resource
+    resource,
+    news
   },
   strict: debug
 })

@@ -25,7 +25,7 @@ export default (param) => {
   // updated.
   return Promise.all(matchedComponents.map(component => {
     if (component.preFetch) {
-      return component.preFetch(store,param.cookie)
+      return component.preFetch(store,{cookie:param.cookie,time:param.time})
     }
   })).then(() => {
     isDev && console.log(`data pre-fetch: ${Date.now() - s}ms`)

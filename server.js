@@ -7,6 +7,9 @@ const serialize = require('serialize-javascript')
 const resolve = file => path.resolve(__dirname, file)
 const proxy = require("express-http-proxy");
 const cookieParser = require('cookie-parser');
+const api = require('./src/common/create-api-server.js');
+
+let time=0;
 
 const isProd = process.env.NODE_ENV === 'production'
 const serverInfo =
@@ -60,12 +63,11 @@ const serve = (path, cache) => express.static(resolve(path), {
     maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
 })
 
-var apiProxy = proxy("http://192.168.1.141", {
+var apiProxy = proxy("192.168.1.141", {
     forwardPath: function(req, res) {
         return req._parsedUrl.path
     }
 })
-
 
 app.use("/front/*", apiProxy);
 app.use(compression({ threshold: 0 }))
@@ -75,18 +77,26 @@ app.use('/manifest.json', serve('./manifest.json'))
 app.use('/dist', serve('./dist'))
 app.use('/public', serve('./public'))
 
+api.commonGet('/front/system/date.do',function(res){
+    let localTime=new Date().getTime();
+    time = res.biz_result.time-localTime;
+    console.log(time);
+},function(err){
+    console.log(err);
+})
+
 app.get('*', (req, res) => {
-    console.log(req.headers.cookie);
+    req.headers.cookie=decodeURIComponent(req.headers.cookie);
     if (!renderer) {
         return res.end('waiting for compilation... refresh in a moment.')
     }
 
     res.setHeader("Content-Type", "text/html")
     res.setHeader("Server", serverInfo)
-
     var s = Date.now()
+
     const context = { url: req.url }
-    const renderStream = renderer.renderToStream({context:context,cookie:req.headers.cookie})
+    const renderStream = renderer.renderToStream({context:context,cookie:req.headers.cookie,time:time})
 
     renderStream.once('data', () => {
         res.write(indexHTML.head)
