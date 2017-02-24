@@ -9,7 +9,7 @@ const proxy = require("express-http-proxy");
 const cookieParser = require('cookie-parser');
 const api = require('./src/common/create-api-server.js');
 
-let time=0;
+let time = 0;
 
 const isProd = process.env.NODE_ENV === 'production'
 const serverInfo =
@@ -34,7 +34,7 @@ if (isProd) {
             renderer = createRenderer(bundle)
         },
         indexUpdated: index => {
-          
+
             indexHTML = parseIndex(index)
         }
     })
@@ -77,18 +77,35 @@ app.use('/manifest.json', serve('./manifest.json'))
 app.use('/dist', serve('./dist'))
 app.use('/public', serve('./public'))
 
-api.commonGet('/front/system/date.do',function(res){
-    let localTime=new Date().getTime();
-    time = res.biz_result.time-localTime;
+api.commonGet('/front/system/date.do', function(res) {
+    let localTime = new Date().getTime();
+    time = res.biz_result.time - localTime;
     console.log(time);
-},function(err){
+}, function(err) {
     console.log(err);
 })
 
 app.get('*', (req, res) => {
-    req.headers.cookie=decodeURIComponent(req.headers.cookie);
+    req.headers.cookie = decodeURIComponent(req.headers.cookie);
     if (!renderer) {
         return res.end('waiting for compilation... refresh in a moment.')
+    }
+
+    var cookiesObj = {};
+    var cookie=req.headers.cookie;
+    cookie && cookie.split(';').forEach(function(Cookie) {
+        function Trim(str) {
+            return str.replace(/(^\s*)|(\s*$)/g, "");
+        }
+        Cookie = Trim(Cookie);
+        var parts = [];
+        parts[0] = Cookie.substr(0, 3);
+        parts[1] = Cookie.substr(4, Cookie.length);
+        if (parts[1]) cookiesObj[parts[0].trim()] = (parts[1] || '').trim();
+    });
+    
+    if (!cookiesObj.SID && req.url != '/login') {
+        return res.redirect('/login');
     }
 
     res.setHeader("Content-Type", "text/html")
@@ -96,7 +113,7 @@ app.get('*', (req, res) => {
     var s = Date.now()
 
     const context = { url: req.url }
-    const renderStream = renderer.renderToStream({context:context,cookie:req.headers.cookie,time:time})
+    const renderStream = renderer.renderToStream({ context: context, cookie: req.headers.cookie, time: time })
 
     renderStream.once('data', () => {
         res.write(indexHTML.head)

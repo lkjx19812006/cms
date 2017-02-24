@@ -134,7 +134,7 @@ export default {
                                 body.version = 1;
                                 body.time = Date.parse(new Date()) + parseInt(common.difTime);
                                 body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
-                                this.$store.dispatch('getUserInformation', {
+                                _self.$store.dispatch('getUserInformation', {
                                     body: body,
                                     path: url
                                 }).then(() => {}, () => {});
@@ -165,7 +165,6 @@ export default {
             var Days = 1;
             var exp = new Date();
             exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
-            console.log(name);
             document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
         }
     }

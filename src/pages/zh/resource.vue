@@ -40,7 +40,6 @@
     text-align: center;
     background-color: white;
     padding: 20px;
-    margin-top: 10px;
 }
 </style>
 <template>
@@ -62,7 +61,7 @@
             </div>
         </div>
         <div class="table">
-            <el-table v-bind:data="resourceList" border style="width:1106x;margin:auto" max-height="550" @selection-change="handleSelectionChange" :v-loading.body="loading">
+            <el-table v-bind:data="resourceList" border style="width:1106px;margin:auto" max-height="550" @selection-change="handleSelectionChange" :v-loading.body="loading">
                 <el-table-column type="selection" fixed="left" width="55">
                 </el-table-column>
                 <el-table-column prop="breedName" label="药材名称" width="150">
@@ -111,7 +110,6 @@ let param = {
     pn: 1,
     pSize: 10
 };
-
 function fetchItem(store) {
     return store.dispatch('getResourceList', {
         body: {
@@ -122,7 +120,6 @@ function fetchItem(store) {
         path: common.urlCommon + common.apiUrl.most
     });
 }
-
 export default {
     name: 'resource-view',
     data() {

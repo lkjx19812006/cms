@@ -9,6 +9,7 @@
     float: left;
     width: 100%;
     padding: 20px;
+    text-align: center;
 }
 
 .pagination {
@@ -20,12 +21,12 @@
 <template>
     <div class="content">
         <div class="sort">
-            <el-select style="float: left;width:150px;margin-right:20px" v-model="httpParam.type" placeholder="请选择">
+            <el-select style="width:150px;margin-right:20px" v-model="httpParam.type" placeholder="请选择">
                 <el-option v-for="item in options" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
-            <el-input style="float: left;width:200px;margin-right:20px" v-model="httpParam.title" placeholder="请输入推送标题"></el-input>
-            <el-button type="primary" @click="search()">搜索</el-button>
+            <el-input style="width:200px;margin-right:20px" v-model="httpParam.title" placeholder="请输入推送标题"></el-input>
+            <el-button type="primary" @click="search()" icon="search">搜索</el-button>
         </div>
         <div class="table">
             <el-table v-bind:data="newsList" border style="width:782px;margin:auto" max-height="550" v-loading.body="loading">
@@ -102,7 +103,7 @@ function fetchItem(store, val) {
 }
 
 export default {
-    name: 'resource-view',
+    name: 'newsend-view',
     data() {
         return {
             options: [{
@@ -116,11 +117,7 @@ export default {
                 value: '2'
             }],
             loading: false,
-            httpParam: param,
-            timeout: null,
-            dialogShow: {
-                dialogCreate: false
-            }
+            httpParam: param
         }
     },
     computed: {
@@ -173,7 +170,6 @@ export default {
             });
         },
         sendAgain(index) {
-            console.log(this.newsList[index]);
             let _self = this;
             _self.loading = true;
             let url = common.urlCommon + common.apiUrl.most;

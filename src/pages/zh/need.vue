@@ -40,7 +40,6 @@
     text-align: center;
     background-color: white;
     padding: 20px;
-    margin-top: 10px;
 }
 </style>
 <template>

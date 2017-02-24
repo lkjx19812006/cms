@@ -99,7 +99,6 @@ export default {
                     body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
                 }
                 httpService.commonPost(url, body, function(res) {
-                    console.log(res)
                     _self.userList = res.biz_result.list;
                     _self.total = res.biz_result.total;
                 }, function(err) {

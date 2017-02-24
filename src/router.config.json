@@ -2,30 +2,38 @@
     "zh": [{
         "name": "主页",
         "path": "/main",
-        "index":"0"
+        "index": "0"
     }, {
         "name": "资源列表",
-        "index":"1",
+        "index": "1",
         "children": [{
             "path": "/resource",
             "title": "低价资源",
-            "index":"1-0"
+            "index": "1-0"
         }, {
             "path": "/need",
             "title": "紧急求购",
-            "index":"1-1"
+            "index": "1-1"
         }]
-    },{
+    }, {
         "name": "消息推送",
-        "index":"2",
-         "children": [{
-             "path": "/newsSend",
+        "index": "2",
+        "children": [{
+            "path": "/newsSend",
             "title": "推送列表",
-            "index":"2-0"
+            "index": "2-0"
         }, {
             "path": "/newsAdd",
             "title": "消息新建",
-            "index":"2-1"
+            "index": "2-1"
         }]
+    }, {
+        "name": "用户列表",
+        "path": "/userList",
+        "index": "3"
+    }, {
+        "name": "活动管理",
+        "index": "4",
+        "path": "/activityList"
     }]
 }

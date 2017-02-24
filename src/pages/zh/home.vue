@@ -44,13 +44,7 @@ import MainHeader from '../../components/header.vue';
 import SideNav from '../../components/side-nav.vue';
 import navsData from '../../router.config.json';
 import common from '../../common/common.js'
-let _self = this;
 
-function fetchItem(store) {
-    return store.dispatch('TEST',
-        store.products
-    );
-}
 
 export default {
     name: 'home-view',
@@ -103,7 +97,6 @@ export default {
             );
 
         }
-    },
-    preFetch: fetchItem
+    }
 }
 </script>

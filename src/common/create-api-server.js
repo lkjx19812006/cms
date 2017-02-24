@@ -6,7 +6,7 @@ var httpService = {
 };
 
 httpService.commonPost = function(url, data, suc, err) {
-
+    console.log(data);
     data = JSON.stringify(data);
     var opt = {
         method: "POST",
