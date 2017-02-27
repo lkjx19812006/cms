@@ -4,6 +4,8 @@ import news from './modules/news'
 import user from './modules/user'
 import activity from './modules/activity'
 import resource from './modules/resource'
+import version from './modules/version'
+import media from './modules/media'
 
 Vue.use(Vuex)
 
@@ -14,7 +16,9 @@ export default new Vuex.Store({
     user,
     activity,
     resource,
-    news
+    news,
+    version,
+    media
   },
   strict: debug
 })

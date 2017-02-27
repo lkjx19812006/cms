@@ -8,7 +8,7 @@
 .sort {
     float: left;
     width: 100%;
-    padding: 20px;
+    padding: 20px 0;
     text-align: center;
 }
 

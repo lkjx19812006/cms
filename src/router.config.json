@@ -35,5 +35,25 @@
         "name": "活动管理",
         "index": "4",
         "path": "/activityList"
+    }, {
+        "name": "App版本管理",
+        "index": "5",
+        "path": "/versionManagement"
+    }, {
+        "name": "媒体报道",
+        "index": "6",
+        "children": [{
+            "path": "/banner",
+            "title": "banner管理",
+            "index": "6-0"
+        }, {
+            "path": "/media",
+            "title": "报道管理",
+            "index": "6-1"
+        }]
+    }, {
+        "name": "错误日志",
+        "index": "7",
+        "path": "/systemError"
     }]
 }

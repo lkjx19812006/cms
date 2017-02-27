@@ -19,7 +19,7 @@
 
 .sort {
     text-align: center;
-    padding: 20px;
+    padding: 20px 0;
     background-color: #fff;
 }
 </style>
@@ -172,7 +172,7 @@ export default {
     },
     methods: {
         recieveAdd() {
-            this.httpParam.pn = 1;
+            if(!this.activityDetail.id)this.httpParam.pn = 1;
             this.getHttp();
             this.addShow = false;
         },
