@@ -1,3 +1,28 @@
+<style scoped>
+.img_upload {
+    position: relative;
+}
+
+.img_upload .input_image {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.img_upload .image_show {
+    width: 100%;
+    height: 100%;
+}
+
+.img_upload .close_image {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    max-width: 10px;
+}
+</style>
+
 <template>
     <div class="img_upload" :v-loading.body="loading">
         <form>
@@ -191,27 +216,3 @@ export default {
         }
 }
 </script>
-<style scoped>
-.img_upload {
-    position: relative;
-}
-
-.img_upload .input_image {
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-}
-
-.img_upload .image_show {
-    width: 100%;
-    height: 100%;
-}
-
-.img_upload .close_image {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    max-width: 10px;
-}
-</style>

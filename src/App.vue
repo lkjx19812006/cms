@@ -5,7 +5,7 @@ body
   background-color lighten(#eceef1, 30%)
   margin 0
   color #34495e
-  overflow auto
+  overflow scroll
 
 
 a

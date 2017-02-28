@@ -104,9 +104,9 @@ export default {
     methods: {
         submitForm(formName) {
             let _self = this;
-            _self.fullscreenLoading = true;
             this.$refs[formName].validate((valid) => {
                 if (valid) {
+                    _self.fullscreenLoading = true;
                     _self.$store.dispatch('login', {
                         body: {
                             biz_param: {
@@ -116,13 +116,12 @@ export default {
                         },
                         path: common.urlCommon + common.apiUrl.login
                     }).then((response) => {
-
                         window.localStorage.KEY = response.biz_result.KEY;
                         window.localStorage.SID = response.biz_result.SID;
                         common.KEY = window.localStorage.KEY;
                         common.SID = window.localStorage.SID;
-                        _self.setCookie('KEY',common.KEY);
-                        _self.setCookie('SID',common.SID);
+                        _self.setCookie('KEY', common.KEY);
+                        _self.setCookie('SID', common.SID);
                         common.getDate(
                             function() {
                                 let url = common.urlCommon + common.apiUrl.most

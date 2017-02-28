@@ -3,6 +3,7 @@ import httpService from '../../common/httpService'
 
 const state = {
     versionList: { list: [] },
+    androidVersionList:{ list: [] },
     versionDetail: {},
     errorList:{ list: [] }
 }
@@ -11,7 +12,8 @@ const state = {
 const getters = {
     versionList: state => state.versionList,
     versionDetail: state => state.versionDetail,
-    errorList:state => state.errorList
+    errorList:state => state.errorList,
+    androidVersionList:state => state.androidVersionList
 }
 
 // actions
@@ -51,6 +53,18 @@ const actions = {
                 })
         })
     },
+    androidVersionList({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            httpService.commonPost(param.path, param.body,
+                function(res) {
+                    commit('initAndroidVersionList', res);
+                    resolve(res);
+                },
+                function(err) {
+                    reject(err);
+                })
+        })
+    },
     getVersionDetail({ commit, state }, param) {
         return new Promise((resolve, reject) => {
             commit('initVersionDetail', param);
@@ -61,6 +75,9 @@ const actions = {
 
 // mutations
 const mutations = {
+    initAndroidVersionList(state, res) {
+        state.androidVersionList = res.biz_result;
+    },
     initVersionList(state, res) {
         state.versionList = res.biz_result;
     },

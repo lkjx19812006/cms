@@ -3,17 +3,14 @@
 <template>
     <div>
         <el-form ref="activityParam" :model="activityParam" :rules="rules" label-width="180px" v-loading.body="loading">
-            <el-form-item label="客户端类型">
-                <el-select v-model="activityParam.type" placeholder="请选择">
-                    <el-option v-for="item in options" :label="item.label" :value="item.value">
-                    </el-option>
-                </el-select>
-            </el-form-item>
             <el-form-item label="普通更新最新版本号" prop="version">
                 <el-input v-model="activityParam.version"></el-input>
             </el-form-item>
             <el-form-item label="强制更新最低版本号" prop="compel">
                 <el-input v-model="activityParam.compel"></el-input>
+            </el-form-item>
+            <el-form-item label="APK名称" prop="apk">
+                <uploadFile :param="addParam" v-on:postUrl="receiveApk"></uploadFile>
             </el-form-item>
             <el-form-item label="版本更新介绍" prop="content">
                 <el-input type="textarea" v-model="activityParam.content"></el-input>
@@ -25,13 +22,15 @@
     </div>
 </template>
 <script>
-import common from '../common/common.js'
-import httpService from '../common/httpService'
+import common from '../../common/common.js'
+import httpService from '../../common/httpService'
+import uploadFile from '../uploadFile.vue'
 export default {
     data() {
             let _self = this;
             return {
                 loading: false,
+                addParam: _self.activityParam,
                 rules: {
                     version: [{
                         required: true,
@@ -47,15 +46,13 @@ export default {
                         required: true,
                         message: '请输入版本更新介绍',
                         trigger: 'blur'
+                    }],
+                    apk: [{
+                        required: true,
+                        message: '请选择apk',
+                        trigger: 'blur'
                     }]
-                },
-                options: [{
-                    label: 'ios',
-                    value: 0
-                }, {
-                    label: 'android',
-                    value: 1
-                }]
+                }
             }
         },
         props: {
@@ -63,7 +60,13 @@ export default {
                 default: null
             }
         },
+        components: {
+            uploadFile
+        },
         methods: {
+            receiveApk(val) {
+                this.activityParam.apk=val.url;
+            },
             submitForm(formName) {
                 let _self = this;
                 this.$refs[formName].validate((valid) => {
