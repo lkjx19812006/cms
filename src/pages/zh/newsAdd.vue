@@ -2,6 +2,18 @@
 .news_content {
     background-color: #fff;
     padding: 20px;
+
+
+}
+.el-table__body-wrapper{
+     height: 400px;
+    display: block;
+    background-color: pink;
+}
+.news_content .table_wrap tbody {
+    height: 400px;
+    display: block;
+    background-color: pink;
 }
 </style>
 <template>
@@ -40,8 +52,11 @@
                 <el-form-item label="推送内容" prop="message">
                     <el-input v-model="pushParam.message"></el-input>
                 </el-form-item>
-                <el-form-item label="接收用户列表">
-                    <el-table :data="pushParam.userArr" border style="width:600px;float:left;" v-show="pushParam.userArr.length!=0">
+                <el-form-item label="接收用户列表"> 
+                    <!-- 修改表格最大高度 让其实现滚动 -->
+                    <el-table class="table_wrap" :data="pushParam.userArr" border 
+                    style="width:600px;float:left" max-height="400" 
+                    v-show="pushParam.userArr.length!=0">
                         <el-table-column prop="fullname" label="名称" width="150">
                         </el-table-column>
                         <el-table-column prop="phone" label="手机号" width="150">
@@ -65,9 +80,8 @@
                 </el-form-item>
             </el-form>
         </div>
-        <div>
-        <!-- 添加用户头 -->
-            <el-dialog :title="title" v-model="dialogShow.dialog" v-show="isShowdialog">
+        <div>       
+            <el-dialog :title="title" v-model="dialogShow.dialog">
                 <addUser v-on:message="recieveUser" v-on:dialogHide="dialogHide" v-if="dialogShow.dialogUser"></addUser>
                 <selectSource v-on:resource="recieveResource" v-if="dialogShow.dialogResource"></selectSource>
             </el-dialog>
@@ -90,8 +104,7 @@ export default {
                 callback();
             };
             return {
-                title:'添加用户',
-                isShowdialog: true,//隐藏用户列表
+                title:'添加用户',             
                 disabled: true,
                 loading: false,
                 dialogShow: {

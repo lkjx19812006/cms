@@ -14,6 +14,7 @@
     float: left;
     width: 100%;
 }
+
 </style>
 <template>
     <div>
@@ -22,6 +23,7 @@
             <el-input placeholder="请输入姓名" style="width:150px;float:right;margin-right:20px" v-model="httpParam.fullname"></el-input>
             <el-input type="phone" style="width:150px;float:right;margin-right:20px" placeholder="请输入手机号" v-model="httpParam.phone"></el-input>
         </div>
+         
         <el-table v-bind:data="userList" border style="width:665px;margin:auto" max-height="550" @selection-change="handleSelectionChange" :v-loading.body="loading">
             <el-table-column type="selection" fixed="left" width="55">
             </el-table-column>

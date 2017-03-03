@@ -17,6 +17,11 @@
     background-color: white;
     padding: 20px;
 }
+/* 新增样式 让推送列表可以滚动 */
+.el-table__body tbody {
+    height: 400px !important;
+    overflow: scroll;
+}
 </style>
 <template>
     <div class="content">
