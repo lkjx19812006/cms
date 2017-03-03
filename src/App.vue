@@ -1,4 +1,6 @@
 <style lang="stylus" >
+html 
+  height 100%
 body
   font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size 15px
@@ -6,6 +8,7 @@ body
   margin 0
   color #34495e
   overflow scroll
+  height 100%
 
 
 a
@@ -22,28 +25,12 @@ a
 </style>
 
 <template>
-  <div id="app" :style="{ height: wrapperHeight + 'px' }" style="position:relative">
+  <div id="app" style="height:100%">
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
   </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            wrapperHeight: ''
-        }
-    },
-    mounted() {
-      let _self=this;
-           window.onresize = function() {
-                   _self.wrapperHeight = document.documentElement.clientHeight; 
-                }
-                this.wrapperHeight = document.documentElement.clientHeight; 
-    }
-}
-</script>
 
 

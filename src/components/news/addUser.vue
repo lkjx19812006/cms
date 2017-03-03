@@ -14,7 +14,6 @@
     float: left;
     width: 100%;
 }
-
 </style>
 <template>
     <div>
@@ -23,7 +22,6 @@
             <el-input placeholder="请输入姓名" style="width:150px;float:right;margin-right:20px" v-model="httpParam.fullname"></el-input>
             <el-input type="phone" style="width:150px;float:right;margin-right:20px" placeholder="请输入手机号" v-model="httpParam.phone"></el-input>
         </div>
-         
         <el-table v-bind:data="userList" border style="width:665px;margin:auto" max-height="550" @selection-change="handleSelectionChange" :v-loading.body="loading">
             <el-table-column type="selection" fixed="left" width="55">
             </el-table-column>
@@ -41,8 +39,7 @@
             </el-pagination>
         </div>
         <div class="bottom_button">
-            <el-button type="primary" @click="brakSend()" style="float:right">返回推送</el-button>
-            <el-button type="primary" @click="confirm()" style="float:right;margin-right: 10px">保存用户</el-button>
+            <el-button type="primary" @click="confirm()" style="float:right">保存</el-button>
         </div>
     </div>
 </template>
@@ -77,17 +74,7 @@ export default {
                 this.httpParam.pn = 1;
                 this.getHttp();
             },
-            // 点击返回推送
-            brakSend(){
-               this.$emit('dialogHide', {
-                    dialog:false,
-                    dialogResource: false,
-                    dialogUser: false
-                });
-            },
-            confirm() {                
-                // this.$emit('message', this.multipleSelection); //原来代码
-                //点击保存后 隐藏列表 传入一个值让父组件隐藏 修改后代码
+            confirm() {
                 this.$emit('message', this.multipleSelection);
             },
             handleSelectionChange(val) {

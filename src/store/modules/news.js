@@ -35,7 +35,7 @@ const actions = {
                     reject(err);
                 })
         })
-    },
+    }
 }
 
 // mutations

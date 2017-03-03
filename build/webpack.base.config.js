@@ -10,7 +10,9 @@ module.exports = {
       'vue',
       'vue-router',
       'vuex',
-      'vuex-router-sync'
+      'vuex-router-sync',
+      'element-ui', 
+      'babel-polyfill'
     ]
   },
   output: {
@@ -25,33 +27,32 @@ module.exports = {
   },
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process
-    rules: [
-      { 
-      test: /\.css$/, 
-      loader: 'style-loader!css-loader' 
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: vueConfig
-      },
-      {
-        test: /\.js$/,
-        loader: 'buble-loader',
-        exclude: /node_modules/,
-        options: {
-          objectAssign: 'Object.assign'
-        }
-      },
-      {
-        test: /\.(png|jpg|gif|svg|woff|eot|ttf)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          name: '[name].[ext]?[hash]'
-        }
+    rules: [{
+      test: /\.css$/,
+      loader: 'style-loader!css-loader'
+    }, {
+      test: /\.vue$/,
+      loader: 'vue-loader',
+      options: vueConfig
+    }, {
+      test: /\.js$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/,
+      query: {
+        presets: [["es2015",{ modules: false }],"stage-0"],
+        plugins: ['transform-runtime', 'transform-async-to-generator', ['component', [{
+          libraryName: 'element-ui',
+          styleLibraryName: 'theme-default'
+        }]]]
       }
-    ]
+    }, {
+      test: /\.(png|jpg|gif|svg|woff|eot|ttf)$/,
+      loader: 'url-loader',
+      options: {
+        limit: 10000,
+        name: '[name].[ext]?[hash]'
+      }
+    }]
   },
   performance: {
     hints: process.env.NODE_ENV === 'production' ? 'warning' : false

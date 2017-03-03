@@ -1,9 +1,14 @@
+import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router.config'
 import { sync } from 'vuex-router-sync'
 import * as filters from './filters'
+
+
+Vue.use(require('element-ui'))
+
 // sync the router with the vuex store.
 // this registers `store.state.route`
 sync(store, router)

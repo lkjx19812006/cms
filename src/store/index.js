@@ -19,6 +19,5 @@ export default new Vuex.Store({
     news,
     version,
     media
-  },
-  strict: debug
+  }
 })

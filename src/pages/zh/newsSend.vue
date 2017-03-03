@@ -35,6 +35,7 @@
         </div>
         <div class="table">
             <el-table v-bind:data="newsList" border style="width:782px;margin:auto" max-height="550" v-loading.body="loading">
+                <!-- 注意下 已经合并推送提示与推送标题 数据一样 -->
                 <el-table-column prop="alert" label="推送提示" width="150">
                 </el-table-column>
                 <el-table-column prop="title" label="推送标题" width="120">
@@ -43,9 +44,16 @@
                 </el-table-column>
                 <el-table-column prop="type" label="推送类型" width="120">
                 </el-table-column>
+                <!-- 新增一个字段 根据推送类型 显示不同的内容 -->                
+                <el-table-column label="推送目标" width="120">
+                  <!--  <template scope="scope">
+                        <a v-if="scope.type=='资源'" :href="scope.extra" target="_blank" >{{scope.row.linkUrl}}</a>
+                    </template> -->
+                </el-table-column>               
                 <el-table-column prop="createTime" label="推送时间" width="150">
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" width="120">
+                <!-- 隐藏该字段操作方式 -->
+                <el-table-column v-if="false" fixed="right" label="操作" width="120">
                     <template scope="scope">
                         <el-button @click.native.prevent="sendAgain(scope.$index)" type="text" size="small">
                             再次发送

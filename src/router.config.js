@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import navConfig from './router.config.json';
 import VueRouter from 'vue-router'
-
+import login from './pages/login.vue'
 Vue.use(VueRouter);
 
 const registerRoute = (navConfig) => {
@@ -59,10 +59,15 @@ routes.push({
   component: require('./pages/login.vue')
 });
 
+routes.push({
+  path: '/',
+  redirect: '/login'
+});
+
 const router = new VueRouter({
-    mode: 'history',
+    mode:'history',
     routes
 });
 
 
-export default router;
+export default router

@@ -17,6 +17,10 @@
                 </el-form-item>
                 <el-form-item label="资源名称" v-if="pushParam.type=='资源'" prop="resourceName">
                     <el-input v-model="pushParam.resourceName" :disabled="disabled" style="width:300px;margin-right:10px"></el-input>
+
+                    <!-- 添加写入数据库字段 name -->
+                    <el-input v-show="false"  v-model="pushParam.extras.name" :disabled="disabled" style="width:300px;margin-right:10px"></el-input>
+
                     <el-button type="primary" @click="dialogShow.dialogUser=false,dialogShow.dialogResource=true,dialogShow.dialog=true,title='选择资源'">选择</el-button>
                 </el-form-item>
                 <el-form-item label="活动url" v-if="pushParam.type=='活动'" prop="url">
@@ -26,19 +30,14 @@
                     <el-input v-model="pushParam.orderNumber" :disabled="disabled" style="width:300px;margin-right:10px"></el-input>
                     <el-button type="primary" @click="dialogShow.dialogOrder=true">选择</el-button>
                 </el-form-item>
-                <!-- 整合推送提示与 推送标题 请求传参不变 -->
-                <!-- <el-form-item v-show="false" label="推送提示" prop="alert">
-                    <el-input v-model="pushParam.alert"></el-input>
-                </el-form-item> -->
-
-                <!-- 修改后 -->
-                <el-form-item v-show="false" label="推送提示" prop="alert">
-                    <el-input v-model="pushParam.title"></el-input>
-                </el-form-item>
-
+                <!--删除推送提示 让推送提示内容与推送标题一致即可 -->               
+                <!-- <el-form-item  label="推送提示" prop="alert">
+                    <el-input  v-model="pushParam.alert"></el-input>
+                </el-form-item> --> 
                 <el-form-item label="推送标题" prop="title">
                     <el-input v-model="pushParam.title"></el-input>
-                </el-form-item>
+                </el-form-item>  
+
                 <el-form-item label="推送内容" prop="message">
                     <el-input v-model="pushParam.message"></el-input>
                 </el-form-item>
@@ -72,8 +71,12 @@
         </div>
         <div>       
             <el-dialog :title="title" v-model="dialogShow.dialog">
-                <addUser v-on:message="recieveUser" v-on:dialogHide="dialogHide" v-if="dialogShow.dialogUser"></addUser>
-                <selectSource v-on:resource="recieveResource" v-if="dialogShow.dialogResource"></selectSource>
+                <addUser v-on:message="recieveUser" v-on:dialogHide="dialogHide" v-if="dialogShow.dialogUser">
+                    
+                </addUser>
+                <selectSource v-on:resource="recieveResource" v-if="dialogShow.dialogResource">
+                    
+                </selectSource>
             </el-dialog>
             <!-- <el-dialog title="选择资源" v-model="dialogShow.dialogResource">
                 <selectSource v-on:resource="recieveResource"></selectSource>
@@ -122,17 +125,18 @@ export default {
                     extras: {
                         type: 1,
                         id: '',
+                        name:'',
                         url: ''
                     },
                     type: '资源',
                     userArr: []
                 },
                 rules: {
-                    alert: [{
-                        required: true,
-                        message: '请输入推送提示',
-                        trigger: 'blur'
-                    }],
+                    // alert: [{
+                    //     required: true,
+                    //     message: '请输入推送提示',
+                    //     trigger: 'blur'
+                    // }],
                     title: [{
                         required: true,
                         message: '请输入推送标题',
@@ -175,8 +179,9 @@ export default {
         },
         methods: {
             recieveResource: function(val) {
-                this.pushParam.breedType=val.type;
+                this.pushParam.breedType=val.type;                
                 this.pushParam.extras.id = val.id;
+                this.pushParam.extras.name = val.breedName;//新增Name字段
                 this.pushParam.resourceName = val.breedName + '---' + val.location + '---' + val.price;
                 this.dialogShow.dialog = false;
             },
@@ -210,6 +215,7 @@ export default {
                         _self.loading = true;
                         let type = '';
                         let id = '';
+                        let breedname ='';
                         let activityUrl = '';
                         let alias = '';
                         _self.type.forEach(function(item) {
@@ -222,6 +228,10 @@ export default {
                         }
                         console.log(type);
                         switch (type) {
+                            // 新增判断类型为资源 物品名称为name
+                            case '1':
+                                breedname =  _self.pushParam.extras.name;
+                                break;
                             case '2':
                                 activityUrl = _self.pushParam.url;
                                 break;
@@ -236,13 +246,14 @@ export default {
                             biz_method: 'pushAllAlertMessageExtras',
                             biz_param: {
                                 alias: alias,
-                                alert: _self.pushParam.alert,
+                                alert: _self.pushParam.title,//修改提示信息
                                 title: _self.pushParam.title,
                                 message: _self.pushParam.message,
                                 extras: {
                                     type: type,
                                     id: id,
                                     url: activityUrl,
+                                    name: breedname,//新增name属性
                                     breedType:_self.pushParam.breedType.toString()
                                 },
                                 type: parseInt(type)
