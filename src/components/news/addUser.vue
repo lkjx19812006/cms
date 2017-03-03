@@ -39,7 +39,8 @@
             </el-pagination>
         </div>
         <div class="bottom_button">
-            <el-button type="primary" @click="confirm()" style="float:right">保存</el-button>
+            <el-button type="primary" @click="brakSend()" style="float:right">返回推送</el-button>
+            <el-button type="primary" @click="confirm()" style="float:right;margin-right: 10px">保存用户</el-button>
         </div>
     </div>
 </template>
@@ -74,7 +75,17 @@ export default {
                 this.httpParam.pn = 1;
                 this.getHttp();
             },
-            confirm() {
+            // 点击返回推送
+            brakSend(){
+               this.$emit('dialogHide', {
+                    dialog:false,
+                    dialogResource: false,
+                    dialogUser: false
+                });
+            },
+            confirm() {                
+                // this.$emit('message', this.multipleSelection); //原来代码
+                //点击保存后 隐藏列表 传入一个值让父组件隐藏 修改后代码
                 this.$emit('message', this.multipleSelection);
             },
             handleSelectionChange(val) {

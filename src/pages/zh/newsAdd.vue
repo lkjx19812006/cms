@@ -24,9 +24,16 @@
                     <el-input v-model="pushParam.orderNumber" :disabled="disabled" style="width:300px;margin-right:10px"></el-input>
                     <el-button type="primary" @click="dialogShow.dialogOrder=true">选择</el-button>
                 </el-form-item>
-                <el-form-item label="推送提示" prop="alert">
+                <!-- 整合推送提示与 推送标题 请求传参不变 -->
+                <!-- <el-form-item v-show="false" label="推送提示" prop="alert">
                     <el-input v-model="pushParam.alert"></el-input>
+                </el-form-item> -->
+
+                <!-- 修改后 -->
+                <el-form-item v-show="false" label="推送提示" prop="alert">
+                    <el-input v-model="pushParam.title"></el-input>
                 </el-form-item>
+
                 <el-form-item label="推送标题" prop="title">
                     <el-input v-model="pushParam.title"></el-input>
                 </el-form-item>
@@ -59,8 +66,9 @@
             </el-form>
         </div>
         <div>
-            <el-dialog :title="title" v-model="dialogShow.dialog">
-                <addUser v-on:message="recieveUser" v-if="dialogShow.dialogUser"></addUser>
+        <!-- 添加用户头 -->
+            <el-dialog :title="title" v-model="dialogShow.dialog" v-show="isShowdialog">
+                <addUser v-on:message="recieveUser" v-on:dialogHide="dialogHide" v-if="dialogShow.dialogUser"></addUser>
                 <selectSource v-on:resource="recieveResource" v-if="dialogShow.dialogResource"></selectSource>
             </el-dialog>
             <!-- <el-dialog title="选择资源" v-model="dialogShow.dialogResource">
@@ -83,6 +91,7 @@ export default {
             };
             return {
                 title:'添加用户',
+                isShowdialog: true,//隐藏用户列表
                 disabled: true,
                 loading: false,
                 dialogShow: {
@@ -168,7 +177,13 @@ export default {
                 this.pushParam.resourceName = val.breedName + '---' + val.location + '---' + val.price;
                 this.dialogShow.dialog = false;
             },
-            recieveUser: function(arr) {
+            // dialogHide 点击实现隐藏 模态框
+            dialogHide: function(obj){
+                this.dialogShow.dialog = obj.dialog;
+                this.dialogShow.dialogResource = obj.dialogResource;
+                this.dialogShow.dialogUser = obj.dialogUser;                
+            },
+            recieveUser: function(arr) { 
                 for (let n = 0; n < arr.length; n++) {
                     let m = 1;
                     for (let i = 0; i < this.pushParam.userArr.length; i++) {
