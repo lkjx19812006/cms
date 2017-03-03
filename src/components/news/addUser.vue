@@ -39,7 +39,9 @@
             </el-pagination>
         </div>
         <div class="bottom_button">
-            <el-button type="primary" @click="confirm()" style="float:right">保存</el-button>
+            <!-- 新增返回推送 -->
+            <el-button type="primary" @click="brakSend()" style="float:right">返回推送</el-button>
+            <el-button type="primary" @click="confirm()" style="float:right;margin-right:10px">保存用户</el-button>
         </div>
     </div>
 </template>
@@ -73,6 +75,14 @@ export default {
             search() {
                 this.httpParam.pn = 1;
                 this.getHttp();
+            },
+            // 新增返回推送
+            brakSend(){
+                this.$emit('brakSend', {
+                    dialog:false,
+                    dialogResource: false,
+                    dialogUser: false
+                });
             },
             confirm() {
                 this.$emit('message', this.multipleSelection);

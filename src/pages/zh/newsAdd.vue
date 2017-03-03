@@ -71,7 +71,7 @@
         </div>
         <div>       
             <el-dialog :title="title" v-model="dialogShow.dialog">
-                <addUser v-on:message="recieveUser" v-on:dialogHide="dialogHide" v-if="dialogShow.dialogUser">
+                <addUser v-on:message="recieveUser" v-on:brakSend="dialogHide" v-if="dialogShow.dialogUser">
                     
                 </addUser>
                 <selectSource v-on:resource="recieveResource" v-if="dialogShow.dialogResource">
