@@ -2,6 +2,10 @@
 .el-row{
     padding: 20px;
 }
+/* 修改图片超出边界bug */
+.grid-content img {
+    width: 100%;
+}
 </style>
 <template>
     <div>
