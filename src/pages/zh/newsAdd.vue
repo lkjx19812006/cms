@@ -5,16 +5,6 @@
 
 
 }
-.el-table__body-wrapper{
-     height: 400px;
-    display: block;
-    background-color: pink;
-}
-.news_content .table_wrap tbody {
-    height: 400px;
-    display: block;
-    background-color: pink;
-}
 </style>
 <template>
     <div>
