@@ -45,7 +45,7 @@
 }
 </style>
 <template>
-    <div class="content">
+    <div ref="content" class="content">
         <div class="center">
             <div class="left_image">
                 <img src="../assets/images/logo-font.png">
@@ -53,15 +53,17 @@
             <div class="right_form">
                 <img src="../assets/images/frame.png">
                 <div class="form">
-                    <el-form :model="userInformation" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                    <el-form  :model="userInformation" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                         <el-form-item label="用户名" prop="username">
                             <el-input v-model="userInformation.username"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" prop="password">
                             <el-input v-model="userInformation.password" type="password"></el-input>
                         </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" @click="submitForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">登录</el-button>
+                        <el-form-item>                           
+                            <el-button 
+                             :autofocus="true"                          
+                             type="primary" @click="submitForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">登录</el-button>
                             <el-button @click="resetForm('ruleForm')">重置</el-button>
                         </el-form-item>
                     </el-form>
@@ -100,9 +102,9 @@ export default {
 
             }
         }
-    },
-    methods: {
-        submitForm(formName) {
+    },  
+    methods: {        
+        submitForm(formName) { 
             let _self = this;
             this.$refs[formName].validate((valid) => {
                 if (valid) {

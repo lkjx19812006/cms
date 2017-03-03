@@ -46,9 +46,9 @@
                 </el-table-column>
                 <!-- 新增一个字段 根据推送类型 显示不同的内容 -->                
                 <el-table-column label="推送目标" width="120">
-                  <!--  <template scope="scope">
-                        <a v-if="scope.type=='资源'" :href="scope.extra" target="_blank" >{{scope.row.linkUrl}}</a>
-                    </template> -->
+                   <template scope="scope">
+                      <a href="http://www.baidu.com" target="_blanks">asdsadsadsa</a>
+                    </template>
                 </el-table-column>               
                 <el-table-column prop="createTime" label="推送时间" width="150">
                 </el-table-column>
