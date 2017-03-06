@@ -46,10 +46,12 @@
                 </el-table-column>
                 <!-- 新增一个字段 根据推送类型 显示不同的内容 -->                
                 <el-table-column label="推送目标" width="120">
-                   <template scope="scope">
-                      <a href="http://www.baidu.com" target="_blanks">asdsadsadsa</a>
+                   <template scope="scope">                     
+                      <a style="color:blue; text-decoration:underline" v-if="scope.row.type==='活动'" :href="scope.row.extras.url" target="_blank">{{scope.row.extras.url}}</a>
+                      <span v-if="scope.row.type==='资源'">{{scope.row.extras.name}}</span>
                     </template>
-                </el-table-column>               
+                </el-table-column>   
+
                 <el-table-column prop="createTime" label="推送时间" width="150">
                 </el-table-column>
                 <!-- 隐藏该字段操作方式 -->
