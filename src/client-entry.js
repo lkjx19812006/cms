@@ -1,5 +1,6 @@
 import 'es6-promise/auto'
 import { app, store } from './app'
+
 require('element-ui/lib/theme-default/index.css') 
 
 // prime the store with server-initialized state.

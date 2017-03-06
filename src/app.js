@@ -6,8 +6,8 @@ import router from './router.config'
 import { sync } from 'vuex-router-sync'
 import * as filters from './filters'
 
-
 Vue.use(require('element-ui'))
+
 
 // sync the router with the vuex store.
 // this registers `store.state.route`

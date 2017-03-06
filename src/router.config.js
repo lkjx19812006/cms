@@ -56,7 +56,7 @@ let routes = registerRoute(navConfig);
 routes.push({
   path: '/cms/login',
   name: 'login',
-  component: require('./pages/login.vue')
+  component: login
 });
 
 routes.push({
