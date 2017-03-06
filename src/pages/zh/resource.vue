@@ -253,7 +253,6 @@ export default {
             });
         },
         sortDefault(param) {
-            alert(param);
             let resourceId = '';
             // 定置BUG
             if (param || param == 0) {
