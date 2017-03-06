@@ -1,5 +1,5 @@
 import httpService from '../../common/httpService'
-
+import {userBirthday} from '../../filters'
 
 const state = {
     user: { name: "张豆豆", idnumber: "" },
@@ -79,7 +79,12 @@ const mutations = {
         state.userList = res.biz_result;
     },
     initUserDetail(state, res) {
+       
+        // 处理下用户生日       
+        // res.birthday = filters.timeAgo(res.birthday);
         state.userDetail = state.userList.list.find((item) => item.id == res);
+        state.userDetail.birthday = userBirthday(state.userDetail.birthday);
+        
     }
 }
 

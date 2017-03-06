@@ -15,6 +15,23 @@ export function timeAgo(time) {
         return pluralize(~~(between / 86400), ' day')
     }
 }
+// 新增 过滤用户生日
+export function userBirthday(time) {
+    const date = new Date(time);
+    let y = date.getFullYear();
+    let M = date.getMonth() + 1;
+    let d = date.getDate();
+    let h = date.getHours();
+    let m = date.getMinutes();
+    let s = date.getSeconds();
+    M = M < 10 ? '0' + M : M;
+    d = d < 10 ? '0' + d : d;
+    h = h < 10 ? '0' + h : h;
+    m = m < 10 ? '0' + m : m;
+    s = s < 10 ? '0' + s : s;
+    return y + '-' + M + '-' + d + '-' + ' ' + h + ':' + m + ':' + s
+
+}
 
 function pluralize(time, label) {
     if (time === 1) {
@@ -24,7 +41,7 @@ function pluralize(time, label) {
 }
 
 export function formatTime(time) {
-  console.log(time);
+    console.log(time);
     return new Date(parseInt(time)).toLocaleString().replace(/:\d{1,2}$/, ' ');
 }
 
