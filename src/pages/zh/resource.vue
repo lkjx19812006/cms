@@ -82,7 +82,7 @@
                             置顶
                         </el-button>
                         <el-button @click.native.prevent="sortDefault(scope.$index)" type="text" size="small" v-if="showReset(scope.$index)">
-                            重置
+                            取消置顶
                         </el-button>
                     </template>
                 </el-table-column>
@@ -128,6 +128,7 @@ export default {
             httpParam: param,
             searchValue: '',
             timeout: null,
+            
             sortParam: [{
                 title: '上架时间',
                 param: 'shelve_time',
