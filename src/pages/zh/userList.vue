@@ -224,7 +224,7 @@ export default {
                 _self.loading = false
             });
         },
-        detail(index) {
+        detail(index) {            
             let _self = this;
             let id = this.userList[index].id;
             this.$store.dispatch('getUserDetail', id).then(() => {

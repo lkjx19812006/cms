@@ -16,8 +16,7 @@ export function timeAgo(time) {
     }
 }
 // 新增 过滤用户生日
-export function userBirthday(time) {
-    cosnole.log(time);
+export function userBirthday(time) {   
     let date = '';
     if(!time || time == ''){
         date = new Date('1980-01-01 08:00:00');

@@ -70,7 +70,7 @@
             </el-pagination>
         </div>
         <el-dialog title="banner" v-model="dialogShow.diaglogMediaDetail">
-            <addMedia :isNewAdd="isNewAdd" :activityParam="mediaDetail" v-on:addMedia="recieveAdd">
+            <addMedia :activityParam="mediaDetail" v-on:addMedia="recieveAdd">
             </addMedia>
         </el-dialog>
     </div>
