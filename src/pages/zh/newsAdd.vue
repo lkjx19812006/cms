@@ -226,20 +226,19 @@ export default {
                         for (let i = 0; i < _self.pushParam.userArr.length; i++) {
                             alias += _self.pushParam.userArr[i].id + ',';
                         }
-                        console.log(type);
+                        console.log(type);                       
                         switch (type) {
                             // 新增判断类型为资源 物品名称为name
                             case '1':
-                                breedname =  _self.pushParam.extras.name;
-                                break;
+                                breedname =  _self.pushParam.extras.name; 
+                                break                                                             
                             case '2':
-                                activityUrl = _self.pushParam.url;
-                                break;
-                            default:
-                                id = _self.pushParam.extras.id;
+                                activityUrl = _self.pushParam.url;  
+                                break                                                            
+                            default:                               
                                 break;
                         }
-
+                        id = _self.pushParam.extras.id;
                         let url = common.urlCommon + common.apiUrl.most;
                         let body = {
                             biz_module: 'pushService',

@@ -16,25 +16,26 @@ export function timeAgo(time) {
     }
 }
 // 新增 过滤用户生日
-export function userBirthday(time) {   
+export function userBirthday(time) {
     let date = '';
-    if(!time || time == ''){
-        date = new Date('1980-01-01 08:00:00');
-    }else{
+    if (!time || time == '') {
+        return '';
+    } else {
         date = new Date(time);
-    }   
-    let y = date.getFullYear();
-    let M = date.getMonth() + 1;
-    let d = date.getDate();
-    let h = date.getHours();
-    let m = date.getMinutes();
-    let s = date.getSeconds();
-    M = M < 10 ? '0' + M : M;
-    d = d < 10 ? '0' + d : d;
-    h = h < 10 ? '0' + h : h;
-    m = m < 10 ? '0' + m : m;
-    s = s < 10 ? '0' + s : s;
-    return y + '-' + M + '-' + d + '-' + ' ' + h + ':' + m + ':' + s;
+        let y = date.getFullYear();
+        let M = date.getMonth() + 1;
+        let d = date.getDate();
+        let h = date.getHours();
+        let m = date.getMinutes();
+        let s = date.getSeconds();
+        M = M < 10 ? '0' + M : M;
+        d = d < 10 ? '0' + d : d;
+        h = h < 10 ? '0' + h : h;
+        m = m < 10 ? '0' + m : m;
+        s = s < 10 ? '0' + s : s;
+        return y + '-' + M + '-' + d + '-' + ' ' + h + ':' + m + ':' + s;
+    }
+
 }
 
 function pluralize(time, label) {
