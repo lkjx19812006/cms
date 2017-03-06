@@ -29,6 +29,7 @@ export default {
     data() {
             let _self = this;
             return {
+                // sonIsNewAdd,
                 loading: false,
                 rules: {
                     title: [{
@@ -54,14 +55,14 @@ export default {
                 }
             }
         },
-        props: {
+        props: {            
             activityParam: {
                 default: null
             }
         },
         components: {
             imageUpload
-        },
+        },    
         methods: {
             recieveUrl(val) {
                 this.activityParam.imgUrl = val.url;

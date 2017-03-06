@@ -70,8 +70,8 @@
             </el-pagination>
         </div>
         <el-dialog title="banner" v-model="dialogShow.diaglogMediaDetail">
-            <addMedia :activityParam="mediaDetail" v-on:addMedia="recieveAdd">
-                </addMedia>
+            <addMedia :isNewAdd="isNewAdd" :activityParam="mediaDetail" v-on:addMedia="recieveAdd">
+            </addMedia>
         </el-dialog>
     </div>
 </template>
@@ -127,7 +127,7 @@ function fetchItem(store, val) {
 export default {
     name: 'media-view',
     data() {
-        return {
+        return {               
             loading: false,
             httpParam: param,
             dialogShow: {
@@ -245,6 +245,15 @@ export default {
             this.mediaDetail.linkUrl = '';
             this.mediaDetail.url = '';
             this.dialogShow.diaglogMediaDetail = true;
+            this. mediaDetail= {
+                id: '',
+                type: 0,
+                imgUrl: '',
+                title: '',
+                intro: '',
+                linkUrl: '',
+                keyName: 'news'
+            };           
         }
     },
     preFetch: fetchItem
