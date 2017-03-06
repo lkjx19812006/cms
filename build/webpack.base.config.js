@@ -11,7 +11,7 @@ module.exports = {
       'vue-router',
       'vuex',
       'vuex-router-sync',
-      'element-ui', 
+      'element-ui',
       'babel-polyfill'
     ]
   },
@@ -39,7 +39,9 @@ module.exports = {
       loader: 'babel-loader',
       exclude: /node_modules/,
       query: {
-        presets: [["es2015",{ modules: false }],"stage-0"],
+        presets: [
+          ["es2015", { modules: false }], "stage-0"
+        ],
         plugins: ['transform-runtime', 'transform-async-to-generator', ['component', [{
           libraryName: 'element-ui',
           styleLibraryName: 'theme-default'

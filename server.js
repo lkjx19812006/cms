@@ -7,8 +7,7 @@ const serialize = require('serialize-javascript')
 const resolve = file => path.resolve(__dirname, file)
 const proxy = require("express-http-proxy");
 const cookieParser = require('cookie-parser');
-const api = require('./src/common/create-api-server.js')
-
+const api = require('./src/common/create-api-server.js');
 
 let time = 0;
 
@@ -92,22 +91,22 @@ app.get('*', (req, res) => {
         return res.end('waiting for compilation... refresh in a moment.')
     }
 
-    // var cookiesObj = {};
-    // var cookie = req.headers.cookie;
-    // cookie && cookie.split(';').forEach(function(Cookie) {
-    //     function Trim(str) {
-    //         return str.replace(/(^\s*)|(\s*$)/g, "");
-    //     }
-    //     Cookie = Trim(Cookie);
-    //     var parts = [];
-    //     parts[0] = Cookie.substr(0, 3);
-    //     parts[1] = Cookie.substr(4, Cookie.length);
-    //     if (parts[1]) cookiesObj[parts[0].trim()] = (parts[1] || '').trim();
-    // });
-
-    // if (!cookiesObj.SID && req.url != '/login') {
-    //     return res.redirect('/login');
-    // }
+    var cookiesObj = {};
+    var cookie=req.headers.cookie;
+    cookie && cookie.split(';').forEach(function(Cookie) {
+        function Trim(str) {
+            return str.replace(/(^\s*)|(\s*$)/g, "");
+        }
+        Cookie = Trim(Cookie);
+        var parts = [];
+        parts[0] = Cookie.substr(0, 3);
+        parts[1] = Cookie.substr(4, Cookie.length);
+        if (parts[1]) cookiesObj[parts[0].trim()] = (parts[1] || '').trim();
+    });
+    
+    if (!cookiesObj.SID && req.url != '/cms/login'&& req.url != '/') {
+        return res.redirect('/cms/login');
+    }
 
     res.setHeader("Content-Type", "text/html")
     res.setHeader("Server", serverInfo)
@@ -115,11 +114,12 @@ app.get('*', (req, res) => {
 
     const context = { url: req.url }
     const renderStream = renderer.renderToStream({ context: context, cookie: req.headers.cookie, time: time })
+
     renderStream.once('data', () => {
         res.write(indexHTML.head)
     })
-    renderStream.on('data', chunk => {
 
+    renderStream.on('data', chunk => {
         res.write(chunk)
     })
 

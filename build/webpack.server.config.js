@@ -10,7 +10,7 @@ module.exports = Object.assign({}, base, {
     libraryTarget: 'commonjs2'
   }),
   resolve: {
-      alias: Object.assign({}, base.resolve.alias, {
+    alias: Object.assign({}, base.resolve.alias, {
       'create-api': './create-api-server.js'
     })
   },
@@ -19,6 +19,14 @@ module.exports = Object.assign({}, base, {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"server"'
+    }),
+    new webpack.NoErrorsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        drop_debugger: true,
+        drop_console: true
+      }
     })
   ]
 })
