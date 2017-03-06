@@ -22,7 +22,7 @@ a
 <template>
     <div class="content">
         <div class="side_left">
-            <side-nav :data="navsData[lang]" :base="`/${ lang }`"> </side-nav>
+            <side-nav :data="navsData[lang]" :base="'/cms' + `/${ lang }`"> </side-nav>
         </div>
         <div class="right">
             <main-header></main-header>

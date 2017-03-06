@@ -148,7 +148,7 @@ export default {
                             }
                         );
 
-                        _self.$router.push('/zh/main');
+                        _self.$router.push('/cms/zh/main');
                         // if (window.history.length == 1) {
 
                         // } else {

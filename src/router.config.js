@@ -9,7 +9,7 @@ const registerRoute = (navConfig) => {
   Object.keys(navConfig).forEach((lang, index) => {
     let navs = navConfig[lang];
     route.push({
-      path: "/"+lang,
+      path: "/cms/"+lang,
       component: require("./pages/"+lang+"/home.vue"),
       redirect: `/${ lang }/main`,
       children: [],
@@ -34,9 +34,9 @@ const registerRoute = (navConfig) => {
     });
   });
   function addRoute(page, lang, index) {
-    const component = require("./pages/"+lang+page.path+".vue");
+    const component = require("./pages/"+lang+page.path+".vue");   
     let child = {
-      path: page.path.slice(1),
+      path:'/cms/' + lang + '/' + page.path.slice(1),
       meta: {
         title: page.title || page.name,
         description: page.description,
@@ -48,20 +48,20 @@ const registerRoute = (navConfig) => {
 
     route[index].children.push(child);
   }
-
+  console.log(route);
   return route;
 };
 
 let routes = registerRoute(navConfig);
 routes.push({
-  path: '/login',
+  path: '/cms/login',
   name: 'login',
   component: require('./pages/login.vue')
 });
 
 routes.push({
   path: '/',
-  redirect: '/login'
+  redirect: '/cms/login'
 });
 
 const router = new VueRouter({

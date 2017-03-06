@@ -62,7 +62,7 @@ export default {
               document.cookie= name + "="+''+";expires="+'';
               window.localStorage.KEY = '';
               window.localStorage.SID = '';
-              _self.$router.push('/login')
+              _self.$router.push('/cms/login')
             }).catch(() => {
               // 取消不管 
                this.$message({

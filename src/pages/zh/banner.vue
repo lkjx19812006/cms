@@ -46,7 +46,7 @@
                 <el-table-column  label="新闻地址" width="120">
                 <template scope="scope">
                         <a :href="scope.row.linkUrl" target="_blank" >{{scope.row.linkUrl}}</a>
-                    </template>
+                </template>
                 </el-table-column>
                 <el-table-column label="状态" width="70">
                     <template scope="scope">
