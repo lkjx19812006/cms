@@ -253,8 +253,10 @@ export default {
             });
         },
         sortDefault(param) {
+            alert(param);
             let resourceId = '';
-            if (param) {
+            // 定置BUG
+            if (param || param == 0) {
                 resourceId = this.resourceList[param].id;
             }
             let _self = this;
@@ -267,6 +269,7 @@ export default {
                     id: resourceId
                 }
             }
+            console.log(body);
             if (common.KEY) {
                 url = common.addSID(url);
                 body.version = 1;
