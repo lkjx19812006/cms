@@ -79,11 +79,15 @@ const mutations = {
         state.userList = res.biz_result;
     },
     initUserDetail(state, res) {  
-        console.log(userBirthday);  
         // 处理下用户生日       
         // res.birthday = filters.timeAgo(res.birthday);
-        state.userDetail = state.userList.list.find((item) => item.id == res);       
-        state.userDetail.birthday = userBirthday(state.userDetail.birthday);
+        state.userDetail = state.userList.list.find((item) => item.id == res);
+        if(state.userDetail.birthday){
+            state.userDetail.birthday = userBirthday(state.userDetail.birthday);
+        }else{
+            state.userDetail.birthday = '';
+        }      
+        
          
         
     }

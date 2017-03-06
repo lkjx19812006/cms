@@ -16,12 +16,11 @@ export function timeAgo(time) {
     }
 }
 // 新增 过滤用户生日
-export function userBirthday(time) {
-    let date = '';
-    if (!time || time == '') {
+export function userBirthday(time) {   
+    if (!time || time === '' ||  time == 0) {
         return '';
-    } else {
-        date = new Date(time);
+    } else {       
+        let date = new Date(time);
         let y = date.getFullYear();
         let M = date.getMonth() + 1;
         let d = date.getDate();
@@ -33,7 +32,7 @@ export function userBirthday(time) {
         h = h < 10 ? '0' + h : h;
         m = m < 10 ? '0' + m : m;
         s = s < 10 ? '0' + s : s;
-        return y + '-' + M + '-' + d + '-' + ' ' + h + ':' + m + ':' + s;
+        return y + '-' + M + '-' + d + ' ' + h + ':' + m + ':' + s;
     }
 
 }
