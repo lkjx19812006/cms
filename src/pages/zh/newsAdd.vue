@@ -23,7 +23,7 @@
 
                     <el-button type="primary" @click="dialogShow.dialogUser=false,dialogShow.dialogResource=true,dialogShow.dialog=true,title='选择资源'">选择</el-button>
                 </el-form-item>
-                <el-form-item label="活动url" v-if="pushParam.type=='活动'" prop="url">
+                <el-form-item label="活动url" v-if="pushParam.type=='活动'"  prop="url">
                     <el-input v-model="pushParam.url"></el-input>
                 </el-form-item>
                 <el-form-item label="订单号" v-if="pushParam.type=='订单'" prop="orderNumber">
@@ -148,7 +148,8 @@ export default {
                     }],
                     url: [{
                         required: true,
-                        message: '请输入活动的url',
+                        message: '请输入活动正确的url',
+                        type: 'url',
                         trigger: 'change'
                     }],
                     resourceName: [{
