@@ -55,7 +55,7 @@ export default {
                 if (!this.param.version) {
                     return _self.$message({
                         type: 'error',
-                        message: '请刷新后,先填写版本号,再上传'
+                        message: '请刷新后,先填写版本号,再选择文件'
                     });
                 }
                 let input = e.target;
@@ -94,26 +94,38 @@ export default {
                         var formData = new FormData();
                         formData.append('token', res.biz_result.token);
                         formData.append('file', file);
-                        formData.append('key', 'ycmm.'+_self.param.version+'.apk');
+                        formData.append('key', 'ycmm.' + _self.param.version + '.apk');
                         xhr.onreadystatechange = function() {
                             _self.loading = false;
                             if (xhr.readyState == 4) {
-                                let response = JSON.parse(xhr.response);
-                                if (response.key) {
-                                    _self.key = response.key;
-                                    _self.$emit("postUrl", {
-                                        url: res.biz_result.url + '/' + _self.key
+                                if (xhr.status == 614) {
+                                    _self.isBtnLoading = false;
+                                    _self.$message({
+                                        type: 'error',
+                                        message: '上传的版本,不能低于目前版本, 刷新重试'
                                     });
-                                     _self.isBtnLoading = false;
-                                } else {
-                                    _self.loading = false;
 
+                                } else {
+                                    let response = JSON.parse(xhr.response);
+                                    if (response.key) {
+                                        _self.key = response.key;
+                                        _self.$emit("postUrl", {
+                                            url: res.biz_result.url + '/' + _self.key
+                                        });
+                                        _self.isBtnLoading = false;
+                                    } else {
+                                        _self.loading = false;
+
+                                    }
                                 }
+
                             }
+
                         }
                         xhr.open("POST", url, true);
                         xhr.send(formData);
                     } else {
+                        _self.isBtnLoading = false;
                         _self.loading = false;
                         _self.$message({
                             type: 'info',
@@ -123,6 +135,7 @@ export default {
                     }
                 }, function(err) {
                     _self.loading = false;
+
                 })
             }
         }

@@ -9,9 +9,9 @@
             <el-form-item label="强制更新最低版本号" prop="compel">
                 <el-input v-model="activityParam.compel"></el-input>
             </el-form-item>
-             <el-form-item label="ipa名称" prop="ipa">
+          <!--    <el-form-item label="ipa名称" prop="ipa">
                 <uploadFile :param="addParam" v-on:postUrl="receiveApk"></uploadFile>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="版本更新介绍" prop="content">
                 <el-input type="textarea" v-model="activityParam.content"></el-input>
             </el-form-item>
@@ -24,7 +24,7 @@
 <script>
 import common from '../../common/common.js'
 import httpService from '../../common/httpService'
-import uploadFile from '../uploadFile.vue'
+// import uploadFile from '../uploadFile.vue'
 export default {
     data() {
             let _self = this;
@@ -47,11 +47,11 @@ export default {
                         message: '请输入版本更新介绍',
                         trigger: 'blur'
                     }],
-                    ipa: [{
-                        required: true,
-                        message: '请选择.ipa',
-                        trigger: 'blur'
-                    }]
+                    // ipa: [{
+                    //     required: true,
+                    //     message: '请选择.ipa',
+                    //     trigger: 'blur'
+                    // }]
                 }
             }
         },
@@ -61,7 +61,7 @@ export default {
             }
         },
         components:{
-            uploadFile
+            // uploadFile
         },
         methods: {
             receiveApk(val) {

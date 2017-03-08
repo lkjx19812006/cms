@@ -34,7 +34,7 @@
             <el-button type="primary" @click="search()" icon="search">搜索</el-button>
         </div>
         <div class="table">
-            <el-table v-bind:data="newsList" border style="width:780px;margin:auto" max-height="550" v-loading.body="loading">
+            <el-table v-bind:data="newsList" border style="width:780px;margin:auto" height="500" max-height="550" v-loading.body="loading">
                 <!-- 注意下 已经合并推送提示与推送标题 数据一样 -->
               <!--   <el-table-column prop="alert" label="推送提示" width="150">
                 </el-table-column> -->

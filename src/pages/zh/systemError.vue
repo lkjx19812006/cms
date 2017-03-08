@@ -15,7 +15,7 @@
     <div class="content">
         <div class="table">
             <el-table v-bind:data="errorList" border style="
-            width:922px;margin:auto" max-height="700" v-loading.body="loading">
+            width:922px;margin:auto" height="650" max-height="700" v-loading.body="loading">
                 <el-table-column  label="错误内容" width="600">
                     <template scope="scope">
                         <div>{{scope.row.content.errorPlace}}</div>
