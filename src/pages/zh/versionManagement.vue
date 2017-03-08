@@ -69,7 +69,6 @@ import {
 } from 'vuex'
 import common from '../../common/common.js'
 import addVersion from '../../components/version/addVersion.vue'
-
 let param = {
     pn: 1,
     pSize: 10,

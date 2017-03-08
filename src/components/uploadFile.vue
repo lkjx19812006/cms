@@ -25,9 +25,9 @@
 <template>
     <div class="img_upload">
         <form>
-            <input type="file" @change="previewImg" class="input_image" name="photo" accept=".apk">
+            <input type="file" @change="previewImg" class="input_image" name="photo">
             <span style="margin-right:10px">{{fileName}}</span>
-            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            <el-button slot="trigger" size="small" :loading="isBtnLoading" type="primary">选取文件</el-button>
         </form>
     </div>
 </template>
@@ -40,7 +40,8 @@ export default {
                 loading: false,
                 fileList: [],
                 fileName: '',
-                size: ''
+                size: '',
+                isBtnLoading: false
             }
         },
         props: {
@@ -51,12 +52,12 @@ export default {
         methods: {
             previewImg(e) {
                 let _self = this;
-                if (!this.param.version) {
-                    return _self.$message({
-                        type: 'info',
-                        message: '请先填写版本号'
-                    });
-                }
+                // if (!this.param.version) {
+                //     return _self.$message({
+                //         type: 'info',
+                //         message: '请先填写版本号'
+                //     });
+                // }
                 let input = e.target;
                 if (input.files && input.files[0]) {
                     let reader = new FileReader();
@@ -84,6 +85,7 @@ export default {
                 body.time = Date.parse(new Date()) + parseInt(common.difTime);
                 body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
                 httpService.commonPost(url, body, function(res) {
+                    _self.isBtnLoading = true;
                     if (res.code == '1c01') {
                         var timestamp = new Date().getTime();
                         var pic = file;
@@ -102,6 +104,7 @@ export default {
                                     _self.$emit("postUrl", {
                                         url: res.biz_result.url + '/' + _self.key
                                     });
+                                     _self.isBtnLoading = false;
                                 } else {
                                     _self.loading = false;
 
