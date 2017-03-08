@@ -83,7 +83,7 @@ const mutations = {
         // res.birthday = filters.timeAgo(res.birthday);
         state.userDetail = state.userList.list.find((item) => item.id == res);
         if(state.userDetail.birthday){
-            state.userDetail.birthday = userBirthday(state.userDetail.birthday);
+            state.userDetail.birthday = userBirthday(state.userDetail.birthday * 1000);
         }else{
             state.userDetail.birthday = '';
         }      

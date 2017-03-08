@@ -5,6 +5,7 @@
 /* 修改图片超出边界bug */
 .grid-content img {
     width: 100%;
+    height: 300px;
 }
 </style>
 <template>
@@ -12,7 +13,7 @@
         <el-row>
             <el-col :span="12">
                 <div class="grid-content ">
-                    头像：<img :src="userDetail.avatar">
+                    头像：<img :src="userDetail.avatar" v-if="userDetail.avatar">
                 </div>
             </el-col>
             <el-col :span="12">

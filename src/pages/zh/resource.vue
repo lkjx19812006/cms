@@ -137,10 +137,10 @@ export default {
                     value: "默认"
                 }, {
                     key: "1",
-                    value: "由新到旧"
+                    value: "由旧到新"
                 }, {
                     key: "2",
-                    value: "由旧到新"
+                    value: "由新到旧"
                 }]
 
             }, {
@@ -166,7 +166,7 @@ export default {
                     key: "0",
                     value: "无"
                 }, {
-                    key: "2",
+                    key: "1",
                     value: "有"
                 }]
             }]

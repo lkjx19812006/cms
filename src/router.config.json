@@ -14,6 +14,10 @@
             "path": "/need",
             "title": "紧急求购",
             "index": "1-1"
+        }, {
+            "path": "/marketInfo",
+            "title": "市场行情",
+            "index": "1-2"
         }]
     }, {
         "name": "消息推送",

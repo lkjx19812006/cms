@@ -4,7 +4,7 @@
     <div>
         <el-form ref="activityParam" :model="activityParam" :rules="rules" label-width="180px" v-loading.body="loading">
             <el-form-item label="普通更新最新版本号" prop="version">
-                <el-input v-model="activityParam.version"></el-input>
+                <el-input v-model="activityParam.version" placeholder="请先填写版本号"></el-input>
             </el-form-item>
             <el-form-item label="强制更新最低版本号" prop="compel">
                 <el-input v-model="activityParam.compel"></el-input>

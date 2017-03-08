@@ -34,10 +34,10 @@
             <el-button type="primary" @click="search()" icon="search">搜索</el-button>
         </div>
         <div class="table">
-            <el-table v-bind:data="newsList" border style="width:782px;margin:auto" max-height="550" v-loading.body="loading">
+            <el-table v-bind:data="newsList" border style="width:780px;margin:auto" max-height="550" v-loading.body="loading">
                 <!-- 注意下 已经合并推送提示与推送标题 数据一样 -->
-                <el-table-column prop="alert" label="推送提示" width="150">
-                </el-table-column>
+              <!--   <el-table-column prop="alert" label="推送提示" width="150">
+                </el-table-column> -->
                 <el-table-column prop="title" label="推送标题" width="120">
                 </el-table-column>
                 <el-table-column prop="message" label="推送内容" width="120">
@@ -45,14 +45,16 @@
                 <el-table-column prop="type" label="推送类型" width="120">
                 </el-table-column>
                 <!-- 新增一个字段 根据推送类型 显示不同的内容 -->                
-                <el-table-column label="推送目标" width="120">
+                <el-table-column label="推送目标" width="200">
                    <template scope="scope">                     
                       <a style="color:blue; text-decoration:underline" v-if="scope.row.type==='活动'" :href="scope.row.extras.url" target="_blank">{{scope.row.extras.url}}</a>
                       <span v-if="scope.row.type==='资源'">{{scope.row.extras.name}}</span>
+                      <!--  -->
+                      <span v-if="scope.row.type==='订单'">{{scope.row.extras.no}}</span>
                     </template>
                 </el-table-column>   
 
-                <el-table-column prop="createTime" label="推送时间" width="150">
+                <el-table-column prop="createTime" label="推送时间" width="200">
                 </el-table-column>
                 <!-- 隐藏该字段操作方式 -->
                 <el-table-column v-if="false" fixed="right" label="操作" width="120">
@@ -130,6 +132,9 @@ export default {
             }, {
                 label: '活动',
                 value: '2'
+            }, {
+                label: '订单',
+                value: '3'
             }],
             loading: false,
             httpParam: param

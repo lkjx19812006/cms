@@ -52,12 +52,12 @@ export default {
         methods: {
             previewImg(e) {
                 let _self = this;
-                // if (!this.param.version) {
-                //     return _self.$message({
-                //         type: 'info',
-                //         message: '请先填写版本号'
-                //     });
-                // }
+                if (!this.param.version) {
+                    return _self.$message({
+                        type: 'error',
+                        message: '请刷新后,先填写版本号,再上传'
+                    });
+                }
                 let input = e.target;
                 if (input.files && input.files[0]) {
                     let reader = new FileReader();

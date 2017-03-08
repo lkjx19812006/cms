@@ -16,10 +16,10 @@ export function timeAgo(time) {
     }
 }
 // 新增 过滤用户生日
-export function userBirthday(time) {   
-    if (!time || time === '' ||  time == 0) {
+export function userBirthday(time) {
+    if (!time || time === '' || time == 0) {
         return '';
-    } else {       
+    } else {
         let date = new Date(time);
         let y = date.getFullYear();
         let M = date.getMonth() + 1;
@@ -34,7 +34,6 @@ export function userBirthday(time) {
         s = s < 10 ? '0' + s : s;
         return y + '-' + M + '-' + d + ' ' + h + ':' + m + ':' + s;
     }
-
 }
 
 function pluralize(time, label) {
