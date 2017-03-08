@@ -178,8 +178,8 @@ export default {
             this.$prompt('请输入需要修改的积分', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
-                inputPattern: /^(-)?[1-9][0-9]*$/,
-                inputErrorMessage: '只允许输入整数'
+                inputPattern: /^(-)?[1-9][0-9]{0,4}$/,
+                inputErrorMessage: '只允许正负99,999以内的整数'
             }).then(({
                 value
             }) => {
