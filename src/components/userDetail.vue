@@ -5,6 +5,7 @@
 /* 修改图片超出边界bug */
 .grid-content img {
     width: 100%;
+    height: 300px;
 }
 </style>
 <template>
