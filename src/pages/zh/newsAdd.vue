@@ -74,8 +74,7 @@
                 <addUser v-on:message="recieveUser" v-on:brakSend="dialogHide" v-if="dialogShow.dialogUser">
                     
                 </addUser>
-                <selectSource v-on:resource="recieveResource" v-if="dialogShow.dialogResource">
-                    
+                <selectSource v-on:resource="recieveResource" v-if="dialogShow.dialogResource">                    
                 </selectSource>
             </el-dialog>
             <!-- <el-dialog title="选择资源" v-model="dialogShow.dialogResource">
@@ -179,10 +178,12 @@ export default {
         },
         methods: {
             recieveResource: function(val) {
-                this.pushParam.breedType=val.type;                
-                this.pushParam.extras.id = val.id;
-                this.pushParam.extras.name = val.breedName;//新增Name字段
-                this.pushParam.resourceName = val.breedName + '---' + val.location + '---' + val.price;
+                if(val){                    
+                    this.pushParam.breedType=val.type;                
+                    this.pushParam.extras.id = val.id;
+                    this.pushParam.extras.name = val.breedName;//新增Name字段
+                    this.pushParam.resourceName = val.breedName + '---' + val.location + '---' + val.price;
+                }
                 this.dialogShow.dialog = false;
             },
             // dialogHide 点击实现隐藏 模态框

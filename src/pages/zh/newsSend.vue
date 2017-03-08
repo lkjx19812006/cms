@@ -49,12 +49,7 @@
                    <template scope="scope">                     
                       <a style="color:blue; text-decoration:underline" v-if="scope.row.type==='活动'" :href="scope.row.extras.url" target="_blank">{{scope.row.extras.url}}</a>
                       <span v-if="scope.row.type==='资源'">{{scope.row.extras.name}}</span>
-                      <!--  -->
-<<<<<<< HEAD
                       <span v-if="scope.row.type==='订单'">{{scope.row.extras.no}}</span>
-=======
-                      <span v-if="scope.row.type==='订单'">订单号:{{scope.row.extras.no}}</span>
->>>>>>> cf78e1c21e09aef26866e00cd5103a8f46344944
                     </template>
                 </el-table-column>   
 
