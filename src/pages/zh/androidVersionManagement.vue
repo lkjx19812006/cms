@@ -10,7 +10,6 @@
     background-color: white;
     padding: 20px;
 }
-
 .sort {
     text-align: right;
     padding: 20px 0;

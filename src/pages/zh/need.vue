@@ -84,7 +84,7 @@
                             置顶
                         </el-button>
                         <el-button @click.native.prevent="sortDefault(scope.$index)" type="text" size="small" v-if="showReset(scope.$index)">
-                            重置
+                            取消置顶
                         </el-button>
                     </template>
                 </el-table-column>
@@ -262,7 +262,7 @@ export default {
         },
         sortDefault(param) {
             let resourceId = '';
-            if (param) {
+            if (param || param==0) {
                 resourceId = this.needList[param].id;
             }
             let _self = this;
