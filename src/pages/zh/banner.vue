@@ -158,7 +158,7 @@ export default {
             return this.$store.state.media.bannerList.total
         }
     },
-    mounted() {
+    created() {
         if (this.$store.state.media.bannerList.list.length == 0) {
             this.getHttp();
         }

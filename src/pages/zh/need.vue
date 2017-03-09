@@ -187,7 +187,7 @@ export default {
             return this.$store.state.resource.needList.total
         }
     },
-    mounted() {
+    created() {
         if (this.$store.state.resource.needList.list.length == 0) {
             this.getHttp();
         }

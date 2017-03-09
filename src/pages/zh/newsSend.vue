@@ -150,7 +150,7 @@ export default {
             return this.$store.state.news.newsList.total
         }
     },
-    mounted() {
+    created() {
         if (this.$store.state.news.newsList.list.length == 0) {
             this.getHttp();
         }

@@ -135,7 +135,7 @@ export default {
             return this.$store.state.user.userList.total
         }
     },
-    mounted() {
+    created() {
         if (this.$store.state.user.userList.list.length == 0) {
             this.getHttp();
         }

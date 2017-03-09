@@ -99,7 +99,7 @@ export default {
             return this.$store.state.version.errorList.total
         }
     },
-    mounted() {
+    created() {
         if (this.$store.state.version.errorList.list.length == 0) {
             this.getHttp();
         }

@@ -143,7 +143,7 @@ export default {
             return this.$store.state.version.androidVersionList.total
         }
     },
-    mounted() {
+    created() {
         if (this.$store.state.version.androidVersionList.list.length == 0) {
             this.getHttp();
         }

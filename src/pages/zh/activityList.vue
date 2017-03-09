@@ -165,7 +165,7 @@ export default {
             return this.$store.state.activity.allActivity.total
         }
     },
-    mounted() {
+    created() {
         if (this.$store.state.activity.allActivity.list.length == 0) {
             this.getHttp();
         }
