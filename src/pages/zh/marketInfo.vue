@@ -16,7 +16,6 @@
     padding-top: 20px;
     text-align: center;
     background-color: #fff;
-    padding: 20px 50px 0 25px;
 }
 
 .tableHeader {
@@ -24,9 +23,15 @@
     background-color: #EEF1F6;
     border: 1px solid #ccc;
     line-height: 38px;
+    width: 842px;
+    margin: auto;
+    padding-left: 50px;
 }
 
-.tableHeader .header {}
+.tableHeader .header .grid-content {
+    width: 120px;
+    display: inline-block;
+}
 
 .el-table__expanded-cell {
     padding: 0 !important;
@@ -34,22 +39,6 @@
 
 .el-table__expanded-cell .el-table {
     border: none;
-}
-
-.demo-table-expand {
-    font-size: 0;
-    padding: 0 !important;
-}
-
-.demo-table-expand label {
-    width: 90px;
-    color: #99a9bf;
-}
-
-.demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 50%;
 }
 
 .pagination {
@@ -72,131 +61,121 @@
             <div class="tableHeader">
                 <!-- 表头 -->
                 <el-row class="header">
-                    <el-col :span="4">
-                        <div class="grid-content bg-purple-dark" style="padding-left: 48px;">
-                            品名
-                        </div>
-                    </el-col>
-                    <el-col :span="3">
-                        <div class="grid-content bg-purple-dark">规格</div>
-                    </el-col>
-                    <el-col :span="3">
-                        <div class="grid-content bg-purple-dark">产地</div>
-                    </el-col>
-                    <el-col :span="3">
-                        <div class="grid-content bg-purple-dark">价格</div>
-                    </el-col>
-                    <el-col :span="3">
-                        <div class="grid-content bg-purple-dark">
-                            <el-button type="primary" @click="changeMoney" size="small">
-                                {{ isMoney? '涨跌(元)': '涨幅(%)' }}
-                            </el-button>
-                        </div>
-                    </el-col>
-                    <el-col :span="4">
-                        <div class="grid-content bg-purple-dark">操作</div>
-                    </el-col>
-                    <el-col :span="4">
-                        <div class="grid-content bg-purple-dark">
-                            <el-button type="primary" @click="allTop" size="small">
-                                全部置顶
-                            </el-button>
-                        </div>
-                    </el-col>
+                    <div class="grid-content bg-purple-dark">
+                        品名
+                    </div>
+                    <div class="grid-content bg-purple-dark">规格</div>
+                    <div class="grid-content bg-purple-dark">产地</div>
+                    <div class="grid-content bg-purple-dark">价格</div>
+                    <div class="grid-content bg-purple-dark">
+                        <el-button type="primary" @click="changeMoney" size="small">
+                            {{ isMoney? '涨跌(元)': '涨幅(%)' }}
+                        </el-button>
+                    </div>
+                    <div class="grid-content bg-purple-dark">操作</div>
+                    <div class="grid-content bg-purple-dark">
+                        <el-button type="primary" @click="allTop" size="small">
+                            全部置顶
+                        </el-button>
+                    </div>
                 </el-row>
             </div>
             <!-- 表格 -->
-            <el-table :show-header="false" :data="marketInfoList" style="width: 100%">
+            <el-table :show-header="false" :data="marketInfoList" max-height="500" style="width: 892px; margin: auto">
                 <el-table-column type="expand">
                     <template scope="props">
-                        <el-table :show-header="false" :data="props.row.list" style="padding:0;">
-                            <el-table-column prop="name">
+                        <el-table :show-header="false" :data="props.row.list">
+                            <el-table-column width="48px">
                             </el-table-column>
-                            <el-table-column prop="spec">
+                            <el-table-column prop="name" width="120">
                             </el-table-column>
-                            <el-table-column prop="area">
+                            <el-table-column prop="spec" width="120">
                             </el-table-column>
-                            <el-table-column prop="unitprice">
+                            <el-table-column prop="area" width="120">
                             </el-table-column>
-                          <!--   <el-table-column>
-                                <template scope="props">
-                                    <el-col :span="24">
-                                        <div v-if="props.row.dayMoney > 0" class="grid-content bg-purple-dark" style="padding-left: 48px;">
-                                            <span v-if="isMoney">
-                            		{{props.row.dayMoney}}
-                            	</span>
-                                            <span else>
-                            		{{props.row.dayDowns}}
-                            	</span> 品名
-                                        </div>
-                                        <div else class="grid-content bg-purple-dark" style="padding-left: 48px;">
-                                            <span>----</span>
-                                        </div>
-                                    </el-col>
+                            <el-table-column prop="yesterdayPrice" width="120">
+                            </el-table-column>
+                            <el-table-column width="120">
+                                <template scope="scope">
+                                    <div v-if="scope.row.dayMoney">
+                                        <span v-if="isMoney">
+                            				{{scope.row.dayMoney}}
+                            				<span style="color: red; fontSize: 18px">↑</span>
+                                        </span>
+                                        <span v-if="!isMoney" style="position: relative;">
+                            				{{scope.row.dayDowns | filterFloatNum}}% 
+                            				<span style="color: red; fontSize: 18px">↑</span>
+                                        </span>
+                                    </div>
+                                    <div v-if="!scope.row.dayMoney">
+                                        <span>--</span>
+                                    </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column>
+                            <el-table-column width="120">
                                 <template scope="scope">
-                                    <el-button @click.native.prevent="changePrice(scope.$index)" type="text" size="small">
+                                    <el-button @click.native.prevent="changePrice(scope.row.id)" type="text">
                                         修改价格
                                     </el-button>
                                 </template>
                             </el-table-column>
-                            <el-table-column>
+                            <el-table-column width="120">
                                 <template scope="scope">
-                                    <el-button @click.native.prevent="makeTop(scope.$index)" type="text" size="small">
+                                    <!--  -->
+                                    <el-button type="text" @click.native.prevent="makeTop(scope.$index)">
                                         置顶
                                     </el-button>
-                                    <el-button @click.native.prevent="sortDefault(scope.$index)" type="text" size="small" v-if="showReset(scope.$index)">
+                                    <!--  -->
+                                    <el-button v-if="showReset(scope.$index)" type="text" @click.native.prevent="sortDefault(scope.$index)">
                                         取消置顶
                                     </el-button>
                                 </template>
-                            </el-table-column> -->
+                            </el-table-column>
                         </el-table>
                     </template>
                 </el-table-column>
-                <el-table-column prop="name">
+                <el-table-column prop="name" width="120">
                 </el-table-column>
-                <el-table-column prop="spec">
+                <el-table-column prop="spec" width="120">
                 </el-table-column>
-                <el-table-column prop="area">
+                <el-table-column prop="area" width="120">
                 </el-table-column>
-                <el-table-column prop="unitprice">
-                </el-table-column>             
-                <el-table-column>
+                <el-table-column prop="yesterdayPrice" width="120">
+                </el-table-column>
+                <el-table-column width="120">
                     <template scope="props">
-                        <el-col :span="24">
-                            <!-- <div v-if="dayMoney(props.row.dayMoney)> 0}" class="grid-content bg-purple-dark" style="padding-left: 48px;">
-                                <span v-if="isMoney">
+                        <div v-if="props.row.dayMoney">
+                            <span v-if="isMoney">
                             		{{props.row.dayMoney}}
-                            	</span>
-                                <span v-else>
-                            		{{props.row.dayDowns}}
-                            	</span>
-                            </div>
-                            <div v-else class="grid-content bg-purple-dark" style="padding-left: 48px;">
-                                <span>\-\-</span>
-                            </div> -->
-                        </el-col>
+                            		<span style="color: red; fontSize: 18px">↑</span>
+                            </span>
+                            <span v-if="!isMoney" style="position: relative;">
+                            		{{props.row.dayDowns | filterFloatNum}}% 
+                            		<span style="color: red; fontSize: 18px">↑</span>
+                            </span>
+                        </div>
+                        <div v-if="!props.row.dayMoney">
+                            <span>--</span>
+                        </div>
                     </template>
                 </el-table-column>
-                <el-table-column>
+                <el-table-column width="120">
                     <template scope="props">
-                       <!--  <el-button @click.native.prevent="changePrice(scope.$index)" type="text" size="small">
+                        <el-button @click.native.prevent="changePrice(props.row.id)" type="text">
                             修改价格
-                        </el-button> -->
+                        </el-button>
                     </template>
                 </el-table-column>
-                <el-table-column>
+                <el-table-column width="120">
                     <template scope="props">
-                      <!--   <el-button @click.native.prevent="makeTop(scope.$index)" type="text" size="small">
+                        <el-button @click.native.prevent="makeTop(props.$index)" type="text">
                             置顶
                         </el-button>
-                        <el-button @click.native.prevent="sortDefault(scope.$index)" type="text" size="small" v-if="showReset(scope.$index)">
+                        <el-button @click.native.prevent="sortDefault(props.$index)" type="text" v-if="showReset(props.$index)">
                             取消置顶
-                        </el-button> -->
+                        </el-button>
                     </template>
-                </el-table-column> 
+                </el-table-column>
             </el-table>
         </div>
         <!-- 分页 -->
@@ -252,20 +231,65 @@ export default {
         total() {
             return this.$store.state.marketInfo.marketInfoList.total
         },
-        dayMoney(params){
-        	return parseInt(params);
+        dayMoney(params) {
+            return parseInt(params);
         }
     },
-    mounted() {
+    created() {
         if (this.$store.state.marketInfo.marketInfoList.list.length == 0) {
             this.getHttp();
         }
     },
     methods: {
-    	//修改价格
-    	changePrice(){
+        //修改价格
+        changePrice(params) {
+            let _self = this;
+            _self.loading = true;
+            this.$prompt('请修改价格', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                inputPattern: /^\d*$/,
+                inputErrorMessage: '请输入数值'
+            }).then(({
+                value
+            }) => {
+                let body = {
+                    biz_module: 'breedService',
+                    biz_method: 'updateBreedPrice',
+                    biz_param: {
+                        id: params,
+                        yesterdayPrice: value
+                    }
+                }
+                let url = common.urlCommon + common.apiUrl.most;
 
-    	},
+                let obj = {
+                    body: body,
+                    path: url
+                }
+                _self.$store.dispatch('getChangePrice', obj).then(() => {
+                    _self.loading = false;
+                    // _self.httpParam.pn = 1;
+                    _self.getHttp();
+                    this.$message({
+                        type: 'success',
+                        message: '价格修改成: ' + value
+                    });
+                }, () => {
+                    _self.loading = true;
+                });
+
+
+
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '取消输入'
+                });
+            });
+
+
+        },
         // 切换涨幅样式
         changeMoney() {
             this.isMoney = !this.isMoney;
@@ -275,7 +299,8 @@ export default {
 
         },
         showReset(val) {
-            return this.resourceList[val].sort;
+            // if()
+            return false;
         },
         handleCurrentChange(val) {
             this.httpParam.pn = val;

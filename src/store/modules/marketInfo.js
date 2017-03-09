@@ -4,7 +4,7 @@ import config from '../../common/common.config.json'
 // shape: [{ id, quantity }]
 const state = {   
     marketInfoList: { list: [] },
-  	total:600
+  	total:0
 }
 
 // getters
@@ -28,18 +28,17 @@ const actions = {
                 })
         })
     },
-    //  getNeedList({ commit, state }, param) {
-    //     return new Promise((resolve, reject) => {
-    //         httpService.commonPost(param.path, param.body,
-    //             function(res) {
-    //                 commit('getNeedList', res);
-    //                 resolve(res);
-    //             },
-    //             function(err) {
-    //                 reject(err);
-    //             })
-    //     })
-    // },
+    getChangePrice({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            httpService.commonPost(param.path, param.body,
+                function(res) {
+                    resolve(res);
+                },
+                function(err) {
+                    reject(err);
+                })
+        })
+    },
     // getPpl({ commit, state }, param) {
     //     return new Promise((resolve, reject) => {
     //         httpService.commonPost(param.path, param.body,
@@ -83,7 +82,7 @@ const mutations = {
     // },
     getMarketInfoList(state, res) {
         state.marketInfoList = res.biz_result;
-        state.total = 600;
+        state.total = res.biz_result.total;
     },
     // initPpl(state, res) {
     //     for(let i =0;i<res.biz_result.list.length;i++){

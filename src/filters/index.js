@@ -35,7 +35,11 @@ export function userBirthday(time) {
         return y + '-' + M + '-' + d + ' ' + h + ':' + m + ':' + s;
     }
 }
-
+// 过滤 小数点后面两位
+export function filterFloatNum(floatNum){
+    floatNum = floatNum * 100;
+    return parseInt(floatNum) / 100;
+}
 function pluralize(time, label) {
     if (time === 1) {
         return time + label
