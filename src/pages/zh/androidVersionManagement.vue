@@ -24,7 +24,7 @@
         </div>
         <div class="table">
             <el-table v-bind:data="versionList" border style="
-            width:832px;margin:auto" height="500" max-height="550" v-loading.body="loading">
+            width:832px;margin:auto" max-height="550" v-loading.body="loading">
                 <el-table-column prop="content" label="更新介绍" width="200">
                 </el-table-column>
                 <el-table-column prop="compel" label="强制更新最低版本号" width="120">

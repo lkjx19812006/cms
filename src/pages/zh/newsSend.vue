@@ -34,7 +34,7 @@
             <el-button type="primary" @click="search()" icon="search">搜索</el-button>
         </div>
         <div class="table">
-            <el-table v-bind:data="newsList" border style="width:780px;margin:auto" height="500" max-height="550" v-loading.body="loading">
+            <el-table v-bind:data="newsList" border style="width:760px;margin:auto" max-height="550" v-loading.body="loading">
                 <!-- 注意下 已经合并推送提示与推送标题 数据一样 -->
               <!--   <el-table-column prop="alert" label="推送提示" width="150">
                 </el-table-column> -->
@@ -56,13 +56,13 @@
                 <el-table-column prop="createTime" label="推送时间" width="200">
                 </el-table-column>
                 <!-- 隐藏该字段操作方式 -->
-                <el-table-column v-if="false" fixed="right" label="操作" width="120">
+                <!-- <el-table-column v-if="false" fixed="right" label="操作" width="120">
                     <template scope="scope">
                         <el-button @click.native.prevent="sendAgain(scope.$index)" type="text" size="small">
                             再次发送
                         </el-button>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
         </div>
         <div class="pagination">

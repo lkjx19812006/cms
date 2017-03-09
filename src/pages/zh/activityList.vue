@@ -35,7 +35,7 @@
             <el-button type="primary" @click="add()" style="margin-left:50px">新增活动</el-button>
         </div>
         <div class="table">
-            <el-table v-bind:data="activityList" border style="width:942px;margin:auto" height="750" max-height="850" v-loading.body="loading">
+            <el-table v-bind:data="activityList" border style="width:942px;margin:auto" max-height="650" v-loading.body="loading">
                 <el-table-column prop="name" label="活动名称" width="150">
                 </el-table-column>
                 <el-table-column label="活动图片" width="200">
@@ -52,7 +52,7 @@
                         <span>{{scope.row.createDate |formatTime}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" width="120">
+                <el-table-column label="操作" width="120">
                     <template scope="scope">
                         <el-button @click.native.prevent="edit(scope.$index)" type="text" size="small">
                             编辑

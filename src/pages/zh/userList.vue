@@ -26,7 +26,7 @@
             <el-button type="primary" @click="search()" icon="search">搜索</el-button>
         </div>
         <div class="table">
-            <el-table v-bind:data="userList" border style="width:902px;margin:auto" height="450" max-height="650" v-loading.body="loading">
+            <el-table v-bind:data="userList" border style="width:902px;margin:auto" max-height="550" v-loading.body="loading">
                 <el-table-column prop="fullname" label="姓名" width="150">
                 </el-table-column>
                 <el-table-column prop="phone" label="电话" width="120">

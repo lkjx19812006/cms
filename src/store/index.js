@@ -6,6 +6,7 @@ import activity from './modules/activity'
 import resource from './modules/resource'
 import version from './modules/version'
 import media from './modules/media'
+import marketInfo from './modules/marketInfo'
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     resource,
     news,
     version,
-    media
+    media,
+    marketInfo
   }
 })
