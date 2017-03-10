@@ -92,7 +92,7 @@ export default {
                 _self.$store.dispatch('getUserInformation', {
                     body: body,
                     path: url
-                }).then(() => {console.log(this.$store.state.user.user)}, () => {});
+                }).then(() => {console.log( _self.$store.state.user.user)}, () => {});
             }
             );
 

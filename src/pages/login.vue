@@ -45,7 +45,7 @@
 }
 </style>
 <template>
-    <div ref="content" class="content" v-on:keydown="sendSubmit()">
+    <div ref="content" class="content">
         <div class="center">
             <div class="left_image">
                 <img src="../assets/images/logo-font.png">
@@ -58,7 +58,7 @@
                             <el-input v-model="userInformation.username"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" prop="password" >
-                            <el-input @keyup="sendSubmit" v-model="userInformation.password" type="password"></el-input>
+                            <el-input v-model="userInformation.password" type="password"></el-input>
                         </el-form-item>
                         <el-form-item>                           
                             <el-button 
@@ -102,14 +102,18 @@ export default {
 
             }
         }
-    },  
-    methods: {      
-        sendSubmit(){          
-           if (window.event.keyCode === 13){
+    }, 
+    mounted(){
+        let _self = this;
+        this.$refs.content.onkeyup = function(e){
+            e = e || window.event;
+            if (e.keyCode === 13){
                //提交表单 直接传表单对象
-               this.submitForm('ruleForm');
-           }
-        }, 
+               _self.submitForm('ruleForm');
+            }
+        }
+    }, 
+    methods: {          
         submitForm(formName) { 
             let _self = this;
             this.$refs[formName].validate((valid) => {

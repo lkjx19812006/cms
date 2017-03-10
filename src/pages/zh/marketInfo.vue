@@ -2,18 +2,18 @@
 .sort {
     text-align: center;
     background-color: #fff;
-    padding: 20px;
-    position: relative;
+    padding: 20px; 
+    padding-bottom: 10px;
+   
 }
 
 .sort .sort-button {
-    position: absolute;
-    bottom: -10px;
-    right: 50px;
+	width: 894px;
+	height: 40px;
+	margin:  auto;
 }
 
 .table {
-    padding-top: 20px;
     text-align: center;
     background-color: #fff;
 }
@@ -52,8 +52,8 @@
         <!-- 分类排序 -->
         <div class="sort">
             <div class="sort-button">
-                <el-button type="primary" @click="sortDefault()" style="float:right">搜索药材</el-button>
-                <el-autocomplete style="margin-right:20px;float:right" v-model="searchValue" :fetch-suggestions="querySearchAsync" placeholder="请输入药材名称" @select="handleSelect"></el-autocomplete>
+                <el-button type="primary" @click="serachContent" style="float:right">搜索药材</el-button>
+                <el-autocomplete style="margin-right:20px;float:right" v-model="searchValue" :fetch-suggestions="querySearchAsync" placeholder="请输入药材名称"></el-autocomplete>
             </div>
         </div>
         <!-- 表格 -->
@@ -81,8 +81,8 @@
                 </el-row>
             </div>
             <!-- 表格 -->
-            <el-table :show-header="false" :data="marketInfoList" max-height="500" style="width: 892px; margin: auto">
-                <el-table-column type="expand">
+            <el-table :show-header="false" :data="marketInfoList" max-height="500" style="width: 894px; margin: auto">
+                <el-table-column type="expand" >
                     <template scope="props">
                         <el-table :show-header="false" :data="props.row.list">
                             <el-table-column width="48px">
@@ -120,16 +120,14 @@
                                 </template>
                             </el-table-column>
                             <el-table-column width="120">
-                                <template scope="scope">
-                                    <!--  -->
+                                <!-- <template scope="scope">                                  
                                     <el-button type="text" @click.native.prevent="makeTop(scope.$index)">
                                         置顶
-                                    </el-button>
-                                    <!--  -->
+                                    </el-button>                                  
                                     <el-button v-if="showReset(scope.$index)" type="text" @click.native.prevent="sortDefault(scope.$index)">
                                         取消置顶
                                     </el-button>
-                                </template>
+                                </template> -->
                             </el-table-column>
                         </el-table>
                     </template>
@@ -215,8 +213,8 @@ export default {
             httpParam: param,
             searchValue: '',
             timeout: null,
-            isMoney: false
-
+            isMoney: false,
+         	isExpend: false,
         }
     },
     computed: {
@@ -268,8 +266,7 @@ export default {
                     path: url
                 }
                 _self.$store.dispatch('getChangePrice', obj).then(() => {
-                    _self.loading = false;
-                    // _self.httpParam.pn = 1;
+                    _self.loading = false;                    
                     _self.getHttp();
                     this.$message({
                         type: 'success',
@@ -287,8 +284,6 @@ export default {
                     message: '取消输入'
                 });
             });
-
-
         },
         // 切换涨幅样式
         changeMoney() {
@@ -330,38 +325,20 @@ export default {
                 },
                 path: common.urlCommon + common.apiUrl.most
             }).then(() => {
-                _self.loading = false
+                _self.loading = false;
             }, () => {
                 _self.loading = false
             });
         },
-        makeTop(index) {
-            let _self = this;
+        serachContent() {           
             this.loading = true;
-            let url = common.urlCommon + common.apiUrl.most;
-            let body = {
-                biz_module: 'cmsIntentionService',
-                biz_method: 'intentionSortTop',
-                biz_param: {
-                    id: _self.resourceList[index].id
-                }
+            if(this.searchValue === "全部" || !this.searchValue ){
+            	this.httpParam.name = ""
+            }else{
+            	this.httpParam.name = this.searchValue;
             }
-            if (common.KEY) {
-                url = common.addSID(url);
-                body.version = 1;
-                body.time = Date.parse(new Date()) + parseInt(common.difTime);
-                body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
-            }
-            let obj = {
-                body: body,
-                path: url
-            }
-            this.$store.dispatch('makeTop', obj).then(() => {
-                _self.httpParam.pn = 1;
-                _self.getHttp();
-            }, () => {
-                _self.loading = false
-            });
+            this.httpParam.pn = 1;
+           	this.getHttp();
         },
         sortDefault(param) {
             let resourceId = '';
@@ -422,34 +399,14 @@ export default {
                     body: body,
                     path: url
                 }
-                _self.$store.dispatch('getPpl', obj).then(() => {
+                _self.$store.dispatch('getMarketInfoPpl', obj).then(() => {
                     cb(_self.$store.state.resource.ppl.list);
                 }, () => {
                     cb([]);
                 });
             }, 300);
-        },
-        handleSelect(item) {
-            this.httpParam.keyWord = item.keyWord;
-            this.httpParam.pn = 1;
-            this.getHttp();
-        },
-        judgeCss(item, subItem) {
-            if (item.param != 'sampling') {
-                if (this.httpParam.sort[item.param] == subItem.key) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                if (this.httpParam[item.param] == subItem.key) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-
         }
+     
     },
     preFetch: fetchItem
 }

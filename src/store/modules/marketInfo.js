@@ -4,13 +4,15 @@ import config from '../../common/common.config.json'
 // shape: [{ id, quantity }]
 const state = {   
     marketInfoList: { list: [] },
-  	total:0
+  	total:0,
+  	ppl: {list:[]}
 }
 
 // getters
 const getters = {   
     marketInfoList: state => state.marketInfoList,
-    total: state => state.total
+    total: state => state.total,
+    ppl: state => state.total
 }
 
 // actions
@@ -39,18 +41,18 @@ const actions = {
                 })
         })
     },
-    // getPpl({ commit, state }, param) {
-    //     return new Promise((resolve, reject) => {
-    //         httpService.commonPost(param.path, param.body,
-    //             function(res) {
-    //                 commit('initPpl', res);
-    //                 resolve(res);
-    //             },
-    //             function(err) {
-    //                 reject(err);
-    //             })
-    //     })
-    // },
+    getMarketInfoPpl({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            httpService.commonPost(param.path, param.body,
+                function(res) {
+                    commit('initPpl', res);
+                    resolve(res);
+                },
+                function(err) {
+                    reject(err);
+                })
+        })
+    },
     // makeTop({ commit, state }, param) {
     //     return new Promise((resolve, reject) => {
     //         httpService.commonPost(param.path, param.body,
@@ -84,13 +86,13 @@ const mutations = {
         state.marketInfoList = res.biz_result;
         state.total = res.biz_result.total;
     },
-    // initPpl(state, res) {
-    //     for(let i =0;i<res.biz_result.list.length;i++){
-    //         let item = res.biz_result.list[i];
-    //         item.value=item.keyWord;
-    //     }
-    //     state.ppl = res.biz_result;
-    // }
+    MarketInfoinitPpl(state, res) {
+        for(let i =0;i<res.biz_result.list.length;i++){
+            let item = res.biz_result.list[i];
+            item.value=item.keyWord;
+        }
+        state.ppl = res.biz_result;
+    }
 }
 
 export default {
