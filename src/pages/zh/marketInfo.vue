@@ -2,35 +2,34 @@
 .sort {
     text-align: center;
     background-color: #fff;
-    padding: 20px; 
+    padding: 20px;
     padding-bottom: 10px;
-   
 }
 
 .sort .sort-button {
-	width: 894px;
-	height: 40px;
-	margin:  auto;
+    width: 940px;
+    height: 40px;
+    margin: auto;
+    position: relative;
+}
+
+.sort .changMoney {
+    position: absolute;
+    bottom: -45px;
+    right: 305px;
+    z-index: 2000;
+}
+
+.sort .makeTop {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    z-index: 2000;
 }
 
 .table {
     text-align: center;
     background-color: #fff;
-}
-
-.tableHeader {
-    height: 40px;
-    background-color: #EEF1F6;
-    border: 1px solid #ccc;
-    line-height: 38px;
-    width: 842px;
-    margin: auto;
-    padding-left: 50px;
-}
-
-.tableHeader .header .grid-content {
-    width: 120px;
-    display: inline-block;
 }
 
 .el-table__expanded-cell {
@@ -53,41 +52,29 @@
         <div class="sort">
             <div class="sort-button">
                 <el-button type="primary" @click="serachContent" style="float:right">搜索药材</el-button>
-                <el-autocomplete style="margin-right:20px;float:right" v-model="searchValue" :fetch-suggestions="querySearchAsync" placeholder="请输入药材名称"></el-autocomplete>
+                <el-autocomplete style="margin-right:20px;float:right" v-model="searchValue" :fetch-suggestions="querySearchAsync" placeholder="请输入药材名称" @select="handleSelect"></el-autocomplete>
+                <div class="changMoney">
+                    <el-button @click="changeMoney" size="small" type="primary">
+                        {{ isMoney? '涨跌(元)': '涨幅(%)'}}
+                    </el-button>
+                </div>
+                <div class="makeTop">
+                    <el-button @click="allTop" type="primary">全部置顶</el-button>
+                </div>
             </div>
         </div>
         <!-- 表格 -->
         <div class="table">
-            <div class="tableHeader">
-                <!-- 表头 -->
-                <el-row class="header">
-                    <div class="grid-content bg-purple-dark">
-                        品名
-                    </div>
-                    <div class="grid-content bg-purple-dark">规格</div>
-                    <div class="grid-content bg-purple-dark">产地</div>
-                    <div class="grid-content bg-purple-dark">价格</div>
-                    <div class="grid-content bg-purple-dark">
-                        <el-button type="primary" @click="changeMoney" size="small">
-                            {{ isMoney? '涨跌(元)': '涨幅(%)' }}
-                        </el-button>
-                    </div>
-                    <div class="grid-content bg-purple-dark">操作</div>
-                    <div class="grid-content bg-purple-dark">
-                        <el-button type="primary" @click="allTop" size="small">
-                            全部置顶
-                        </el-button>
-                    </div>
-                </el-row>
-            </div>
             <!-- 表格 -->
-            <el-table :show-header="false" :data="marketInfoList" max-height="500" style="width: 894px; margin: auto">
-                <el-table-column type="expand" >
+            <el-table align="center"  @selection-change="handleSelectionChange" :data="marketInfoList" max-height="600" style="width:940px;margin: auto" :v-loading.body="loading">
+                <el-table-column type="expand">
                     <template scope="props">
-                        <el-table :show-header="false" :data="props.row.list">
+                        <el-table :show-header="false" :data="props.row.list" :v-loading.body="loading">
                             <el-table-column width="48px">
                             </el-table-column>
-                            <el-table-column prop="name" width="120">
+                            <el-table-column width="48px">
+                            </el-table-column>
+                            <el-table-column prop="name" min-width="100">
                             </el-table-column>
                             <el-table-column prop="spec" width="120">
                             </el-table-column>
@@ -112,33 +99,27 @@
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column width="120">
+                            <el-table-column width="100">
                                 <template scope="scope">
                                     <el-button @click.native.prevent="changePrice(scope.row.id)" type="text">
                                         修改价格
                                     </el-button>
                                 </template>
                             </el-table-column>
-                            <el-table-column width="120">
-                                <!-- <template scope="scope">                                  
-                                    <el-button type="text" @click.native.prevent="makeTop(scope.$index)">
-                                        置顶
-                                    </el-button>                                  
-                                    <el-button v-if="showReset(scope.$index)" type="text" @click.native.prevent="sortDefault(scope.$index)">
-                                        取消置顶
-                                    </el-button>
-                                </template> -->
+                            <el-table-column width="140">                             
                             </el-table-column>
                         </el-table>
                     </template>
                 </el-table-column>
-                <el-table-column prop="name" width="120">
+                <el-table-column type="selection" width="48">
                 </el-table-column>
-                <el-table-column prop="spec" width="120">
+                <el-table-column label="品名" prop="name" min-width="100">
                 </el-table-column>
-                <el-table-column prop="area" width="120">
+                <el-table-column label="规格" prop="spec" width="120">
                 </el-table-column>
-                <el-table-column prop="yesterdayPrice" width="120">
+                <el-table-column label="产地" prop="area" width="120">
+                </el-table-column>
+                <el-table-column label="价格" prop="yesterdayPrice" width="120">
                 </el-table-column>
                 <el-table-column width="120">
                     <template scope="props">
@@ -157,21 +138,17 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column width="120">
+                <el-table-column label="操作" width="100">
                     <template scope="props">
                         <el-button @click.native.prevent="changePrice(props.row.id)" type="text">
                             修改价格
                         </el-button>
                     </template>
                 </el-table-column>
-                <el-table-column width="120">
+                <el-table-column label="置顶" width="140">
                     <template scope="props">
-                        <el-button @click.native.prevent="makeTop(props.$index)" type="text">
-                            置顶
-                        </el-button>
-                        <el-button @click.native.prevent="sortDefault(props.$index)" type="text" v-if="showReset(props.$index)">
-                            取消置顶
-                        </el-button>
+                        <el-button @click.native.prevent="marketTop(props.row.breedId)" type="text">置顶</el-button>
+                        <el-button @click.native.prevent="marketDown(props.row.breedId)" type="text" v-if="showReset(props.$index)">取消置顶</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -214,7 +191,8 @@ export default {
             searchValue: '',
             timeout: null,
             isMoney: false,
-         	isExpend: false,
+            isExpend: false,
+            multipleSelection: []
         }
     },
     computed: {
@@ -266,18 +244,17 @@ export default {
                     path: url
                 }
                 _self.$store.dispatch('getChangePrice', obj).then(() => {
-                    _self.loading = false;                    
-                    _self.getHttp();
-                    this.$message({
-                        type: 'success',
-                        message: '价格修改成: ' + value
-                    });
+                    _self.loading = false;
+                    _self.$store.dispatch('changeLocalPrice', body.biz_param).then(function() {
+                        _self.$message({
+                            type: 'success',
+                            message: '价格修改成: ' + value
+                        });
+                    })
+
                 }, () => {
                     _self.loading = true;
                 });
-
-
-
             }).catch(() => {
                 this.$message({
                     type: 'info',
@@ -291,18 +268,126 @@ export default {
         },
         // 全部置顶
         allTop() {
+            if (!this.multipleSelection.length) {
+                this.$message({
+                    type: 'info',
+                    message: '请选择要置顶的行'
+                });
+                return;
+            }
+            let _self = this;
+            this.loading = true;
+            let url = common.urlCommon + common.apiUrl.most;
+            let body = {
+                biz_module: 'breedService',
+                biz_method: 'priceSortTop',
+                biz_param: {
+                    breedIdList: this.multipleSelection
+                }
+            }
+            let obj = {
+                body: body,
+                path: url
+            }
+            this.$store.dispatch('marketTop', obj).then(() => {
+                _self.httpParam.pn = 1;
+                _self.getHttp();
+            }, () => {
+                _self.loading = false
+            });
 
         },
+        // 单列置顶 或取消置顶
+        marketTop(params) {
+            if (params && params !== 0) {
+                let _self = this;
+                this.loading = true;
+                let url = common.urlCommon + common.apiUrl.most;
+                let body = {
+                    biz_module: 'breedService',
+                    biz_method: 'priceSortTop',
+                    biz_param: {
+                        breedIdList: [params]
+                    }
+                }
+                if (common.KEY) {
+                    url = common.addSID(url);
+                    body.version = 1;
+                    body.time = Date.parse(new Date()) + parseInt(common.difTime);
+                    body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
+                }
+                let obj = {
+                    body: body,
+                    path: url
+                }
+                this.$store.dispatch('marketTop', obj).then(() => {
+                    _self.httpParam.pn = 1;
+                    _self.getHttp();
+                }, () => {
+                    _self.loading = false
+                });
+            } else {
+                this.$message({
+                    type: 'error',
+                    message: '参数错误,请重试'
+                });
+            }
+        },
+        marketDown(params) {
+            if (params && params !== 0) {
+                let _self = this;
+                this.loading = true;
+                let url = common.urlCommon + common.apiUrl.most;
+                let body = {
+                    biz_module: 'breedService',
+                    biz_method: 'priceSortReset',
+                    biz_param: {
+                        breedIdList: [params]
+                    }
+                }
+                if (common.KEY) {
+                    url = common.addSID(url);
+                    body.version = 1;
+                    body.time = Date.parse(new Date()) + parseInt(common.difTime);
+                    body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
+                }
+                let obj = {
+                    body: body,
+                    path: url
+                }
+                this.$store.dispatch('marketTop', obj).then(() => {
+                    _self.httpParam.pn = 1;
+                    _self.getHttp();
+                }, () => {
+                    _self.loading = false
+                });
+            } else {
+                this.$message({
+                    type: 'error',
+                    message: '参数错误,请重试'
+                });
+            }
+        },
         showReset(val) {
-            // if()
-            return false;
+            let param = this.$store.state.marketInfo.marketInfoList.list[val].sort;
+            console.log(param);
+            if (param && param !== 0) {
+                return true;
+            } else {
+                return false;
+            }
         },
         handleCurrentChange(val) {
             this.httpParam.pn = val;
             this.getHttp();
         },
         handleSelectionChange(val) {
-            this.multipleSelection = val;
+            let arr = [];
+            val.forEach(function(val, index) {
+                arr.push(val.breedId);
+            })
+            this.multipleSelection = arr;
+            console.log(this.multipleSelection);
         },
         sort(item, subItem) {
             this.httpParam.pn = 1;
@@ -313,14 +398,14 @@ export default {
             }
             this.getHttp();
         },
-        // 获取类表数据
+        // 获取列表数据
         getHttp() {
             let _self = this;
             this.loading = true
             this.$store.dispatch('getMarketInfoList', {
                 body: {
-                    biz_module: 'breedService',
-                    biz_method: 'queryBreedPrice',
+                    biz_module: 'breedService', //breedService
+                    biz_method: 'queryBreedPrice', //queryBreedPrice
                     biz_param: _self.httpParam
                 },
                 path: common.urlCommon + common.apiUrl.most
@@ -330,49 +415,17 @@ export default {
                 _self.loading = false
             });
         },
-        serachContent() {           
+        // 搜索获取数据
+        serachContent() {
             this.loading = true;
-            if(this.searchValue === "全部" || !this.searchValue ){
-            	this.httpParam.name = ""
-            }else{
-            	this.httpParam.name = this.searchValue;
+            if (this.searchValue === "全部" || !this.searchValue) {
+                this.httpParam.name = ""
+            } else {
+                this.httpParam.name = this.searchValue;
             }
             this.httpParam.pn = 1;
-           	this.getHttp();
-        },
-        sortDefault(param) {
-            let resourceId = '';
-            // 定置BUG
-            if (param || param == 0) {
-                resourceId = this.resourceList[param].id;
-            }
-            let _self = this;
-            this.loading = true;
-            let url = common.urlCommon + common.apiUrl.most;
-            let body = {
-                biz_module: 'cmsIntentionService',
-                biz_method: 'intentionSortReset',
-                biz_param: {
-                    id: resourceId
-                }
-            }
-            console.log(body);
-            if (common.KEY) {
-                url = common.addSID(url);
-                body.version = 1;
-                body.time = Date.parse(new Date()) + parseInt(common.difTime);
-                body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
-            }
-            let obj = {
-                body: body,
-                path: url
-            }
-            this.$store.dispatch('makeTop', obj).then(() => {
-                _self.httpParam.pn = 1;
-                _self.getHttp();
-            }, () => {
-                _self.loading = false
-            });
+            this.getHttp();
+
         },
         querySearchAsync(queryString, cb) {
             if (!queryString) {
@@ -400,13 +453,34 @@ export default {
                     path: url
                 }
                 _self.$store.dispatch('getMarketInfoPpl', obj).then(() => {
-                    cb(_self.$store.state.resource.ppl.list);
+                    cb(_self.$store.state.marketInfo.ppl.list);
                 }, () => {
                     cb([]);
                 });
             }, 300);
+        },
+        handleSelect(item) {
+            this.httpParam.name = item.keyWord;
+            this.httpParam.pn = 1;
+            this.getHttp();
+        },
+        judgeCss(item, subItem) {
+            if (item.param != 'sampling') {
+                if (this.httpParam.sort[item.param] == subItem.key) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                if (this.httpParam[item.param] == subItem.key) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
         }
-     
+
     },
     preFetch: fetchItem
 }

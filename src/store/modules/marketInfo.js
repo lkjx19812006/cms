@@ -2,14 +2,14 @@ import httpService from '../../common/httpService'
 import config from '../../common/common.config.json'
 // initial state
 // shape: [{ id, quantity }]
-const state = {   
+const state = {
     marketInfoList: { list: [] },
-  	total:0,
-  	ppl: {list:[]}
+    total: 0,
+    ppl: { list: [] }
 }
 
 // getters
-const getters = {   
+const getters = {
     marketInfoList: state => state.marketInfoList,
     total: state => state.total,
     ppl: state => state.total
@@ -41,11 +41,18 @@ const actions = {
                 })
         })
     },
+    //修改本地价钱
+    changeLocalPrice({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            commit('changePrice', param);
+            resolve();
+        })
+    },
     getMarketInfoPpl({ commit, state }, param) {
         return new Promise((resolve, reject) => {
             httpService.commonPost(param.path, param.body,
                 function(res) {
-                    commit('initPpl', res);
+                    commit('marketInfoinitPpl', res);
                     resolve(res);
                 },
                 function(err) {
@@ -53,46 +60,61 @@ const actions = {
                 })
         })
     },
-    // makeTop({ commit, state }, param) {
-    //     return new Promise((resolve, reject) => {
-    //         httpService.commonPost(param.path, param.body,
-    //             function(res) {
-    //                 resolve(res);
-    //             },
-    //             function(err) {
-    //                 reject(err);
-    //             })
-    //     })
-    // }
+    //市场行情置顶
+    marketTop({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            httpService.commonPost(param.path, param.body,
+                function(res) {                    
+                    resolve(res);
+                },
+                function(err) {
+                    reject(err);
+                })
+        })
+    }
 
 }
 
 // mutations
 const mutations = {
-    // formatOnShell(state) {
-    //     for (let i = 0; i < state.resourceList.list.length; i++) {
-    //         let item = state.resourceList.list[i];
-    //         item.onSell = config.onSell[item.onSell]
-    //     }
-    // },
-    // getNeedList(state,res){
-    //     state.needList = res.biz_result;
-    //      for (let i = 0; i < state.needList.list.length; i++) {
-    //         let item = state.needList.list[i];
-    //         item.onSell = config.onSell[item.onSell]
-    //     }
-    // },
     getMarketInfoList(state, res) {
         state.marketInfoList = res.biz_result;
         state.total = res.biz_result.total;
     },
-    MarketInfoinitPpl(state, res) {
-        for(let i =0;i<res.biz_result.list.length;i++){
+    marketInfoinitPpl(state, res) {
+        for (let i = 0; i < res.biz_result.list.length; i++) {
             let item = res.biz_result.list[i];
-            item.value=item.keyWord;
+            item.value = item.keyWord;
         }
         state.ppl = res.biz_result;
+    },
+    changePrice(state, res) {
+        let id = res.id;
+        let yesterdayPrice = res.yesterdayPrice;
+        let flag = false;
+        let plen = state.marketInfoList.list.length;
+        for (let i = 0; i < plen; i++) {
+            let obj = state.marketInfoList.list[i];
+            if (obj.id === id) {
+                obj.yesterdayPrice = yesterdayPrice;
+                break;
+            } else {
+                for (let i = 0; i < obj.list.length; i++) {
+                    let item = obj.list[i];
+                    console.log(item.id, id)
+                    if (item.id === id) {
+                        item.yesterdayPrice = yesterdayPrice;
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+            if (flag) {
+                break;
+            }
+        }
     }
+
 }
 
 export default {
