@@ -21,13 +21,13 @@ const config = Object.assign({}, base, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'
     }),
-    //  new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false,
-    //     drop_debugger: true,
-    //     drop_console: true
-    //   }
-    // }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        drop_debugger: true,
+        drop_console: true
+      }
+    }),
     // generate output HTML
     new HTMLPlugin({
       template: 'src/index.template.html'

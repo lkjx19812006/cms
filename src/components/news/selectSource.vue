@@ -44,16 +44,16 @@
             </div>
         </div>
         <div v-show="resourceType=='资源列表'">
-            <el-table v-bind:data="sourceList" border style="width:665px;margin:auto" max-height="550" highlight-current-row @current-change="handleChange" :v-loading.body="loading">
+            <el-table v-bind:data="sourceList" border style="width:710px;margin:auto" max-height="550" highlight-current-row @current-change="handleChange" :v-loading.body="loading">
                 <el-table-column prop="breedName" label="药材名称" width="150">
                 </el-table-column>
                 <el-table-column prop="price" label="价格" width="120">
                 </el-table-column>
                 <el-table-column prop="spec" label="规格" width="120">
                 </el-table-column>
-                <el-table-column prop="location" label="产地" width="120">
+                <el-table-column prop="location" label="产地" min-width="110">
                 </el-table-column>
-                <el-table-column prop="shelveTime" label="上架时间" width="200">
+                <el-table-column prop="shelveTime" label="上架时间" min-width="190">
                 </el-table-column>
             </el-table>
             <div class="pagination">
@@ -62,8 +62,8 @@
             </div>
         </div>
         <div v-show="resourceType=='求购列表'">
-            <el-table v-bind:data="needSourceList" border style="width:665px;margin:auto" max-height="550" highlight-current-row @current-change="handleChange" :v-loading.body="loading">
-                <el-table-column prop="breedName" label="药材名称" width="150">
+            <el-table v-bind:data="needSourceList" border style="width:630px;margin:auto" max-height="550" highlight-current-row @current-change="handleChange" :v-loading.body="loading">
+                <el-table-column prop="breedName" label="药材名称" min-width="140">
                 </el-table-column>
                 <el-table-column prop="offer" label="报价人数" width="120">
                 </el-table-column>
@@ -71,7 +71,7 @@
                 </el-table-column>
                 <el-table-column prop="spec" label="规格" width="120">
                 </el-table-column>
-                <el-table-column prop="location" label="产地" width="120">
+                <el-table-column prop="location" label="产地" min-width="110">
                 </el-table-column>
             </el-table>
             <div class="pagination">

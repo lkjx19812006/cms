@@ -1,12 +1,16 @@
-<style scoped>
+<style>
+.addActivity {   
+    max-height: 600px;
+    margin:  auto;
+}
 </style>
 <template>
-    <div>
+    <div class="addActivity">
         <el-form ref="activityParam" :model="activityParam" :rules="rules" label-width="80px" v-loading.body="loading">
             <el-form-item label="活动名称" prop="name">
                 <el-input v-model="activityParam.name"></el-input>
             </el-form-item>
-            <el-form-item label="活动图片" prop="activityImg">
+            <el-form-item label="活动图片" prop="activityImg" >
                 <imageUpload :param="activityParam" v-on:postUrl="recieveUrl"></imageUpload>
             </el-form-item>
             <el-form-item label="活动url" prop="activityUrl">
@@ -35,7 +39,8 @@ export default {
                     }],
                     activityUrl: [{
                         required: true,
-                        message: '请输入活动url',
+                        message: '请输入正确或合法的地址',
+                        type: 'url',
                         trigger: 'blur'
                     }],
                     activityImg: [{
@@ -57,6 +62,7 @@ export default {
         methods: {
             recieveUrl(val) {
                 this.activityParam.activityImg = val.url;
+
             },
             submitForm(formName) {
                 let _self = this;

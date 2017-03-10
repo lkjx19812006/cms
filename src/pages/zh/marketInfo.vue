@@ -1,53 +1,53 @@
 <style>
-.sort {
+.marketContent .sort {
     text-align: center;
     background-color: #fff;
     padding: 20px;
     padding-bottom: 10px;
 }
 
-.sort .sort-button {
+.marketContent  .sort .sort-button {
     width: 940px;
     height: 40px;
     margin: auto;
     position: relative;
 }
 
-.sort .changMoney {
+.marketContent .sort .changMoney {
     position: absolute;
     bottom: -45px;
     right: 305px;
     z-index: 2000;
 }
 
-.sort .makeTop {
+.marketContent  .sort .makeTop {
     position: absolute;
     bottom: 0px;
     left: 0px;
     z-index: 2000;
 }
 
-.table {
+.marketContent  .table {
     text-align: center;
     background-color: #fff;
 }
 
-.el-table__expanded-cell {
+.marketContent .el-table__expanded-cell {
     padding: 0 !important;
 }
 
-.el-table__expanded-cell .el-table {
+.marketContent  .el-table__expanded-cell .el-table {
     border: none;
 }
 
-.pagination {
+.marketContent  .pagination {
     text-align: center;
     background-color: white;
     padding: 20px;
 }
 </style>
 <template>
-    <div class="content">
+    <div class="marketContent">
         <!-- 分类排序 -->
         <div class="sort">
             <div class="sort-button">

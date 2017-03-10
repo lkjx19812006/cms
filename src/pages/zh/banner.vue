@@ -33,7 +33,7 @@
         </div>
         <div class="table">
             <el-table v-bind:data="mediaList" border style="
-            width:1329px;margin:auto" max-height="660" v-loading.body="loading">
+            width:1329px;margin:auto" max-height="600" v-loading.body="loading">
                 <el-table-column prop="title" label="标题" width="200">
                 </el-table-column>
                 <el-table-column prop="intro" label="简介" width="500">

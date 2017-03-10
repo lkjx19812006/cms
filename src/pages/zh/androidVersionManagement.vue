@@ -23,15 +23,15 @@
             <el-button type="primary" @click="add()" style="margin-left:50px">新增版本</el-button>
         </div>
         <div class="table">
-            <el-table v-bind:data="versionList" border style="
-            width:832px;margin:auto" max-height="550" v-loading.body="loading">
+            <el-table align="center" v-bind:data="versionList" border style="
+            width:882px;margin:auto" max-height="550" v-loading.body="loading">
                 <el-table-column prop="content" label="更新介绍" width="200">
                 </el-table-column>
                 <el-table-column prop="compel" label="强制更新最低版本号" width="120">
                 </el-table-column>
-                <el-table-column prop="version" label="普通更新最新版本号" width="120">
+                <el-table-column prop="version" label="普通更新最新版本号" min-width="110">
                 </el-table-column>
-                <el-table-column prop="createTime" label="创建时间" width="150">
+                <el-table-column prop="createTime" label="创建时间" min-width="190">
                 </el-table-column>
                 <el-table-column label="是否开启" width="120">
                     <template scope="scope">

@@ -61,7 +61,7 @@
             </div>
         </div>
         <div  class="table">
-            <el-table v-bind:data="needList" border style="width:1228px;margin:auto" max-height="500" @selection-change="handleSelectionChange" :v-loading.body="loading">
+            <el-table align="center" v-bind:data="needList" border style="width:1228px;margin:auto" max-height="500" @selection-change="handleSelectionChange" :v-loading.body="loading">
                 <el-table-column type="selection" fixed="left" width="55">
                 </el-table-column>
                 <el-table-column prop="breedName" label="药材名称" width="150">

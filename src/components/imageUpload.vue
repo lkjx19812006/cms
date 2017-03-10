@@ -11,8 +11,8 @@
 }
 
 .img_upload .image_show {
-    width: 100%;
-    height: 100%;
+   width: 300px;   
+   height: 300px;
 }
 
 .img_upload .close_image {

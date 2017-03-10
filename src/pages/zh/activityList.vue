@@ -35,10 +35,10 @@
             <el-button type="primary" @click="add()" style="margin-left:50px">新增活动</el-button>
         </div>
         <div class="table">
-            <el-table v-bind:data="activityList" border style="width:942px;margin:auto" max-height="650" v-loading.body="loading">
+            <el-table align="center" v-bind:data="activityList" border style="width:942px;margin:auto" max-height="600" v-loading.body="loading">
                 <el-table-column prop="name" label="活动名称" width="150">
                 </el-table-column>
-                <el-table-column label="活动图片" width="200">
+                <el-table-column label="活动图片" min-width="180">
                     <template scope="scope">
                         <img :src="scope.row.activityImg">
                     </template>
