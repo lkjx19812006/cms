@@ -58,7 +58,7 @@ const actions = {
     makeTop({ commit, state }, param) {
         return new Promise((resolve, reject) => {
             httpService.commonPost(param.path, param.body,
-                function(res) {
+                function(res) {                    
                     resolve(res);
                 },
                 function(err) {

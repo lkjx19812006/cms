@@ -80,7 +80,7 @@
                             </el-table-column>
                             <el-table-column prop="area" width="120">
                             </el-table-column>
-                            <el-table-column prop="yesterdayPrice" width="120">
+                            <el-table-column prop="unitprice" width="120">
                             </el-table-column>
                             <el-table-column width="120">
                                 <template scope="props">
@@ -127,7 +127,7 @@
                 </el-table-column>
                 <el-table-column label="产地" prop="area" width="120">
                 </el-table-column>
-                <el-table-column label="价格" prop="yesterdayPrice" width="120">
+                <el-table-column label="价格" prop="unitprice" width="120">
                 </el-table-column>
                 <el-table-column width="120">
                     <template scope="props">
@@ -251,7 +251,7 @@ export default {
                     biz_method: 'updateBreedPrice',
                     biz_param: {
                         id: params,
-                        yesterdayPrice: value
+                        unitprice: value
                     }
                 }
                 let url = common.urlCommon + common.apiUrl.most;
