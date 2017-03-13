@@ -11,7 +11,11 @@
     padding: 20px 0;
     text-align: center;
 }
-
+.sort .form_wrap{
+    width: 475px;
+    overflow: hidden;
+    margin: auto;
+}
 .pagination {
     text-align: center;
     background-color: white;
@@ -26,12 +30,14 @@
 <template>
     <div class="content">
         <div class="sort">
-            <el-select style="width:150px;margin-right:20px" v-model="httpParam.type" placeholder="请选择">
-                <el-option v-for="item in options" :label="item.label" :value="item.value">
-                </el-option>
-            </el-select>
-            <el-input style="width:200px;margin-right:20px" v-model="httpParam.title" placeholder="请输入推送标题"></el-input>
-            <el-button type="primary" @click="search()" icon="search">搜索</el-button>
+            <div class="form_wrap">
+                <el-select style="width:150px;margin-right:20px; float: left" v-model="httpParam.type" placeholder="请选择">
+                    <el-option v-for="item in options" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
+                <el-input style="width:200px;margin-right:20px; float: left" v-model="httpParam.title" placeholder="请输入推送标题"></el-input>
+                <el-button style="float: left" type="primary" @click="search()" icon="search">搜索</el-button>
+            </div>
         </div>
         <div class="table">
             <el-table align="center" v-bind:data="newsList" border style="width:760px;margin:auto" max-height="600" v-loading.body="loading">

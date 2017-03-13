@@ -16,13 +16,13 @@
         <div class="table">
             <el-table align="center" v-bind:data="errorList" border style="
             width:922px;margin:auto" max-height="650" v-loading.body="loading">
-                <el-table-column  label="错误内容" min-width="580">
+                <el-table-column  label="错误内容" width="580">
                     <template scope="scope">
                         <div>{{scope.row.content.errorPlace}}</div>
                         <div>errorReason:{{scope.row.content.errorReason}}</div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="model" label="客户端类型" width="120">
+                <el-table-column prop="model" label="客户端类型" min-width="120">
                 </el-table-column>
                 <el-table-column prop="createTime" label="创建时间" width="200">
                 </el-table-column>

@@ -1,46 +1,46 @@
 <style scoped>
-.sort {
-    text-align: center;
-    background-color: #fff;
-    padding: 20px;
-    position: relative;
-}
-
-.sort .param-item {
-    padding: 5px;
-}
-
-.sort .bg-purple {
-    background-color: #20a0ff;
-    color: #fff;
-    font-size: 16px;
-}
-
-.sort .select-class {
-    color: #20a0ff;
-}
-
-.sort .grid-content {
-    padding: 5px;
-}
-
-.sort .sort-button {
-    position: absolute;
-    bottom: 20px;
-    right: 50px;
-}
-
-.table {
-    padding-top: 20px;
-    text-align: center;
-    background-color: #fff;
-}
-
-.pagination {
-    text-align: center;
-    background-color: white;
-    padding: 20px;
-}
+    .sort {
+        text-align: center;
+        background-color: #fff;
+        padding: 20px;
+        position: relative;
+    }
+    
+    .sort .param-item {
+        padding: 5px;
+    }
+    
+    .sort .bg-purple {
+        background-color: #20a0ff;
+        color: #fff;
+        font-size: 16px;
+    }
+    
+    .sort .select-class {
+        color: #20a0ff;
+    }
+    
+    .sort .grid-content {
+        padding: 5px;
+    }
+    
+    .sort .sort-button {
+        position: absolute;
+        bottom: 20px;
+        right: 50px;
+    }
+    
+    .table {
+        padding-top: 20px;
+        text-align: center;
+        background-color: #fff;
+    }
+    
+    .pagination {
+        text-align: center;
+        background-color: white;
+        padding: 20px;
+    }
 </style>
 <template>
     <div class="content">
@@ -72,11 +72,11 @@
                 </el-table-column>
                 <el-table-column prop="location" label="产地" width="120">
                 </el-table-column>
-                <el-table-column prop="shelveTime" label="上架时间" width="300">
+                <el-table-column prop="shelveTime" label="上架时间" min-width="260">
                 </el-table-column>
                 <el-table-column prop="onSell" label="状态" width="120">
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" width="120">
+                <el-table-column fixed="right" label="操作" width="140">
                     <template scope="scope">
                         <el-button @click.native.prevent="makeTop(scope.$index)" type="text" size="small">
                             置顶
@@ -85,261 +85,262 @@
                             取消置顶
                         </el-button>
                     </template>
-                </el-table-column>
-            </el-table>
-        </div>
-        <div class="pagination">
-            <el-pagination @current-change="handleCurrentChange" :current-page="httpParam.pn" layout="total, prev, pager, next, jumper" :total="total">
-            </el-pagination>
-        </div>
-    </div>
+</el-table-column>
+</el-table>
+</div>
+<div class="pagination">
+    <el-pagination @current-change="handleCurrentChange" :current-page="httpParam.pn" layout="total, prev, pager, next, jumper" :total="total">
+    </el-pagination>
+</div>
+</div>
 </template>
 <script>
-import {
-    mapGetters
-} from 'vuex'
-import common from '../../common/common.js'
+    import {
+        mapGetters
+    } from 'vuex'
+    import common from '../../common/common.js'
 
-let param = {
-    sort: {
-        "shelve_time": "0",
-        "price": "0"
-    },
-    location: ["", ""],
-    sampling: -1,
-    pn: 1,
-    pSize: 10
-};
-function fetchItem(store) {
-    return store.dispatch('getResourceList', {
-        body: {
-            biz_module: 'intentionService',
-            biz_method: 'querySupplyList',
-            biz_param: param
+    let param = {
+        sort: {
+            "shelve_time": "0",
+            "price": "0"
         },
-        path: common.urlCommon + common.apiUrl.most
-    });
-}
-export default {
-    name: 'resource-view',
-    data() {
-        return {
-            loading: false,
-            httpParam: param,
-            searchValue: '',
-            timeout: null,
-            
-            sortParam: [{
-                title: '上架时间',
-                param: 'shelve_time',
-                value: [{
-                    key: "0",
-                    value: "默认"
-                }, {
-                    key: "1",
-                    value: "由旧到新"
-                }, {
-                    key: "2",
-                    value: "由新到旧"
-                }]
+        location: ["", ""],
+        sampling: -1,
+        pn: 1,
+        pSize: 10
+    };
 
-            }, {
-                title: '价格',
-                param: 'price',
-                value: [{
-                    key: "0",
-                    value: "默认"
+    function fetchItem(store) {
+        return store.dispatch('getResourceList', {
+            body: {
+                biz_module: 'intentionService',
+                biz_method: 'querySupplyList',
+                biz_param: param
+            },
+            path: common.urlCommon + common.apiUrl.most
+        });
+    }
+    export default {
+        name: 'resource-view',
+        data() {
+            return {
+                loading: false,
+                httpParam: param,
+                searchValue: '',
+                timeout: null,
+
+                sortParam: [{
+                    title: '上架时间',
+                    param: 'shelve_time',
+                    value: [{
+                        key: "0",
+                        value: "默认"
+                    }, {
+                        key: "1",
+                        value: "由旧到新"
+                    }, {
+                        key: "2",
+                        value: "由新到旧"
+                    }]
+
                 }, {
-                    key: "1",
-                    value: "由低到高"
+                    title: '价格',
+                    param: 'price',
+                    value: [{
+                        key: "0",
+                        value: "默认"
+                    }, {
+                        key: "1",
+                        value: "由低到高"
+                    }, {
+                        key: "2",
+                        value: "由高到低"
+                    }]
                 }, {
-                    key: "2",
-                    value: "由高到低"
+                    title: '样品',
+                    param: 'sampling',
+                    value: [{
+                        key: "-1",
+                        value: "默认"
+                    }, {
+                        key: "0",
+                        value: "无"
+                    }, {
+                        key: "1",
+                        value: "有"
+                    }]
                 }]
-            }, {
-                title: '样品',
-                param: 'sampling',
-                value: [{
-                    key: "-1",
-                    value: "默认"
-                }, {
-                    key: "0",
-                    value: "无"
-                }, {
-                    key: "1",
-                    value: "有"
-                }]
-            }]
-        }
-    },
-    computed: {
-        langConfig() {
-            return require('../../i18n/' + this.$route.meta.lang + '.i18n.json')
-        },
-        resourceList() {
-            return this.$store.state.resource.resourceList.list
-        },
-        total() {
-            return this.$store.state.resource.resourceList.total
-        }
-    },
-    created() {
-        if (this.$store.state.resource.resourceList.list.length == 0) {
-            this.getHttp();
-        }
-    },
-    methods: {
-        showReset(val) {
-            return this.resourceList[val].sort;
-        },
-        handleCurrentChange(val) {
-            this.httpParam.pn = val;
-            this.getHttp();
-        },
-        handleSelectionChange(val) {
-            this.multipleSelection = val;
-        },
-        sort(item, subItem) {
-            this.httpParam.pn = 1;
-            if (item.param != 'sampling') {
-                this.httpParam.sort[item.param] = subItem.key;
-            } else {
-                this.httpParam[item.param] = subItem.key;
             }
-            this.getHttp();
         },
-        getHttp() {
-            let _self = this;
-            this.loading = true
-            this.$store.dispatch('getResourceList', {
-                body: {
-                    biz_module: 'intentionService',
-                    biz_method: 'querySupplyList',
-                    biz_param: _self.httpParam
-                },
-                path: common.urlCommon + common.apiUrl.most
-            }).then(() => {
-                _self.loading = false
-            }, () => {
-                _self.loading = false
-            });
+        computed: {
+            langConfig() {
+                return require('../../i18n/' + this.$route.meta.lang + '.i18n.json')
+            },
+            resourceList() {
+                return this.$store.state.resource.resourceList.list
+            },
+            total() {
+                return this.$store.state.resource.resourceList.total
+            }
         },
-        makeTop(index) {
-            let _self = this;
-            this.loading = true;
-            let url = common.urlCommon + common.apiUrl.most;
-            let body = {
-                biz_module: 'cmsIntentionService',
-                biz_method: 'intentionSortTop',
-                biz_param: {
-                    id: _self.resourceList[index].id
+        created() {
+            if (this.$store.state.resource.resourceList.list.length == 0) {
+                this.getHttp();
+            }
+        },
+        methods: {
+            showReset(val) {
+                return this.resourceList[val].sort;
+            },
+            handleCurrentChange(val) {
+                this.httpParam.pn = val;
+                this.getHttp();
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            sort(item, subItem) {
+                this.httpParam.pn = 1;
+                if (item.param != 'sampling') {
+                    this.httpParam.sort[item.param] = subItem.key;
+                } else {
+                    this.httpParam[item.param] = subItem.key;
                 }
-            }
-            if (common.KEY) {
-                url = common.addSID(url);
-                body.version = 1;
-                body.time = Date.parse(new Date()) + parseInt(common.difTime);
-                body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
-            }
-            let obj = {
-                body: body,
-                path: url
-            }
-            this.$store.dispatch('makeTop', obj).then(() => {
-                _self.httpParam.pn = 1;
-                _self.getHttp();
-            }, () => {
-                _self.loading = false
-            });
-        },
-        sortDefault(param) {
-            let resourceId = '';
-            // 定置BUG
-            if (param || param == 0) {
-                resourceId = this.resourceList[param].id;
-            }
-            let _self = this;
-            this.loading = true;
-            let url = common.urlCommon + common.apiUrl.most;
-            let body = {
-                biz_module: 'cmsIntentionService',
-                biz_method: 'intentionSortReset',
-                biz_param: {
-                    id: resourceId
-                }
-            }
-            console.log(body);
-            if (common.KEY) {
-                url = common.addSID(url);
-                body.version = 1;
-                body.time = Date.parse(new Date()) + parseInt(common.difTime);
-                body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
-            }
-            let obj = {
-                body: body,
-                path: url
-            }
-            this.$store.dispatch('makeTop', obj).then(() => {
-                _self.httpParam.pn = 1;
-                _self.getHttp();
-            }, () => {
-                _self.loading = false
-            });
-        },
-        querySearchAsync(queryString, cb) {
-            if (!queryString) {
-                cb([{
-                    value: '全部',
-                    keyWord: ''
-                }]);
-                return;
-            }
-            let _self = this;
-            clearTimeout(this.timeout);
-            this.timeout = setTimeout(() => {
+                this.getHttp();
+            },
+            getHttp() {
+                let _self = this;
+                this.loading = true
+                this.$store.dispatch('getResourceList', {
+                    body: {
+                        biz_module: 'intentionService',
+                        biz_method: 'querySupplyList',
+                        biz_param: _self.httpParam
+                    },
+                    path: common.urlCommon + common.apiUrl.most
+                }).then(() => {
+                    _self.loading = false
+                }, () => {
+                    _self.loading = false
+                });
+            },
+            makeTop(index) {
+                let _self = this;
+                this.loading = true;
                 let url = common.urlCommon + common.apiUrl.most;
                 let body = {
-                    biz_module: 'searchKeywordService',
-                    biz_method: 'querySearchKeyword',
+                    biz_module: 'cmsIntentionService',
+                    biz_method: 'intentionSortTop',
                     biz_param: {
-                        keyWord: queryString,
-                        pn: 1,
-                        pSize: 20
+                        id: _self.resourceList[index].id
                     }
+                }
+                if (common.KEY) {
+                    url = common.addSID(url);
+                    body.version = 1;
+                    body.time = Date.parse(new Date()) + parseInt(common.difTime);
+                    body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
                 }
                 let obj = {
                     body: body,
                     path: url
                 }
-                _self.$store.dispatch('getPpl', obj).then(() => {
-                    cb(_self.$store.state.resource.ppl.list);
+                this.$store.dispatch('makeTop', obj).then(() => {
+                    _self.httpParam.pn = 1;
+                    _self.getHttp();
                 }, () => {
-                    cb([]);
+                    _self.loading = false
                 });
-            }, 300);
-        },
-        handleSelect(item) {
-            this.httpParam.keyWord = item.keyWord;
-            this.httpParam.pn = 1;
-            this.getHttp();
-        },
-        judgeCss(item, subItem) {
-            if (item.param != 'sampling') {
-                if (this.httpParam.sort[item.param] == subItem.key) {
-                    return true;
-                } else {
-                    return false;
+            },
+            sortDefault(param) {
+                let resourceId = '';
+                // 定置BUG
+                if (param || param == 0) {
+                    resourceId = this.resourceList[param].id;
                 }
-            } else {
-                if (this.httpParam[item.param] == subItem.key) {
-                    return true;
-                } else {
-                    return false;
+                let _self = this;
+                this.loading = true;
+                let url = common.urlCommon + common.apiUrl.most;
+                let body = {
+                    biz_module: 'cmsIntentionService',
+                    biz_method: 'intentionSortReset',
+                    biz_param: {
+                        id: resourceId
+                    }
                 }
-            }
+                console.log(body);
+                if (common.KEY) {
+                    url = common.addSID(url);
+                    body.version = 1;
+                    body.time = Date.parse(new Date()) + parseInt(common.difTime);
+                    body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
+                }
+                let obj = {
+                    body: body,
+                    path: url
+                }
+                this.$store.dispatch('makeTop', obj).then(() => {
+                    _self.httpParam.pn = 1;
+                    _self.getHttp();
+                }, () => {
+                    _self.loading = false
+                });
+            },
+            querySearchAsync(queryString, cb) {
+                if (!queryString) {
+                    cb([{
+                        value: '全部',
+                        keyWord: ''
+                    }]);
+                    return;
+                }
+                let _self = this;
+                clearTimeout(this.timeout);
+                this.timeout = setTimeout(() => {
+                    let url = common.urlCommon + common.apiUrl.most;
+                    let body = {
+                        biz_module: 'searchKeywordService',
+                        biz_method: 'querySearchKeyword',
+                        biz_param: {
+                            keyWord: queryString,
+                            pn: 1,
+                            pSize: 20
+                        }
+                    }
+                    let obj = {
+                        body: body,
+                        path: url
+                    }
+                    _self.$store.dispatch('getPpl', obj).then(() => {
+                        cb(_self.$store.state.resource.ppl.list);
+                    }, () => {
+                        cb([]);
+                    });
+                }, 300);
+            },
+            handleSelect(item) {
+                this.httpParam.keyWord = item.keyWord;
+                this.httpParam.pn = 1;
+                this.getHttp();
+            },
+            judgeCss(item, subItem) {
+                if (item.param != 'sampling') {
+                    if (this.httpParam.sort[item.param] == subItem.key) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    if (this.httpParam[item.param] == subItem.key) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
 
-        }
-    },
-    preFetch: fetchItem
-}
+            }
+        },
+        preFetch: fetchItem
+    }
 </script>

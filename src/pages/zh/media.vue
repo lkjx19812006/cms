@@ -7,6 +7,7 @@
 
 .table  img{
   max-width: 100%;
+  vertical-align: bottom;
 }
 
 .table a{
@@ -36,7 +37,7 @@
             width:1329px;margin:auto" max-height="600" v-loading.body="loading">
                 <el-table-column prop="title" label="标题" width="200">
                 </el-table-column>
-                <el-table-column prop="intro" label="简介" width="500">
+                <el-table-column prop="intro" label="简介" min-width="480">
                 </el-table-column>
                 <el-table-column  label="图片地址" width="300">
                   <template scope="scope">
@@ -53,7 +54,7 @@
                         <span>{{scope.row.status |formatMediaType}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" width="120">
+                <el-table-column label="操作" width="120">
                     <template scope="scope">
                         <el-button @click.native.prevent="edit(scope.$index)" type="text" size="small">
                             编辑

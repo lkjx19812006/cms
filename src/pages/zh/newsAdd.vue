@@ -16,12 +16,13 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="资源名称" v-if="pushParam.type=='资源'" prop="resourceName">
-                    <el-input v-model="pushParam.resourceName" :disabled="disabled" style="width:300px;margin-right:10px"></el-input>
+
+                    <el-input v-model="pushParam.resourceName" :disabled="disabled" style="float: left; width:300px;margin-right:10px"></el-input>
 
                     <!-- 添加写入数据库字段 name -->
-                    <el-input v-show="false"  v-model="pushParam.extras.name" :disabled="disabled" style="width:300px;margin-right:10px"></el-input>
+                    <el-input v-show="false"  v-model="pushParam.extras.name" :disabled="disabled" style="float: left;width:300px;margin-right:10px"></el-input>
 
-                    <el-button type="primary" @click="dialogShow.dialogUser=false,dialogShow.dialogResource=true,dialogShow.dialog=true,title='选择资源'">选择</el-button>
+                    <el-button style="float: left" type="primary" @click="dialogShow.dialogUser=false,dialogShow.dialogResource=true,dialogShow.dialog=true,title='选择资源'">选择</el-button>
                 </el-form-item>
                 <el-form-item label="活动url" v-if="pushParam.type=='活动'"  prop="url">
                     <el-input v-model="pushParam.url"></el-input>

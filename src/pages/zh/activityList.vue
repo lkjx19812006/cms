@@ -22,17 +22,26 @@
     padding: 20px 0;
     background-color: #fff;
 }
+.sort .top_wrap {
+    width: 620px;
+    overflow: hidden;
+    margin:  auto;
+}
+
+
 </style>
 <template>
     <div class="content">
         <div class="sort">
-            <el-select style="width:150px;margin-right:20px" v-model="httpParam.state" placeholder="请选择">
-                <el-option v-for="item in state" :label="item.label" :value="item.value">
-                </el-option>
-            </el-select>
-            <el-input style="width:200px;margin-right:20px" v-model="httpParam.name" placeholder="请输入活动名称"></el-input>
-            <el-button type="primary" @click="getHttp()" icon="search">搜索</el-button>
-            <el-button type="primary" @click="add()" style="margin-left:50px">新增活动</el-button>
+            <div class="top_wrap">
+                <el-select style="width:150px;margin-right:20px; float: left" v-model="httpParam.state" placeholder="请选择">
+                    <el-option v-for="item in state" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
+                <el-input style="width:200px;margin-right:20px;float: left " v-model="httpParam.name" placeholder="请输入活动名称"></el-input>
+                <el-button type="primary" @click="getHttp()" icon="search">搜索</el-button>
+                <el-button type="primary" @click="add()" style="margin-left:50px">新增活动</el-button>
+            </div>
         </div>
         <div class="table">
             <el-table align="center" v-bind:data="activityList" border style="width:942px;margin:auto" max-height="600" v-loading.body="loading">
@@ -45,7 +54,7 @@
                 </el-table-column>
                 <el-table-column prop="activityUrl" label="活动url" width="120">
                 </el-table-column>
-                <el-table-column prop="state" label="活动状态" width="150">
+                <el-table-column prop="state" label="活动状态" width="138">
                 </el-table-column>
                 <el-table-column label="创建时间" width="200">
                     <template scope="scope">
@@ -172,7 +181,7 @@ export default {
     },
     methods: {
         recieveAdd() {
-            if(!this.activityDetail.id)this.httpParam.pn = 1;
+            if (!this.activityDetail.id) this.httpParam.pn = 1;
             this.getHttp();
             this.addShow = false;
         },

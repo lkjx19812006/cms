@@ -25,7 +25,7 @@
         </div>
         <div class="table">
             <el-table align="center" v-bind:data="versionList" border style="
-            width:882px;margin:auto" max-height="550" v-loading.body="loading">
+            width:880px;margin:auto" max-height="550" v-loading.body="loading">
                 <el-table-column prop="content" label="更新介绍" width="200">
                 </el-table-column>
                 <el-table-column prop="compel" label="强制更新最低版本号" width="120">
@@ -39,7 +39,7 @@
                         <span>{{scope.row.isOpen |formatOpenType}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" width="120">
+                <el-table-column label="操作" width="120">
                     <template scope="scope">
                         <el-button @click.native.prevent="edit(scope.$index)" type="text" size="small">
                             编辑

@@ -21,12 +21,12 @@ module.exports = Object.assign({}, base, {
       'process.env.VUE_ENV': '"server"'
     }),
     new webpack.NoErrorsPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        drop_debugger: true,
-        drop_console: true
-      }
-    })
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false,
+    //     drop_debugger: true,
+    //     drop_console: true
+    //   }
+    // })
   ]
 })
