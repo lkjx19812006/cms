@@ -1,19 +1,19 @@
 <style scoped>
-.sort {
-    float: right;
-    padding: 20px;
-}
-
-.pagination {
-    margin: 20px;
-    text-align: center;
-}
-
-.bottom_button {
-    margin-bottom: 20px;
-    float: left;
-    width: 100%;
-}
+    .sort {
+        float: right;
+        padding: 20px;
+    }
+    
+    .pagination {
+        margin: 20px;
+        text-align: center;
+    }
+    
+    .bottom_button {
+        margin-bottom: 20px;
+        float: left;
+        width: 100%;
+    }
 </style>
 <template>
     <div>
@@ -22,14 +22,14 @@
             <el-input placeholder="请输入姓名" style="width:150px;float:right;margin-right:20px" v-model="httpParam.fullname"></el-input>
             <el-input type="phone" style="width:150px;float:right;margin-right:20px" placeholder="请输入手机号" v-model="httpParam.phone"></el-input>
         </div>
-        <el-table v-bind:data="userList" border style="width:665px;margin:auto" max-height="550" @selection-change="handleSelectionChange" :v-loading.body="loading">
+        <el-table v-bind:data="userList" border style="width:595px;margin:auto" max-height="550" @selection-change="handleSelectionChange" :v-loading.body="loading">
             <el-table-column type="selection" fixed="left" width="55">
             </el-table-column>
             <el-table-column prop="fullname" label="名称" width="150">
             </el-table-column>
             <el-table-column prop="phone" label="手机号" width="150">
             </el-table-column>
-            <el-table-column prop="gender" label="性别" width="120">
+            <el-table-column prop="gender" label="性别" min-width="100">
             </el-table-column>
             <el-table-column prop="grade" label="会员等级" width="120">
             </el-table-column>
@@ -46,10 +46,10 @@
     </div>
 </template>
 <script>
-import common from '../../common/common.js'
-import httpService from '../../common/httpService'
-export default {
-    data() {
+    import common from '../../common/common.js'
+    import httpService from '../../common/httpService'
+    export default {
+        data() {
             return {
                 loading: true,
                 multipleSelection: [],
@@ -77,9 +77,9 @@ export default {
                 this.getHttp();
             },
             // 新增返回推送
-            brakSend(){
+            brakSend() {
                 this.$emit('brakSend', {
-                    dialog:false,
+                    dialog: false,
                     dialogResource: false,
                     dialogUser: false
                 });
@@ -116,5 +116,5 @@ export default {
                 })
             }
         }
-}
+    }
 </script>

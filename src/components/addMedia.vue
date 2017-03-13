@@ -1,4 +1,5 @@
 <style scoped>
+
 </style>
 <template>
     <div>
@@ -22,11 +23,11 @@
     </div>
 </template>
 <script>
-import imageUpload from './imageUpload.vue';
-import common from '../common/common.js'
-import httpService from '../common/httpService'
-export default {
-    data() {
+    import imageUpload from './imageUpload.vue';
+    import common from '../common/common.js'
+    import httpService from '../common/httpService'
+    export default {
+        data() {
             let _self = this;
             return {
                 // sonIsNewAdd,
@@ -39,7 +40,8 @@ export default {
                     }],
                     linkUrl: [{
                         required: true,
-                        message: '请输入活动url',
+                        message: '请输入合法的url',
+                        type: 'url',
                         trigger: 'blur'
                     }],
                     imgUrl: [{
@@ -55,14 +57,14 @@ export default {
                 }
             }
         },
-        props: {            
+        props: {
             activityParam: {
                 default: null
             }
         },
         components: {
             imageUpload
-        },    
+        },
         methods: {
             recieveUrl(val) {
                 this.activityParam.imgUrl = val.url;
@@ -121,5 +123,5 @@ export default {
                 });
             }
         }
-}
+    }
 </script>
