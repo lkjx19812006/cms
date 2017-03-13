@@ -6,7 +6,7 @@
     padding-bottom: 10px;
 }
 
-.marketContent  .sort .sort-button {
+.marketContent .sort .sort-button {
     width: 940px;
     height: 40px;
     margin: auto;
@@ -20,14 +20,14 @@
     z-index: 2000;
 }
 
-.marketContent  .sort .makeTop {
+.marketContent .sort .makeTop {
     position: absolute;
     bottom: 0px;
     left: 0px;
     z-index: 2000;
 }
 
-.marketContent  .table {
+.marketContent .table {
     text-align: center;
     background-color: #fff;
 }
@@ -36,11 +36,11 @@
     padding: 0 !important;
 }
 
-.marketContent  .el-table__expanded-cell .el-table {
+.marketContent .el-table__expanded-cell .el-table {
     border: none;
 }
 
-.marketContent  .pagination {
+.marketContent .pagination {
     text-align: center;
     background-color: white;
     padding: 20px;
@@ -66,7 +66,7 @@
         <!-- 表格 -->
         <div class="table">
             <!-- 表格 -->
-            <el-table align="center"  @selection-change="handleSelectionChange" :data="marketInfoList" max-height="600" style="width:940px;margin: auto" :v-loading.body="loading">
+            <el-table align="center" @selection-change="handleSelectionChange" :data="marketInfoList" max-height="550" style="width:940px;margin: auto" :v-loading.body="loading">
                 <el-table-column type="expand">
                     <template scope="props">
                         <el-table :show-header="false" :data="props.row.list" :v-loading.body="loading">
@@ -83,18 +83,26 @@
                             <el-table-column prop="yesterdayPrice" width="120">
                             </el-table-column>
                             <el-table-column width="120">
-                                <template scope="scope">
-                                    <div v-if="scope.row.dayMoney">
+                                <template scope="props">
+                                    <div v-if="props.row.dayMoney">
                                         <span v-if="isMoney">
-                            				{{scope.row.dayMoney}}
-                            				<span style="color: red; fontSize: 18px">↑</span>
+                                            <span v-if="props.row.dayMoney > 0">           
+                                                <span style="color: red; fontSize: 18px">{{props.row.dayMoney}}↑</span>
+                                        </span>
+                                        <span v-if="props.row.dayMoney < 0">
+                                                <span style="color: #1BF01B; fontSize: 18px">{{props.row.dayMoney}}↓</span>
+                                        </span>
                                         </span>
                                         <span v-if="!isMoney" style="position: relative;">
-                            				{{scope.row.dayDowns | filterFloatNum}}% 
-                            				<span style="color: red; fontSize: 18px">↑</span>
+                                            <span v-if="props.row.dayMoney > 0">
+                                            <span style="color: red; fontSize: 18px">{{props.row.dayDowns | filterFloatNum}}% ↑</span>
+                                        </span>
+                                        <span v-if="props.row.dayMoney < 0">
+                                                <span style="color: #1BF01B; fontSize: 18px"> {{props.row.dayDowns | filterFloatNum}}% ↓</span>
+                                        </span>
                                         </span>
                                     </div>
-                                    <div v-if="!scope.row.dayMoney">
+                                    <div v-if="!props.row.dayMoney">
                                         <span>--</span>
                                     </div>
                                 </template>
@@ -106,7 +114,7 @@
                                     </el-button>
                                 </template>
                             </el-table-column>
-                            <el-table-column width="140">                             
+                            <el-table-column width="140">
                             </el-table-column>
                         </el-table>
                     </template>
@@ -125,12 +133,20 @@
                     <template scope="props">
                         <div v-if="props.row.dayMoney">
                             <span v-if="isMoney">
-                            		{{props.row.dayMoney}}
-                            		<span style="color: red; fontSize: 18px">↑</span>
+                                <span v-if="props.row.dayMoney > 0">           
+                                <span style="color: red; fontSize: 18px">{{props.row.dayMoney}}↑</span>
+                            </span>
+                            <span v-if="props.row.dayMoney < 0">
+                                <span style="color: #1BF01B; fontSize: 18px">{{props.row.dayMoney}}↓</span>
+                            </span>
                             </span>
                             <span v-if="!isMoney" style="position: relative;">
-                            		{{props.row.dayDowns | filterFloatNum}}% 
-                            		<span style="color: red; fontSize: 18px">↑</span>
+                                <span v-if="props.row.dayMoney > 0">
+                                <span style="color: red; fontSize: 18px">{{props.row.dayDowns | filterFloatNum}}% ↑</span>
+                            </span>
+                            <span v-if="props.row.dayMoney < 0">
+                                <span style="color: #1BF01B; fontSize: 18px"> {{props.row.dayDowns | filterFloatNum}}% ↓</span>
+                            </span>
                             </span>
                         </div>
                         <div v-if="!props.row.dayMoney">
@@ -186,6 +202,7 @@ export default {
     name: 'marketInfo-view',
     data() {
         return {
+            isMakeToFlag: true,
             loading: false,
             httpParam: param,
             searchValue: '',
@@ -224,7 +241,7 @@ export default {
             this.$prompt('请修改价格', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
-                inputPattern: /^\d*$/,
+                inputPattern: /^\d+(\.\d+)?$/,
                 inputErrorMessage: '请输入数值'
             }).then(({
                 value
@@ -299,7 +316,15 @@ export default {
         },
         // 单列置顶 或取消置顶
         marketTop(params) {
+            if (!this.isMakeToFlag) {
+                this.$message({
+                    type: 'info',
+                    message: '操作过快!!!'
+                });
+                return;
+            }
             if (params && params !== 0) {
+                this.isMakeToFlag = false;
                 let _self = this;
                 this.loading = true;
                 let url = common.urlCommon + common.apiUrl.most;
@@ -331,10 +356,19 @@ export default {
                     type: 'error',
                     message: '参数错误,请重试'
                 });
+                this.isMakeToFlag = true;
             }
         },
         marketDown(params) {
+            if (!this.isMakeToFlag) {
+                this.$message({
+                    type: 'info',
+                    message: '操作过快!!!'
+                });
+                return;
+            }
             if (params && params !== 0) {
+                this.isMakeToFlag = false;
                 let _self = this;
                 this.loading = true;
                 let url = common.urlCommon + common.apiUrl.most;
@@ -366,6 +400,7 @@ export default {
                     type: 'error',
                     message: '参数错误,请重试'
                 });
+                this.isMakeToFlag = true;
             }
         },
         showReset(val) {
@@ -411,8 +446,10 @@ export default {
                 path: common.urlCommon + common.apiUrl.most
             }).then(() => {
                 _self.loading = false;
+                _self.isMakeToFlag = true;
             }, () => {
-                _self.loading = false
+                _self.loading = false;
+                _self.isMakeToFlag = true;
             });
         },
         // 搜索获取数据
