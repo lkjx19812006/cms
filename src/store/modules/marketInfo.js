@@ -88,22 +88,23 @@ const mutations = {
         }
         state.ppl = res.biz_result;
     },
+    // 本地缓存价格 防止刷新
     changePrice(state, res) {
         let id = res.id;
-        let yesterdayPrice = res.yesterdayPrice;
+        let unitprice = res.unitprice;
         let flag = false;
         let plen = state.marketInfoList.list.length;
         for (let i = 0; i < plen; i++) {
             let obj = state.marketInfoList.list[i];
             if (obj.id === id) {
-                obj.yesterdayPrice = yesterdayPrice;
+                obj.unitprice = unitprice;
                 break;
             } else {
                 for (let i = 0; i < obj.list.length; i++) {
                     let item = obj.list[i];
                     console.log(item.id, id)
                     if (item.id === id) {
-                        item.yesterdayPrice = yesterdayPrice;
+                        item.unitprice = unitprice;
                         flag = true;
                         break;
                     }
