@@ -76,6 +76,7 @@ export default {
                             biz_method: 'addActivityInfo',
                             biz_param: {
                                 name: _self.activityParam.name,
+                                title: _self.activityParam.name,
                                 activityImg: _self.activityParam.activityImg,
                                 activityUrl: _self.activityParam.activityUrl
                             }
@@ -87,6 +88,7 @@ export default {
                                 biz_param: {
                                     id: _self.activityParam.id,
                                     name: _self.activityParam.name,
+                                    title: _self.activityParam.name,
                                     activityImg: _self.activityParam.activityImg,
                                     activityUrl: _self.activityParam.activityUrl
                                 }
