@@ -7,7 +7,7 @@
 }
 
 .marketContent .sort .sort-button {
-    width: 940px;
+    width: 980px;
     height: 40px;
     margin: auto;
     position: relative;
@@ -16,7 +16,7 @@
 .marketContent .sort .changMoney {
     position: absolute;
     bottom: -45px;
-    right: 305px;
+    right: 325px;
     z-index: 2000;
 }
 
@@ -66,7 +66,7 @@
         <!-- 表格 -->
         <div class="table">
             <!-- 表格 -->
-            <el-table align="center" @selection-change="handleSelectionChange" :data="marketInfoList" max-height="550" style="width:940px;margin: auto" :v-loading.body="loading">
+            <el-table align="center" @selection-change="handleSelectionChange" :data="marketInfoList" max-height="550" style="width:980px;margin: auto" :v-loading.body="loading">
                 <el-table-column type="expand">
                     <template scope="props">
                         <el-table :show-header="false" :data="props.row.list" :v-loading.body="loading">
@@ -82,23 +82,23 @@
                             </el-table-column>
                             <el-table-column prop="unitprice" width="120">
                             </el-table-column>
-                            <el-table-column width="120">
+                            <el-table-column width="160">
                                 <template scope="props">
                                     <div v-if="props.row.dayMoney">
                                         <span v-if="isMoney">
-                                            <span v-if="props.row.dayMoney > 0">           
-                                                <span style="color: red; fontSize: 18px">{{props.row.dayMoney}}↑</span>
+                                <span v-if="props.row.dayMoney > 0">           
+                                <span style="color: red; fontSize: 16px">{{props.row.dayMoney}}↑</span>
                                         </span>
                                         <span v-if="props.row.dayMoney < 0">
-                                                <span style="color: #1BF01B; fontSize: 18px">{{props.row.dayMoney}}↓</span>
+                                <span style="color: #1BF01B; fontSize: 16px">{{props.row.dayMoney}}↓</span>
                                         </span>
                                         </span>
                                         <span v-if="!isMoney" style="position: relative;">
-                                            <span v-if="props.row.dayMoney > 0">
-                                            <span style="color: red; fontSize: 18px">{{props.row.dayDowns | filterFloatNum}}% ↑</span>
+                                <span v-if="props.row.dayMoney > 0">
+                                <span style="color: red; fontSize: 16px">{{props.row.dayDowns | filterFloatNum}}% ↑</span>
                                         </span>
                                         <span v-if="props.row.dayMoney < 0">
-                                                <span style="color: #1BF01B; fontSize: 18px"> {{props.row.dayDowns | filterFloatNum}}% ↓</span>
+                                <span style="color: #1BF01B; fontSize: 16px"> {{props.row.dayDowns | filterFloatNum}}% ↓</span>
                                         </span>
                                         </span>
                                     </div>
@@ -129,23 +129,23 @@
                 </el-table-column>
                 <el-table-column label="价格" prop="unitprice" width="120">
                 </el-table-column>
-                <el-table-column width="120">
+                <el-table-column width="160">
                     <template scope="props">
                         <div v-if="props.row.dayMoney">
                             <span v-if="isMoney">
                                 <span v-if="props.row.dayMoney > 0">           
-                                <span style="color: red; fontSize: 18px">{{props.row.dayMoney}}↑</span>
+                                <span style="color: red; fontSize: 16px">{{props.row.dayMoney}}↑</span>
                             </span>
                             <span v-if="props.row.dayMoney < 0">
-                                <span style="color: #1BF01B; fontSize: 18px">{{props.row.dayMoney}}↓</span>
+                                <span style="color: #1BF01B; fontSize: 16px">{{props.row.dayMoney}}↓</span>
                             </span>
                             </span>
                             <span v-if="!isMoney" style="position: relative;">
                                 <span v-if="props.row.dayMoney > 0">
-                                <span style="color: red; fontSize: 18px">{{props.row.dayDowns | filterFloatNum}}% ↑</span>
+                                <span style="color: red; fontSize: 16px">{{props.row.dayDowns | filterFloatNum}}% ↑</span>
                             </span>
                             <span v-if="props.row.dayMoney < 0">
-                                <span style="color: #1BF01B; fontSize: 18px"> {{props.row.dayDowns | filterFloatNum}}% ↓</span>
+                                <span style="color: #1BF01B; fontSize: 16px"> {{props.row.dayDowns | filterFloatNum}}% ↓</span>
                             </span>
                             </span>
                         </div>
