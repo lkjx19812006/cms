@@ -21,13 +21,6 @@ const config = Object.assign({}, base, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'
     }),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false,
-    //     drop_debugger: true,
-    //     drop_console: true
-    //   }
-    // }),
     // generate output HTML
     new HTMLPlugin({
       template: 'src/index.template.html'
@@ -45,6 +38,10 @@ if (process.env.NODE_ENV === 'production') {
     stylus: ExtractTextPlugin.extract({
       loader: 'css-loader!stylus-loader',
       fallbackLoader: 'vue-style-loader' // <- this is a dep of vue-loader
+    }),
+    css: ExtractTextPlugin.extract({
+      fallback: "vue-style-loader",
+      loader: "css-loader"
     })
   }
 
@@ -54,12 +51,14 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.LoaderOptionsPlugin({
       minimize: true
     }),
-    // minify JS
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        warnings: false
+        warnings: false,
+        drop_debugger: true,
+        drop_console: true
       }
     }),
+    // minify JS
     new SWPrecachePlugin({
       cacheId: 'vue-hn',
       filename: 'service-worker.js',

@@ -45,8 +45,8 @@
 }
 </style>
 <template>
-    <div ref="content" class="content">
-        <div class="center">
+    <div ref="content" class="content" >
+        <div class="center" >
             <div class="left_image">
                 <img src="../assets/images/logo-font.png">
             </div>

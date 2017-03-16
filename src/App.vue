@@ -21,11 +21,15 @@ a
 
 .fade-enter, .fade-leave-active
   opacity 0
+  
+[v-cloak]
+  display:none
+
 
 </style>
 
 <template>
-  <div id="app" style="height:100%">
+  <div id="app" style="height:100%" v-cloak>
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
