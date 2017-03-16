@@ -11,7 +11,7 @@ httpService.commonPost = function(url, data, suc, err) {
     var opt = {
         method: "POST",
         host: "127.0.0.1",
-        port: 8080,
+        port: 3000,
         path: url,
         headers: {
             "Content-Type": 'application/json',
@@ -43,7 +43,7 @@ httpService.commonGet = function(url, suc, err) {
     var opt = {
         method: "GET",
         host: "127.0.0.1",
-        port: 8080,
+        port: 3000,
         path: url
     };
 

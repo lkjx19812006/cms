@@ -44,7 +44,12 @@ if (process.env.NODE_ENV === 'production') {
       loader: "css-loader"
     })
   }
+  config.module.rules[0].loader=ExtractTextPlugin.extract({
+      fallback: "vue-style-loader",
+      loader: "css-loader"
+    });
 
+  
   config.plugins.push(
     new ExtractTextPlugin('styles.[hash].css'),
     // this is needed in webpack 2 for minifying CSS

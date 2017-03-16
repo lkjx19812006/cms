@@ -8,7 +8,6 @@ const resolve = file => path.resolve(__dirname, file)
 const proxy = require("express-http-proxy");
 const cookieParser = require('cookie-parser');
 const api = require('./src/common/create-api-server.js');
-const compression = require('compression'); 
 
 let time = 0;
 
@@ -153,7 +152,7 @@ app.get('*', (req, res) => {
 
 
 
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3000
 app.listen(port, () => {
     console.log(`server started at localhost:${port}`)
 })
