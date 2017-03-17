@@ -184,7 +184,7 @@
                 return this.$store.state.resource.resourceList.total
             }
         },
-        created() {
+        mounted() {
             if (this.$store.state.resource.resourceList.list.length == 0) {
                 this.getHttp();
             }
