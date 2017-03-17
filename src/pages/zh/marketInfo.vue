@@ -59,7 +59,7 @@
                     </el-button>
                 </div>
                 <div class="makeTop">
-                    <el-button @click="allTop" type="primary">全部置顶</el-button>
+                    <el-button @click="allTop" type="primary">批量置顶</el-button>
                 </div>
             </div>
         </div>
