@@ -63,9 +63,5 @@
             "title": "报道管理",
             "index": "6-1"
         }]
-    }, {
-        "name": "错误日志",
-        "index": "7",
-        "path": "/systemError"
     }]
 }
