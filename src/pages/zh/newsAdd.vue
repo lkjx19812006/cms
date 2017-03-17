@@ -25,7 +25,7 @@
                     <el-button style="float: left" type="primary" @click="dialogShow.dialogUser=false,dialogShow.dialogResource=true,dialogShow.dialog=true,title='选择资源'">选择</el-button>
                 </el-form-item>
                 <el-form-item label="活动url" v-if="pushParam.type=='活动'"  prop="url">
-                    <el-input v-model="pushParam.url"></el-input>
+                    <el-input v-model="pushParam.url" placeholder="http://www.baidu.com"></el-input>
                 </el-form-item>
                 <el-form-item label="订单号" v-if="pushParam.type=='订单'" prop="orderNumber">
                     <el-input v-model="pushParam.orderNumber" :disabled="disabled" style="width:300px;margin-right:10px"></el-input>
