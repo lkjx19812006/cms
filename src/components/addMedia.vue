@@ -11,7 +11,7 @@
                 <imageUpload :param="activityParam" v-on:postUrl="recieveUrl"></imageUpload>
             </el-form-item>
             <el-form-item label="链接url" prop="linkUrl">
-                <el-input v-model="activityParam.linkUrl"></el-input>
+                <el-input v-model="activityParam.linkUrl" placeholder="http://www.baidu.com"></el-input>
             </el-form-item>
             <el-form-item label="简介" prop="intro">
                 <el-input type="textarea" v-model="activityParam.intro"></el-input>

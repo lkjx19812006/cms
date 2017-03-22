@@ -55,7 +55,7 @@
                    <template scope="scope">
                         <span v-if="scope.row.type==='活动'">活动地址:&nbsp;<a style="color:blue; text-decoration:underline"  :href="scope.row.extras.url" target="_blank">{{scope.row.extras.url}}</a></span> 
                       <span v-if="scope.row.type==='资源'">资源名称:&nbsp;{{scope.row.extras.name}}</span>
-                      <span v-if="scope.row.type==='订单'">订单编号:&nbsp;{{scope.row.extras.no}}</span>
+                      <span v-if="scope.row.type==='订单'">订单编号:&nbsp;{{scope.row.extras.no}}</span>              
                     </template>
                 </el-table-column>   
 
