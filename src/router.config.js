@@ -2,6 +2,7 @@ import Vue from 'vue'
 import navConfig from './router.config.json';
 import VueRouter from 'vue-router'
 import login from './pages/login.vue'
+import systemError from './pages/zh/systemError.vue'
 Vue.use(VueRouter);
 
 const registerRoute = (navConfig) => {
@@ -58,6 +59,14 @@ routes.push({
   name: 'login',
   component: login
 });
+
+// 错误日志修改到这里
+routes.push({
+  path: '/cms/zh/systemError',
+  name: 'systemError',
+  component: systemError
+});
+
 
 routes.push({
   path: '/',
