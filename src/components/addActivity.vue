@@ -37,8 +37,7 @@ export default {
                         message: '请输入活动名称',
                         trigger: 'blur'
                     }],
-                    activityUrl: [{
-                        required: true,
+                    activityUrl: [{                       
                         message: '请输入正确或合法的地址',
                         type: 'url',
                         trigger: 'blur'
