@@ -66,7 +66,7 @@
         <!-- 表格 -->
         <div class="table">
             <!-- 表格 -->
-            <el-table align="center" @selection-change="handleSelectionChange" :data="marketInfoList" max-height="550" style="width:980px;margin: auto" :v-loading.body="loading">
+            <el-table align="center" @selection-change="handleSelectionChange" :data="marketInfoList" max-height="550" style="width:1060px;margin: auto" :v-loading.body="loading">
                 <el-table-column type="expand">
                     <template scope="props">
                         <el-table :show-header="false" :data="props.row.list" :v-loading.body="loading">
@@ -76,7 +76,7 @@
                             </el-table-column>
                             <el-table-column prop="name" min-width="100">
                             </el-table-column>
-                            <el-table-column prop="spec" width="120">
+                            <el-table-column prop="spec" width="200">
                             </el-table-column>
                             <el-table-column prop="area" width="120">
                             </el-table-column>
@@ -123,7 +123,7 @@
                 </el-table-column>
                 <el-table-column label="品名" prop="name" min-width="100">
                 </el-table-column>
-                <el-table-column label="规格" prop="spec" width="120">
+                <el-table-column label="规格" prop="spec" width="200">
                 </el-table-column>
                 <el-table-column label="产地" prop="area" width="120">
                 </el-table-column>

@@ -44,10 +44,10 @@
                         <el-button @click.native.prevent="edit(scope.$index)" type="text" size="small">
                             编辑
                         </el-button>
-                        <el-button @click.native.prevent="open(scope.$index)" type="text" size="small" v-if="scope.row.isOpen==0">
+                        <el-button @click.native.prevent="open(scope.$index,scope.row.isOpen)" type="text" size="small" v-if="scope.row.isOpen==0">
                             开启
                         </el-button>
-                        <el-button @click.native.prevent="open(scope.$index)" type="text" size="small" v-if="scope.row.isOpen==1">
+                        <el-button @click.native.prevent="open(scope.$index,scope.row.isOpen)" type="text" size="small" v-if="scope.row.isOpen==1">
                             关闭
                         </el-button>
                     </template>
@@ -149,7 +149,14 @@ export default {
         }
     },
     methods: {
-        open(index) {
+        open(index, openValidate) {
+            if(index == 0, openValidate == 1){
+                this.$message({
+                    type: 'info',
+                    message: '必须保证当前有一个版本开启'
+                });
+                return;
+            }
             let id = this.versionList[index].id;
             let _self = this;
             this.loading = true
