@@ -63,7 +63,6 @@ export default {
                         break;
                     } else if (arr[j].children&&arr[j].children.length>0) {
                         getIndex(arr[j].children);
-
                     }
                 }
             }
