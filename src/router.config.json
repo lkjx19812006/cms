@@ -36,7 +36,7 @@
         "path": "/userList",
         "index": "3"
     }, {
-        "name": "活动管理",
+        "name": "banner管理",
         "index": "4",
         "path": "/activityList"
     }, {
@@ -56,7 +56,7 @@
         "index": "6",
         "children": [{
             "path": "/banner",
-            "title": "banner管理",
+            "title": "行业资讯",
             "index": "6-0"
         }, {
             "path": "/media",
