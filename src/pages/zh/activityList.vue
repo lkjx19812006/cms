@@ -22,13 +22,20 @@
     padding: 20px 0;
     background-color: #fff;
 }
+
 .sort .top_wrap {
     width: 620px;
     overflow: hidden;
-    margin:  auto;
+    margin: auto;
 }
 
+.link {
+    color: blue;
+}
 
+.link:hover {
+    text-decoration: underline;
+}
 </style>
 <template>
     <div class="content">
@@ -44,24 +51,27 @@
             </div>
         </div>
         <div class="table">
-            <el-table align="center" v-bind:data="activityList" border style="width:942px;margin:auto" max-height="600" v-loading.body="loading">
-                <el-table-column prop="name" label="活动名称" width="150">
+            <el-table align="center" v-bind:data="activityList" border style="width:1200px;margin:auto" max-height="600" v-loading.body="loading">
+                <el-table-column prop="name" label="活动名称" width="200">
                 </el-table-column>
-                <el-table-column label="活动图片" min-width="180">
+                <el-table-column label="活动图片" width="200">
                     <template scope="scope">
                         <img :src="scope.row.activityImg">
                     </template>
                 </el-table-column>
-                <el-table-column prop="activityUrl" label="活动url" width="120">
+                <el-table-column prop="activityUrl" label="活动url" min-width="200">
+                    <template scope="scope">
+                        <a class="link" :href="scope.row.activityUrl" target="_blank">{{scope.row.activityUrl}}</a>
+                    </template>
                 </el-table-column>
-                <el-table-column prop="state" label="活动状态" width="138">
+                <el-table-column prop="state" label="活动状态" width="100">
                 </el-table-column>
                 <el-table-column label="创建时间" width="200">
                     <template scope="scope">
                         <span>{{scope.row.createDate |formatTime}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" width="120">
+                <el-table-column label="操作" width="200">
                     <template scope="scope">
                         <el-button @click.native.prevent="edit(scope.$index)" type="text" size="small">
                             编辑
@@ -71,6 +81,12 @@
                         </el-button>
                         <el-button @click.native.prevent="updateState(scope.$index)" type="text" size="small" v-if="scope.row.state=='启用'">
                             关闭
+                        </el-button>
+                        <el-button @click.native.prevent="goUp(scope.$index)" type="text" size="small" v-if="scope.$index > 0 && scope.row.state=='启用'" >
+                            上移
+                        </el-button>
+                        <el-button @click.native.prevent="goDown(scope.$index)" type="text" size="small" v-if="scope.$index < activityList.length - 1 && scope.row.state=='启用'">
+                            下移
                         </el-button>
                     </template>
                 </el-table-column>
@@ -140,10 +156,12 @@ export default {
             activityDetail: {
                 id: '',
                 activityImg: '',
+                webImg: '',
                 activityUrl: '',
                 name: '',
                 keyName: 'news',
-                url: ''
+                appUrl: '',
+                webUrl: ''
             },
             state: [{
                 label: '全部',
@@ -190,7 +208,8 @@ export default {
             this.activityDetail.activityImg = '';
             this.activityDetail.activityUrl = '';
             this.activityDetail.name = '';
-            this.activityDetail.url = this.activityDetail.activityImg;
+            this.activityDetail.appUrl = '';
+            this.activityDetail.webUrl = '';
             this.addShow = true;
         },
         handleCurrentChange(val) {
@@ -225,8 +244,9 @@ export default {
             this.activityDetail.id = this.activityList[index].id;
             this.activityDetail.activityImg = this.activityList[index].activityImg;
             this.activityDetail.activityUrl = this.activityList[index].activityUrl;
+            this.activityDetail.appUrl = this.activityList[index].activityImg;
+            this.activityDetail.webUrl = this.activityList[index].webUrl;
             this.activityDetail.name = this.activityList[index].name;
-            this.activityDetail.url = this.activityDetail.activityImg;
             this.addShow = true;
         },
         updateState(index) {
@@ -263,6 +283,63 @@ export default {
                 _self.getHttp();
             }, () => {
                 _self.loading = false;
+            });
+        },
+        goUp(index) {
+            let currentId = this.activityList[index].id;
+            let moveId = this.activityList[index - 1].id;
+            let _self = this;
+            let url = common.urlCommon + common.apiUrl.most;
+            let body = {
+                biz_module: 'activityService',
+                biz_method: 'moveUpOrDownActivity',
+                biz_param: {
+                    currentId: currentId,
+                    moveId: moveId
+                }
+            }
+            url = common.addSID(url);
+            body.version = 1;
+            body.time = Date.parse(new Date()) + parseInt(common.difTime);
+            body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
+            this.loading = true
+            this.$store.dispatch('moveUpOrDownActivity', {
+                body: body,
+                path: url
+            }).then(() => {
+                _self.loading = false
+                _self.getHttp();
+            }, () => {
+                _self.loading = false
+            });
+
+        },
+        goDown(index) {
+            let currentId = this.activityList[index].id;
+            let moveId = this.activityList[index + 1].id;
+            let _self = this;
+            let url = common.urlCommon + common.apiUrl.most;
+            let body = {
+                biz_module: 'activityService',
+                biz_method: 'moveUpOrDownActivity',
+                biz_param: {
+                    currentId: currentId,
+                    moveId: moveId
+                }
+            }
+            url = common.addSID(url);
+            body.version = 1;
+            body.time = Date.parse(new Date()) + parseInt(common.difTime);
+            body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
+            this.loading = true
+            this.$store.dispatch('moveUpOrDownActivity', {
+                body: body,
+                path: url
+            }).then(() => {
+                _self.loading = false
+                _self.getHttp();
+            }, () => {
+                _self.loading = false
             });
 
         }

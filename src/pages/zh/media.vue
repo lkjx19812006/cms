@@ -5,13 +5,13 @@
     background-color: #fff;
 }
 
-.table  img{
-  max-width: 100%;
-  vertical-align: bottom;
+.table img {
+    max-width: 100%;
+    vertical-align: bottom;
 }
 
-.table a{
-  color: blue;
+.table a {
+    color: blue;
 }
 
 .pagination {
@@ -37,16 +37,16 @@
             width:1329px;margin:auto" max-height="600" v-loading.body="loading">
                 <el-table-column prop="title" label="标题" width="200">
                 </el-table-column>
-                <el-table-column prop="intro" label="简介" min-width="480">
+                <el-table-column prop="intro" label="简介" min-width="300">
                 </el-table-column>
-                <el-table-column  label="图片地址" width="300">
-                  <template scope="scope">
+                <el-table-column label="图片地址" width="300">
+                    <template scope="scope">
                         <img :src="scope.row.imgUrl">
                     </template>
                 </el-table-column>
-                <el-table-column  label="新闻地址" width="120">
-                <template scope="scope">
-                        <a :href="scope.row.linkUrl" target="_blank" >{{scope.row.linkUrl}}</a>
+                <el-table-column label="新闻地址" width="200">
+                    <template scope="scope">
+                        <a :href="scope.row.linkUrl" target="_blank">{{scope.row.linkUrl}}</a>
                     </template>
                 </el-table-column>
                 <el-table-column label="状态" width="70">
@@ -54,13 +54,19 @@
                         <span>{{scope.row.status |formatMediaType}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" width="120">
+                <el-table-column label="操作" width="200">
                     <template scope="scope">
                         <el-button @click.native.prevent="edit(scope.$index)" type="text" size="small">
                             编辑
                         </el-button>
                         <el-button @click.native.prevent="del(scope.$index)" type="text" size="small" v-if="scope.row.status==1">
                             删除
+                        </el-button>
+                        <el-button @click.native.prevent="up(scope.row.id)" type="text" size="small" v-if="scope.row.sort === 0">
+                            置顶
+                        </el-button>
+                        <el-button @click.native.prevent="down(scope.row.id)" type="text" size="small" v-if="scope.row.sort != 0">
+                            取消置顶
                         </el-button>
                     </template>
                 </el-table-column>
@@ -72,7 +78,7 @@
         </div>
         <el-dialog title="media" v-model="dialogShow.diaglogMediaDetail">
             <addMedia :activityParam="mediaDetail" v-on:addMedia="recieveAdd">
-                </addMedia>
+            </addMedia>
         </el-dialog>
     </div>
 </template>
@@ -246,7 +252,96 @@ export default {
             this.mediaDetail.linkUrl = '';
             this.mediaDetail.url = '';
             this.dialogShow.diaglogMediaDetail = true;
-        }
+        },
+        // 单列置顶 或取消置顶
+        up(params) {
+            if (this.loading) {
+                this.$message({
+                    type: 'info',
+                    message: '操作过快!!!'
+                });
+                return;
+            }
+            if (params && params !== 0) {
+                this.isMakeToFlag = false;
+                let _self = this;
+                this.loading = true;
+                let url = common.urlCommon + common.apiUrl.most;
+                let body = {
+                    biz_module: 'pushService',
+                    biz_method: 'newsSortTop',
+                    biz_param: {
+                        newsId: params
+                    }
+                }
+                if (common.KEY) {
+                    url = common.addSID(url);
+                    body.version = 1;
+                    body.time = Date.parse(new Date()) + parseInt(common.difTime);
+                    body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
+                }
+                let obj = {
+                    body: body,
+                    path: url
+                }
+                this.$store.dispatch('marketTop', obj).then(() => {
+                    _self.httpParam.pn = 1;
+                    _self.getHttp();
+                }, () => {
+                    _self.loading = false
+                });
+            } else {
+                this.$message({
+                    type: 'error',
+                    message: '参数错误,请重试'
+                });
+                _self.loading = false
+            }
+        },
+        down(params) {
+            if (this.loading) {
+                this.$message({
+                    type: 'info',
+                    message: '操作过快!!!'
+                });
+                return;
+            }
+            if (params && params !== 0) {
+                this.isMakeToFlag = false;
+                let _self = this;
+                this.loading = true;
+                let url = common.urlCommon + common.apiUrl.most;
+                let body = {
+                    biz_module: 'pushService',
+                    biz_method: 'newsSortReset',
+                    biz_param: {
+                        newsId: params
+                    }
+                }
+                if (common.KEY) {
+                    url = common.addSID(url);
+                    body.version = 1;
+                    body.time = Date.parse(new Date()) + parseInt(common.difTime);
+                    body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
+                }
+                let obj = {
+                    body: body,
+                    path: url
+                }
+                this.$store.dispatch('marketTop', obj).then(() => {
+                    _self.httpParam.pn = 1;
+                    _self.getHttp();
+                }, () => {
+                    _self.loading = false
+                });
+            } else {
+                this.$message({
+                    type: 'error',
+                    message: '参数错误,请重试'
+                });
+                _self.loading = false
+            }
+        },
     },
     preFetch: fetchItem
 }

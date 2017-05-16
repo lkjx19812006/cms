@@ -26,10 +26,10 @@
 <template>
     <div class="img_upload" :v-loading.body="loading">
         <form>
-            <input type="file" @change="previewImg" class="input_image" name="photo" accept="image/png,image/jpeg,image/jpg,image/bmp">
+            <input ref="imageUpload" type="file" @change="previewImg" class="input_image" name="photo" accept="image/png,image/jpeg,image/jpg,image/bmp">
             <!--          <i  class="el-icon-plus avatar-uploader-icon" v-show="!param.url"></i> -->
-            <el-button size="small" type="primary" v-show="!param.url">点击上传</el-button>
-            <img v-bind:src="param.url" class="image_show" v-show="param.url">
+            <el-button size="small" type="primary" v-show="!imgUrl">点击上传</el-button>
+            <img v-bind:src="imgUrl" class="image_show" v-show="imgUrl">
         </form>
     </div>
 </template>
@@ -45,9 +45,8 @@ export default {
             }
         },
         props: {
-            param: {
-                default: null
-            }
+            imgUrl: '',
+            param: {default: null}
         },
         methods: {
             previewImg: function(e) {
@@ -63,12 +62,12 @@ export default {
                             img.onload = function() {
                                 _self.image = _self.compress(img);
                                 _self.upload(_self.image);
-                                _self.param.url = _self.image;
+                                _self.url = _self.image;
                             }
                         } else {
-                            _self.image = e.target.result;
-                            _self.param.url = _self.image;
+                            _self.image = e.target.result;                            
                             _self.upload(_self.image);
+                            _self.url = _self.image;
                         }
                     }
                     reader.readAsDataURL(input.files[0]);
@@ -186,6 +185,7 @@ export default {
                                         index: _self.param.index,
                                         url: res.biz_result.url + '/' + _self.key
                                     });
+                                    _self.$refs.imageUpload.value = '';
                                 } else {
                                     _self.loading = false;
 
