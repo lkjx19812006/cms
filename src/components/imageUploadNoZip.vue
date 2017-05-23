@@ -12,28 +12,73 @@
 }
 
 .img_upload .input_imgUrL {
-    width: auto;
+    width: 400px;
 }
 
 .img_upload .image_show {
-    width: auto;
-    max-width: 80%;
     max-height: 200px;
 }
 
-.img_upload .close_image {
+.close_image {
     position: absolute;
     top: -5px;
     right: -5px;
     max-width: 10px;
+}
+
+.img_upload .img_wrap {
+    width: 420px;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.img_upload .img_wrap .model {
+    position: absolute;
+    width: 420px;
+    height: 200px;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, .5);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.img_upload .img_wrap .model span,
+a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 20px;
+    color: #fff;
+    text-align: center;
+}
+
+.img_upload .img_wrap .model span:hover,
+a:hover {
+    color: #F69110;
 }
 </style>
 <template>
     <div class="img_upload" :v-loading.body="loading">
         <form>
             <input ref="imageUpload" type="file" @change="previewImg" :class="{'input_imgUrL': imgUrl}" class="input_image" name="photo" accept="image/png,image/jpeg,image/jpg,image/bmp">
-            <el-button size="small" type="primary" v-show="!imgUrl">点击上传</el-button>
-            <img v-bind:src="imgUrl" class="image_show" v-show="imgUrl">
+            <el-button size="small" type="primary" :loading="loading" v-show="!imgUrl">点击上传</el-button>
+            <div class="img_wrap" v-show="imgUrl" v-on:mouseenter="showModel = true" v-on:mouseleave="showModel = false">
+                <img v-bind:src="imgUrl" class="image_show">
+                <div class="model" v-show="showModel">
+                    <a :href="imgUrl" target="_blank" class="el-icon-view"></a>
+                    <span class="el-icon-delete2" @click="deleteImgUrl"></span>
+                </div>
+            </div>
         </form>
     </div>
 </template>
@@ -45,7 +90,8 @@ export default {
             return {
                 size: 0,
                 key: '',
-                loading: false
+                loading: false,
+                showModel: false
             }
         },
         props: {
@@ -65,7 +111,7 @@ export default {
                     reader.onload = function(e) {
                         img.src = e.target.result;
                         img.onload = function() {
-                            _self.image = e.target.result;
+                            _self.image = _self.compress(img);
                             _self.upload(_self.image);
                             _self.url = _self.image;
                         }
@@ -212,6 +258,11 @@ export default {
                     });
                     console.log(err);
                 })
+            },
+            deleteImgUrl() {
+                this.$emit("postUrl", {
+                    url: ''
+                });
             }
         }
 }

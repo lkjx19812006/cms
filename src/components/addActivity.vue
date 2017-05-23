@@ -51,13 +51,16 @@
             <el-form-item label="是否压缩图片">
                 <el-radio-group @change="zipRadioChange" v-model="zipRadio">
                     <el-radio :label="0">压缩图片</el-radio>
-                    <el-radio :label="1">不压缩</el-radio>                   
+                    <el-radio :label="1">不压缩</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="web图片压缩" v-if="zipRadio === 0">
                 <imageUpload :imgUrl="activityParam.webImg" :param='activityParam' v-on:postUrl="recieveUrlWebImg"></imageUpload>
+                <div class="model">
+
+                </div>
             </el-form-item>
-            <el-form-item label="web图片不压缩"  v-if="zipRadio === 1">
+            <el-form-item label="web图片不压缩" v-if="zipRadio === 1">
                 <imageUploadNoZip :imgUrl="activityParam.webImg" :param='activityParam' v-on:postUrl="recieveUrlWebImg"></imageUploadNoZip>
             </el-form-item>
             <el-form-item label="web活动地址">
@@ -142,21 +145,21 @@ export default {
             },
             selecteAppUrl(val) {
                 if (val === '0') {
-                    this.activityParam.shareUrl = 'apps://ycmm?android' + configUrl[0].android + '&ios=' + configUrl[0].ios
+                    this.activityParam.shareUrl = 'apps://ycmm?android=' + configUrl[0].android + '&ios=' + configUrl[0].ios
                 } else if (val === '1') {
-                    this.activityParam.shareUrl = 'apps://ycmm?android' + configUrl[1].android + '&ios=' + configUrl[1].ios
+                    this.activityParam.shareUrl = 'apps://ycmm?android=' + configUrl[1].android + '&ios=' + configUrl[1].ios
                 } else if (val === '2') {
-                    this.activityParam.shareUrl = 'apps://ycmm?android' + configUrl[2].android + '&ios=' + configUrl[2].ios
+                    this.activityParam.shareUrl = 'apps://ycmm?android=' + configUrl[2].android + '&ios=' + configUrl[2].ios
                 }
             },
             selectAppType(val) {
                 this.activityParam.shareUrl = '';
                 if (val === '1') {
                     this.activityParam.appActivUrl = '0';
-                    this.activityParam.shareUrl = 'apps://ycmm?android' + configUrl[0].android + '&ios=' + configUrl[0].ios
+                    this.activityParam.shareUrl = 'apps://ycmm?android=' + configUrl[0].android + '&ios=' + configUrl[0].ios
                 }
             },
-            zipRadioChange(){
+            zipRadioChange() {
                 this.activityParam.webImg = '';
             },
             submitForm(formName) {
