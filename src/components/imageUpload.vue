@@ -9,6 +9,7 @@
     text-align: center;
     height: 100%;
     position: absolute;
+    z-index: 999999;
 }
 
 .img_upload .input_imgUrL {
@@ -27,6 +28,7 @@
 }
 
 .img_upload .img_wrap {
+    z-index: 999999;
     width: 420px;
     height: 200px;
     display: flex;
@@ -39,6 +41,7 @@
 
 .img_upload .img_wrap .model {
     position: absolute;
+    z-index: 999999;
     width: 420px;
     height: 200px;
     left: 0;
@@ -266,10 +269,10 @@ export default {
                 })
             },
             deleteImgUrl() {
-                this.$emit("postUrl", {                   
+                this.$emit("postUrl", {
                     url: ''
                 });
-            },        
+            },
         }
 }
 </script>

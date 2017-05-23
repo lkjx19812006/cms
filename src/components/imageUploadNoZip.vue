@@ -9,6 +9,7 @@
     text-align: center;
     height: 100%;
     position: absolute;
+    z-index: 999999;
 }
 
 .img_upload .input_imgUrL {
@@ -29,6 +30,7 @@
 .img_upload .img_wrap {
     width: 420px;
     height: 200px;
+    z-index: 999999;
     display: flex;
     flex-direction: row;
     justify-content: center;

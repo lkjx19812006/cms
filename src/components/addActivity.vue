@@ -20,52 +20,67 @@
 <template>
     <div class="addActivity">
         <el-form ref="activityParam" :model="activityParam" :rules="rules" label-width="120px" v-loading.body="loading">
+            <el-form-item label="活动类型">
+                <el-checkbox-group v-model="activityParam.checkList" @change="changeCheckList">
+                    <el-checkbox :label="1">app活动</el-checkbox>
+                    <el-checkbox :label="4">h5活动</el-checkbox>
+                    <el-checkbox :label="2">web活动</el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
             <el-form-item label="活动名称" prop="name">
                 <el-input v-model="activityParam.name"></el-input>
             </el-form-item>
-            <el-form-item label="app/h5活动图片">
-                <imageUpload :imgUrl="activityParam.activityImg" :param='activityParam' v-on:postUrl="recieveUrl"></imageUpload>
-            </el-form-item>
-            <el-form-item label="app活动地址">
-                <div class="url_wrap">
-                    <el-select @change="selectAppType" v-model="activityParam.appType" placeholder="请选择">
-                        <el-option label="http://" value="0">
-                        </el-option>
-                        <el-option label="apps://" value="1">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="url_wrap">
-                    <el-select @change="selecteAppUrl" class="appType" v-if="activityParam.appType === '1'" v-model="activityParam.appActivUrl" placeholder="请选择">
-                        <el-option v-for="item in configUrl" :label="item.title" :value="item.index">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="input_wrap" :class="{'input_wrap_l':activityParam.appType === '1'}">
-                    <el-input :disabled="activityParam.appType === '1'" class="appUrl" v-model="activityParam.shareUrl"></el-input>
-                </div>
-            </el-form-item>
-            <el-form-item label="H5活动地址">
-                <el-input v-model="activityParam.htmlUrl" placeholder="请输入活动地址"></el-input>
-            </el-form-item>
-            <el-form-item label="是否压缩图片">
-                <el-radio-group @change="zipRadioChange" v-model="zipRadio">
-                    <el-radio :label="0">压缩图片</el-radio>
-                    <el-radio :label="1">不压缩</el-radio>
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item label="web图片压缩" v-if="zipRadio === 0">
-                <imageUpload :imgUrl="activityParam.webImg" :param='activityParam' v-on:postUrl="recieveUrlWebImg"></imageUpload>
-                <div class="model">
-
-                </div>
-            </el-form-item>
-            <el-form-item label="web图片不压缩" v-if="zipRadio === 1">
-                <imageUploadNoZip :imgUrl="activityParam.webImg" :param='activityParam' v-on:postUrl="recieveUrlWebImg"></imageUploadNoZip>
-            </el-form-item>
-            <el-form-item label="web活动地址">
-                <el-input v-model="activityParam.activityUrl" placeholder="请输入活动地址"></el-input>
-            </el-form-item>
+            <div v-if="activityParam.sendType === 1 || activityParam.sendType === 3 || activityParam.sendType === 5 || activityParam.sendType === 7">
+                <el-form-item label="app活动图片">
+                    <imageUpload :imgUrl="activityParam.activityImg" :param='activityParam' v-on:postUrl="recieveUrl"></imageUpload>
+                </el-form-item>
+                <el-form-item label="app活动地址">
+                    <div class="url_wrap">
+                        <el-select @change="selectAppType" v-model="activityParam.appType" placeholder="请选择">
+                            <el-option label="http://" value="0">
+                            </el-option>
+                            <el-option label="apps://" value="1">
+                            </el-option>
+                        </el-select>
+                    </div>
+                    <div class="url_wrap">
+                        <el-select @change="selecteAppUrl" class="appType" v-if="activityParam.appType === '1'" v-model="activityParam.appActivUrl" placeholder="请选择">
+                            <el-option v-for="item in configUrl" :label="item.title" :value="item.index">
+                            </el-option>
+                        </el-select>
+                    </div>
+                    <div class="input_wrap" :class="{'input_wrap_l':activityParam.appType === '1'}">
+                        <el-input :disabled="activityParam.appType === '1'" class="appUrl" v-model="activityParam.shareUrl"></el-input>
+                    </div>
+                </el-form-item>
+            </div>
+            <div :span="24" v-if="activityParam.sendType === 4 || activityParam.sendType === 5 || activityParam.sendType === 6 || activityParam.sendType === 7">
+                <el-form-item label="H5活动图片">
+                    <imageUpload :imgUrl="activityParam.htmlImg" :param='activityParam' v-on:postUrl="recieveUrlH5Img"></imageUpload>
+                </el-form-item>
+                <el-form-item label="H5活动地址">
+                    <el-input v-model="activityParam.htmlUrl" placeholder="请输入活动地址"></el-input>
+                </el-form-item>
+            </div>
+            <div :span="24" v-if="activityParam.sendType === 2 || activityParam.sendType === 3 || activityParam.sendType === 6 || activityParam.sendType === 7">
+                <el-form-item label="是否压缩图片">
+                    <el-radio-group @change="zipRadioChange" v-model="zipRadio">
+                        <el-radio :label="0">压缩图片</el-radio>
+                        <el-radio :label="1">不压缩</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="web图片压缩" v-if="zipRadio === 0">
+                    <imageUpload :imgUrl="activityParam.webImg" :param='activityParam' v-on:postUrl="recieveUrlWebImg"></imageUpload>
+                    <div class="model">
+                    </div>
+                </el-form-item>
+                <el-form-item label="web图片不压缩" v-if="zipRadio === 1">
+                    <imageUploadNoZip :imgUrl="activityParam.webImg" :param='activityParam' v-on:postUrl="recieveUrlWebImg"></imageUploadNoZip>
+                </el-form-item>
+                <el-form-item label="web活动地址">
+                    <el-input v-model="activityParam.activityUrl" placeholder="请输入活动地址"></el-input>
+                </el-form-item>
+            </div>
             <el-form-item>
                 <el-button type="primary" @click="beforeSubVil">立即创建</el-button>
             </el-form-item>
@@ -121,8 +136,18 @@ export default {
                     }]
                 },
                 configUrl: configUrl,
-                sendType: -1,
-                zipRadio: 1
+                zipRadio: 1,
+                sendObj: {
+                    id: '', //活动Id
+                    name: '', //活动名
+                    activityImg: '', //app h5图片地址
+                    webImg: '', //web图片地址
+                    shareUrl: '', //app活动地址
+                    activityUrl: '', //web活动地址
+                    htmlUrl: '', //h5活动地址  
+                    htmlImg: '',
+                    type: -1,
+                },
             }
         },
         props: {
@@ -142,6 +167,21 @@ export default {
             //web图片
             recieveUrlWebImg(val) {
                 this.activityParam.webImg = val.url;
+            },
+            //H5活动图片
+            recieveUrlH5Img(val) {
+                this.activityParam.htmlImg = val.url;
+            },
+            changeCheckList(e) {
+                let num = 0
+                if (e.length === 0) {
+                    num = -1;
+                } else {
+                    for (var i = 0; i < e.length; i++) {
+                        num += e[i];
+                    }
+                }
+                this.activityParam.sendType = num;
             },
             selecteAppUrl(val) {
                 if (val === '0') {
@@ -165,38 +205,21 @@ export default {
             submitForm(formName) {
                 let _self = this;
                 this.$refs[formName].validate((valid) => {
+                    this.getCheckInfo()
                     if (valid) {
                         _self.loading = true;
                         let url = common.urlCommon + common.apiUrl.most;
                         let body = {
                             biz_module: 'activityService',
                             biz_method: 'addActivityInfo',
-                            biz_param: {
-                                name: _self.activityParam.name,
-                                title: _self.activityParam.title,
-                                activityImg: _self.activityParam.activityImg, //app h5图片地址
-                                webImg: _self.activityParam.webImg, //web图片地址
-                                shareUrl: _self.activityParam.shareUrl, //app活动地址
-                                activityUrl: _self.activityParam.activityUrl, //web活动地址
-                                htmlUrl: _self.activityParam.htmlUrl, //h5活动地址                            
-                                type: _self.activityParam.sendType,
-                            }
+                            biz_param: this.sendObj
                         }
                         if (this.activityParam.id) {
+                            this.sendObj.id = this.activityParam.id;
                             body = {
                                 biz_module: 'activityService',
                                 biz_method: 'updateActivityInfo',
-                                biz_param: {
-                                    id: _self.activityParam.id,
-                                    name: _self.activityParam.name,
-                                    title: _self.activityParam.name,
-                                    activityImg: _self.activityParam.activityImg, //app h5图片地址
-                                    webImg: _self.activityParam.webImg, //web图片地址
-                                    shareUrl: _self.activityParam.shareUrl, //app活动地址
-                                    activityUrl: _self.activityParam.activityUrl, //web活动地址
-                                    htmlUrl: _self.activityParam.htmlUrl, //h5活动地址                            
-                                    type: _self.activityParam.sendType,
-                                }
+                                biz_param: this.sendObj
                             }
                         }
                         if (common.KEY) {
@@ -222,31 +245,40 @@ export default {
                 });
             },
             beforeSubVil() {
-                //最少上传一种图片
-                if (!this.activityParam.webImg && !this.activityParam.activityImg) {
-                    this.$message({
-                        type: 'info',
-                        message: '请上传web活动图片或app/h5活动图片，或两者'
-                    });
-                    return;
-                };
-                if (this.activityParam.shareUrl || this.activityParam.activityUrl || this.activityParam.htmlUrl) {
-                    this.activityParam.sendType = 0;
-                };
-                if (this.activityParam.shareUrl) {
-                    this.activityParam.sendType += 1;
-                };
-                if (this.activityParam.activityUrl) {
-                    this.activityParam.sendType += 2;
-                };
-                if (this.activityParam.htmlUrl) {
-                    this.activityParam.sendType += 4;
-                };
+                //最少上传一种图片                     
                 this.submitForm('activityParam');
-            }
-        },
-        mounted() {
+            },
+            getCheckInfo() {
+                let num = 0
+                let e = this.activityParam.checkList;
+                if (e.length === 0) {
+                    num = -1;
+                } else {
+                    for (var i = 0; i < e.length; i++) {
+                        num += e[i];
+                    }
+                };
+                this.activityParam.sendType = num;
+                if (this.activityParam.sendType === 1 || this.activityParam.sendType === 3 || this.activityParam.sendType === 5 || this.activityParam.sendType === 7) {
+                    this.sendObj.name = this.activityParam.name;
+                    this.sendObj.activityImg = this.activityParam.activityImg;
+                    this.sendObj.shareUrl = this.activityParam.shareUrl;
+                    this.sendObj.type = this.activityParam.sendType;                    
+                };
+                if (this.activityParam.sendType === 2 || this.activityParam.sendType === 3 || this.activityParam.sendType === 6 || this.activityParam.sendType === 7) {
+                    this.sendObj.name = this.activityParam.name;
+                    this.sendObj.webImg = this.activityParam.webImg;
+                    this.sendObj.activityUrl = this.activityParam.activityUrl;
+                    this.sendObj.type = this.activityParam.sendType;
+                };
+                if (this.activityParam.sendType === 4 || this.activityParam.sendType === 5 || this.activityParam.sendType === 6 || this.activityParam.sendType === 7) {
+                    this.sendObj.name = this.activityParam.name;
+                    this.sendObj.htmlImg = this.activityParam.htmlImg;
+                    this.sendObj.htmlUrl = this.activityParam.htmlUrl;
+                    this.sendObj.type = this.activityParam.sendType;
+                }
 
+            }
         }
 }
 </script>

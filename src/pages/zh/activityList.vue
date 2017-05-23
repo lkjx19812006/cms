@@ -56,7 +56,7 @@
                 </el-table-column>
                 <el-table-column label="活动图片" width="200">
                     <template scope="scope">
-                        <img style="width: 200px; max-height: 200px;" :src="scope.row.activityImg">
+                        <img style="width: 200px; max-height: 200px;" :src="scope.row.activityImg || scope.row.htmlImg">                        
                         <img style="width: 200px; max-height: 200px;" :src="scope.row.webImg">
                     </template>
                 </el-table-column>
@@ -102,7 +102,7 @@
             </el-pagination>
         </div>
         <el-dialog @close="closeDialog" title="新增活动" v-model="addShow">
-            <addActivity :activityParam="activityDetail" v-on:addActivity="recieveAdd"></addActivity>
+            <addActivity v-if="addShow" :activityParam="activityDetail" v-on:addActivity="recieveAdd"></addActivity>
         </el-dialog>
     </div>
 </template>
@@ -165,10 +165,13 @@ export default {
                 webImg: '', //web图片地址
                 shareUrl: '', //app活动地址
                 activityUrl: '', //web活动地址
-                htmlUrl: '', //h5活动地址                            
+                htmlUrl: '', //h5活动地址  
+                htmlImg: '',
                 type: -1,
                 appType: '0',
                 appActivUrl: '0',
+                checkList: [],
+                sendType: -1,
                 keyName: 'news'
             },
             state: [{
@@ -221,8 +224,10 @@ export default {
             this.activityDetail.webImg = ''; //web图片地址
             this.activityDetail.shareUrl = ''; //app活动地址
             this.activityDetail.activityUrl = ''; //web活动地址
-            this.activityDetail.htmlUrl = ''; //h5活动地址                            
+            this.activityDetail.htmlUrl = ''; //h5活动地址  
+            this.activityDetail.htmlImg = '';
             this.activityDetail.type = -1; //活动类型
+            this.getCheckInfo(this.activityDetail.type)
             this.addShow = true;
         },
         handleCurrentChange(val) {
@@ -279,7 +284,9 @@ export default {
             this.activityDetail.shareUrl = this.activityList[index].shareUrl;
             this.activityDetail.activityUrl = this.activityList[index].activityUrl;
             this.activityDetail.htmlUrl = this.activityList[index].htmlUrl;
+            this.activityDetail.htmlImg = this.activityList[index].htmlImg;
             this.activityDetail.type = this.activityList[index].type;
+            this.getCheckInfo(this.activityDetail.type)
             this.addShow = true;
         },
         updateState(index) {
@@ -375,6 +382,42 @@ export default {
                 _self.loading = false
             });
 
+        },
+        getCheckInfo(type) {
+            switch (type) {
+                case 1:
+                    this.activityDetail.checkList = [1];
+                    this.activityDetail.sendType = 1;
+                    break;
+                case 2:
+                    this.activityDetail.checkList = [2];
+                    this.activityDetail.sendType = 2;
+                    break;
+                case 3:
+                    this.activityDetail.checkList = [1, 2];
+                    this.activityDetail.sendType = 3;
+                    break;
+                case 4:
+                    this.activityDetail.checkList = [4];
+                    this.activityDetail.sendType = 4;
+                    break;
+                case 5:
+                    this.activityDetail.checkList = [1, 4];
+                    this.activityDetail.sendType = 5;
+                    break;
+                case 6:
+                    this.activityDetail.checkList = [2, 4];
+                    this.activityDetail.sendType = 6;
+                    break;
+                case 7:
+                    this.activityDetail.checkList = [1, 2, 4];
+                    this.activityDetail.sendType = 7;
+                    break;
+                default:
+                    this.activityDetail.checkList = [];
+                    this.activityDetail.sendType = -1;
+                    break;
+            }
         }
     },
     preFetch: fetchItem
