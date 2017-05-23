@@ -119,7 +119,7 @@ export default {
                 },
                 configUrl: configUrl,
                 sendType: -1,
-                zipRadio: 0
+                zipRadio: 1
             }
         },
         props: {
@@ -142,18 +142,18 @@ export default {
             },
             selecteAppUrl(val) {
                 if (val === '0') {
-                    this.activityParam.shareUrl = 'apps//ycmm?android=' + configUrl[0].android + '&ios=' + configUrl[0].ios
+                    this.activityParam.shareUrl = 'apps://ycmm?android' + configUrl[0].android + '&ios=' + configUrl[0].ios
                 } else if (val === '1') {
-                    this.activityParam.shareUrl = 'apps//ycmm?android=' + configUrl[1].android + '&ios=' + configUrl[1].ios
+                    this.activityParam.shareUrl = 'apps://ycmm?android' + configUrl[1].android + '&ios=' + configUrl[1].ios
                 } else if (val === '2') {
-                    this.activityParam.shareUrl = 'apps//ycmm?android=' + configUrl[2].android + '&ios=' + configUrl[2].ios
+                    this.activityParam.shareUrl = 'apps://ycmm?android' + configUrl[2].android + '&ios=' + configUrl[2].ios
                 }
             },
             selectAppType(val) {
                 this.activityParam.shareUrl = '';
                 if (val === '1') {
                     this.activityParam.appActivUrl = '0';
-                    this.activityParam.shareUrl = 'apps//ycmm?android=' + configUrl[0].android + '&ios=' + configUrl[0].ios
+                    this.activityParam.shareUrl = 'apps://ycmm?android' + configUrl[0].android + '&ios=' + configUrl[0].ios
                 }
             },
             zipRadioChange(){
@@ -161,7 +161,6 @@ export default {
             },
             submitForm(formName) {
                 let _self = this;
-                debugger;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         _self.loading = true;
