@@ -8,7 +8,7 @@
                 <el-input v-model="activityParam.title"></el-input>
             </el-form-item>
             <el-form-item label="图片" prop="imgUrl">
-                <imageUpload :param="activityParam" v-on:postUrl="recieveUrl"></imageUpload>
+                <imageUpload :imgUrl="activityParam.imgUrl" :param="activityParam" v-on:postUrl="recieveUrl"></imageUpload>
             </el-form-item>
             <el-form-item label="链接url" prop="linkUrl">
                 <el-input v-model="activityParam.linkUrl" placeholder="http://www.baidu.com"></el-input>

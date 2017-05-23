@@ -56,11 +56,16 @@
                 </el-table-column>
                 <el-table-column label="活动图片" width="200">
                     <template scope="scope">
-                        <img :src="scope.row.activityImg">
+                        <img style="width: 200px; max-height: 200px;" :src="scope.row.activityImg">
+                        <img style="width: 200px; max-height: 200px;" :src="scope.row.webImg">
                     </template>
                 </el-table-column>
                 <el-table-column prop="activityUrl" label="活动url" min-width="200">
                     <template scope="scope">
+                        <a class="link" :href="scope.row.activityUrl" target="_blank">{{scope.row.shareUrl}}</a>
+                        <br>
+                        <a class="link" :href="scope.row.activityUrl" target="_blank">{{scope.row.htmlUrl}}</a>
+                        <br>
                         <a class="link" :href="scope.row.activityUrl" target="_blank">{{scope.row.activityUrl}}</a>
                     </template>
                 </el-table-column>
@@ -82,7 +87,7 @@
                         <el-button @click.native.prevent="updateState(scope.$index)" type="text" size="small" v-if="scope.row.state=='启用'">
                             关闭
                         </el-button>
-                        <el-button @click.native.prevent="goUp(scope.$index)" type="text" size="small" v-if="scope.$index > 0 && scope.row.state=='启用'" >
+                        <el-button @click.native.prevent="goUp(scope.$index)" type="text" size="small" v-if="scope.$index > 0 && scope.row.state=='启用'">
                             上移
                         </el-button>
                         <el-button @click.native.prevent="goDown(scope.$index)" type="text" size="small" v-if="scope.$index < activityList.length - 1 && scope.row.state=='启用'">
@@ -96,7 +101,7 @@
             <el-pagination @current-change="handleCurrentChange" :current-page="httpParam.pn" layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>
-        <el-dialog title="新增活动" v-model="addShow">
+        <el-dialog @close="closeDialog" title="新增活动" v-model="addShow">
             <addActivity :activityParam="activityDetail" v-on:addActivity="recieveAdd"></addActivity>
         </el-dialog>
     </div>
@@ -154,14 +159,17 @@ export default {
     data() {
         return {
             activityDetail: {
-                id: '',
-                activityImg: '',
-                webImg: '',
-                activityUrl: '',
-                name: '',
-                keyName: 'news',
-                appUrl: '',
-                webUrl: ''
+                id: '', //活动Id
+                name: '', //活动名
+                activityImg: '', //app h5图片地址
+                webImg: '', //web图片地址
+                shareUrl: '', //app活动地址
+                activityUrl: '', //web活动地址
+                htmlUrl: '', //h5活动地址                            
+                type: -1,
+                appType: '0',
+                appActivUrl: '0',
+                keyName: 'news'
             },
             state: [{
                 label: '全部',
@@ -198,18 +206,23 @@ export default {
         }
     },
     methods: {
+        closeDialog() {
+            this.addShow = false;
+        },
         recieveAdd() {
             if (!this.activityDetail.id) this.httpParam.pn = 1;
             this.getHttp();
             this.addShow = false;
         },
         add() {
-            this.activityDetail.id = '';
-            this.activityDetail.activityImg = '';
-            this.activityDetail.activityUrl = '';
-            this.activityDetail.name = '';
-            this.activityDetail.appUrl = '';
-            this.activityDetail.webUrl = '';
+            this.activityDetail.id = ''; //活动Id
+            this.activityDetail.name = ''; //活动名
+            this.activityDetail.activityImg = ''; //app h5图片地址
+            this.activityDetail.webImg = ''; //web图片地址
+            this.activityDetail.shareUrl = ''; //app活动地址
+            this.activityDetail.activityUrl = ''; //web活动地址
+            this.activityDetail.htmlUrl = ''; //h5活动地址                            
+            this.activityDetail.type = -1; //活动类型
             this.addShow = true;
         },
         handleCurrentChange(val) {
@@ -241,12 +254,32 @@ export default {
             });
         },
         edit(index) {
+            let Reg = /apps:\/\//;
+            if (Reg.test(this.activityList[index].shareUrl)) {
+                this.activityDetail.appType = '1';
+            } else {
+                this.activityDetail.appType = '0';
+            }
+            let Reg2 = /EmergencyPurchaseActivity|YCMMDemandViewController/; //求购列表
+            let Reg3 = /LowResourceActivity|YCMMSupplyViewController/; //资源列表
+            let Reg4 = /PresellActivity|YCMMPreSaleViewController/; //预购列表
+            if (Reg2.test(this.activityList[index].shareUrl)) {
+                this.activityDetail.appActivUrl = '0'
+            } else if (Reg3.test(this.activityList[index].shareUrl)) {
+                this.activityDetail.appActivUrl = '1'
+            } else if (Reg4.test(this.activityList[index].shareUrl)) {
+                this.activityDetail.appActivUrl = '2'
+            } else {
+                this.activityDetail.appActivUrl = '0'
+            }
             this.activityDetail.id = this.activityList[index].id;
-            this.activityDetail.activityImg = this.activityList[index].activityImg;
-            this.activityDetail.activityUrl = this.activityList[index].activityUrl;
-            this.activityDetail.appUrl = this.activityList[index].activityImg;
-            this.activityDetail.webUrl = this.activityList[index].webUrl;
             this.activityDetail.name = this.activityList[index].name;
+            this.activityDetail.activityImg = this.activityList[index].activityImg;
+            this.activityDetail.webImg = this.activityList[index].webImg;
+            this.activityDetail.shareUrl = this.activityList[index].shareUrl;
+            this.activityDetail.activityUrl = this.activityList[index].activityUrl;
+            this.activityDetail.htmlUrl = this.activityList[index].htmlUrl;
+            this.activityDetail.type = this.activityList[index].type;
             this.addShow = true;
         },
         updateState(index) {

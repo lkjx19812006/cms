@@ -63,14 +63,8 @@ export default {
                     _self.size = input.files[0].size;
                     let img = new Image();
                     reader.onload = function(e) {
-                        if (input.files[0].size > 204800) { //图片大于200kb则压缩
-                            img.src = e.target.result;
-                            img.onload = function() {
-                                _self.image = _self.compress(img);
-                                _self.upload(_self.image);
-                                _self.url = _self.image;
-                            }
-                        } else {
+                        img.src = e.target.result;
+                        img.onload = function() {
                             _self.image = e.target.result;
                             _self.upload(_self.image);
                             _self.url = _self.image;
