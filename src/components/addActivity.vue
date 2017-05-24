@@ -245,6 +245,20 @@ export default {
                 });
             },
             beforeSubVil() {
+                if( this.activityParam.sendType <= 0){
+                     this.$message({
+                        type: 'info',
+                        message: '请至少选择一种活动类型，并上传该活动的图片'
+                    });
+                    return;
+                }
+                if (!this.activityParam.activityImg && !this.activityParam.webImg && !this.activityParam.htmlImg) {
+                    this.$message({
+                        type: 'info',
+                        message: '请至少上传一种活动类型的图片'
+                    });
+                    return;
+                }
                 //最少上传一种图片                     
                 this.submitForm('activityParam');
             },
@@ -263,7 +277,7 @@ export default {
                     this.sendObj.name = this.activityParam.name;
                     this.sendObj.activityImg = this.activityParam.activityImg;
                     this.sendObj.shareUrl = this.activityParam.shareUrl;
-                    this.sendObj.type = this.activityParam.sendType;                    
+                    this.sendObj.type = this.activityParam.sendType;
                 };
                 if (this.activityParam.sendType === 2 || this.activityParam.sendType === 3 || this.activityParam.sendType === 6 || this.activityParam.sendType === 7) {
                     this.sendObj.name = this.activityParam.name;
