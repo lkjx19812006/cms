@@ -113,7 +113,7 @@ export default {
                     reader.onload = function(e) {
                         img.src = e.target.result;
                         img.onload = function() {
-                            _self.image = _self.compress(img);
+                            _self.image = e.target.result;
                             _self.upload(_self.image);
                             _self.url = _self.image;
                         }
