@@ -2,12 +2,14 @@ import httpService from '../../common/httpService'
 import config from '../../common/common.config.json'
 // initial state
 const state = {
-    allActivity: { list: [] }
+    allActivity: { list: [] },
+    duryEn: { list: [] }
 }
 
 // getters
 const getters = {
-    allActivity: state => state.allActivity
+    allActivity: state => state.allActivity,
+    duryEn: state => state.duryEn
 }
 
 // actions
@@ -24,11 +26,34 @@ const actions = {
                 })
         })
     },
+    duryEnList({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            httpService.commonPost(param.path, param.body,
+                function(res) {
+                    resolve(res);
+                    commit('initDuryEnList', res);
+                },
+                function(err) {
+                    reject(err);
+                })
+        })
+    },
     moveUpOrDownActivity({ commit, state }, param) {
         return new Promise((resolve, reject) => {
             httpService.commonPost(param.path, param.body,
                 function(res) {
-                    resolve(res);                 
+                    resolve(res);
+                },
+                function(err) {
+                    reject(err);
+                })
+        })
+    },
+    moveUpOrDownDuryEn({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            httpService.commonPost(param.path, param.body,
+                function(res) {
+                    resolve(res);
                 },
                 function(err) {
                     reject(err);
@@ -45,7 +70,14 @@ const mutations = {
             item.state = config.activityState[item.state]
         }
         state.allActivity = res.biz_result;
-    }
+    },
+    initDuryEnList(state, res) {
+        for (let i = 0; i < res.biz_result.list.length; i++) {
+            let item = res.biz_result.list[i];
+            item.state = config.activityState[item.state]
+        }
+        state.duryEn = res.biz_result;
+    },
 }
 
 export default {

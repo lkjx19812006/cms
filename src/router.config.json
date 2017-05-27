@@ -40,28 +40,32 @@
         "index": "4",
         "path": "/activityList"
     }, {
-        "name": "App版本管理",
+        "name": "药材百科banner管理",
         "index": "5",
+        "path": "/duryEn"
+    }, {
+        "name": "App版本管理",
+        "index": "6",
         "children": [{
             "path": "/versionManagement",
             "title": "IOS版本管理",
-            "index": "5-0"
+            "index": "6-0"
         }, {
             "path": "/androidVersionManagement",
             "title": "ANDROID版本管理",
-            "index": "5-1"
+            "index": "6-1"
         }]
     }, {
         "name": "媒体报道",
-        "index": "6",
+        "index": "7",
         "children": [{
             "path": "/banner",
             "title": "行业资讯",
-            "index": "6-0"
+            "index": "7-0"
         }, {
             "path": "/media",
             "title": "报道管理",
-            "index": "6-1"
+            "index": "7-1"
         }]
     }]
 }

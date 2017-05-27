@@ -48,10 +48,12 @@ function pluralize(time, label) {
 }
 
 export function formatTime(time) {
-    console.log(time);
     return new Date(parseInt(time)).toLocaleString().replace(/:\d{1,2}$/, ' ');
 }
-
+export function formatTime2(time) {
+    time = new Date(time).getTime();
+    return new Date(parseInt(time)).toLocaleString().replace(/:\d{1,2}$/, ' ');
+}
 export function formatClientType(type) {
     let client = '';
     switch (type) {

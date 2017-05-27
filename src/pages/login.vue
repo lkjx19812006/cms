@@ -151,7 +151,6 @@ export default {
                                 }).then(() => {}, () => {});
                             }
                         );
-
                         _self.$router.push('/cms/zh/main');
                         // if (window.history.length == 1) {
 
