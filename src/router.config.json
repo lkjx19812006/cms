@@ -40,9 +40,18 @@
         "index": "4",
         "path": "/activityList"
     }, {
-        "name": "药材百科banner管理",
+        "name": "药材百科",
         "index": "5",
-        "path": "/duryEn"
+        "children": [{
+            "path": "/duryEn",
+            "title": "banner管理",
+            "index": "5-0"
+        }, {
+            "path": "/hotBreedList",
+            "title": "热搜品种",
+            "index": "5-1"
+        }]
+       
     }, {
         "name": "App版本管理",
         "index": "6",

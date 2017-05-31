@@ -96,7 +96,7 @@
             </el-table>
         </div>
         <div class="pagination">
-            <el-pagination @current-change="handleCurrentChange" :current-page="httpParam.pn" layout="total, prev, pager, next, jumper" :total="total">
+            <el-pagination @current-change="handleCurrentChange" :current-page="getParams.pn" layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>
         <el-dialog @close="closeDialog" title="药材百科Banner" v-model="addShow">
@@ -230,7 +230,8 @@ export default {
             this.addShow = true;
         },
         handleCurrentChange(val) {
-            this.httpParam.pn = val;
+            param.pn = val;
+            this.getParams.pn = val;
             this.getHttp();
         },
         getHttp() {

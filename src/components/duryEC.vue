@@ -71,7 +71,7 @@ import httpService from '../common/httpService'
 let configUrl = [{
     title: '求购列表',
     index: '0',
-    android: 'com.yaocaimaimai.yaocaimaimai.newmvp.viewimpl.MedicineActivity?breedName=',
+    android: 'com.yaocaimaimai.yaocaimaimai.newmvp.viewimpl.MedicineActivity',
     ios: 'YCMM://push/YCMMHerbsHotInfoViewController?breedName='
 }]
 export default {
@@ -145,7 +145,7 @@ export default {
                 this.httpParam.sendType = num;
             },
             getAppUrl() {
-                this.httpParam.appUrl = 'apps://ycmm?android=' + configUrl[0].android + this.httpParam.breedName + '&ios=' + configUrl[0].ios + this.httpParam.breedName
+                this.httpParam.appUrl = 'apps://ycmm?android=' + configUrl[0].android + '&ios=' + configUrl[0].ios + this.httpParam.breedName
             },
             submitForm(formName) {
                 let _self = this;
