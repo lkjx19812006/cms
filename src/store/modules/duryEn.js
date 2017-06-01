@@ -25,6 +25,28 @@ const actions = {
                 })
         })
     },
+    getbreedList({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            httpService.commonPost(param.path, param.body,
+                function(res) {
+                    resolve(res);                   
+                },
+                function(err) {
+                    reject(err);
+                })
+        })
+    },
+    getKeyBreedList({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            httpService.commonPost(param.path, param.body,
+                function(res) {
+                    resolve(res);                   
+                },
+                function(err) {
+                    reject(err);
+                })
+        })
+    },
     updateHotSearchImage({ commit, state }, param) {
         return new Promise((resolve, reject) => {
             httpService.commonPost(param.path, param.body,
@@ -46,7 +68,7 @@ const actions = {
                     reject(err);
                 })
         })
-    },
+    }
 }
 
 // mutations

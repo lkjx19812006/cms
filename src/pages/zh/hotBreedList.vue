@@ -1,4 +1,4 @@
-<style scoped>
+<style scoped lang="less">
 .table {
     padding-top: 20px;
     text-align: center;
@@ -60,14 +60,23 @@
     padding: 0;
     margin: 0 auto;
 }
+
+.content {
+    .hotBreed_img {
+        .breed_name_wrap {
+            margin-bottom: 20px;
+        }
+    }
+}
 </style>
 <template>
     <div class="content">
         <div class="sort">
             <div class="top_wrap">
-                <el-autocomplete style="width: 200px; margin-right: 20px;" v-model="getParams.keyWord" :fetch-suggestions="querySearchAsync" placeholder="请输入药材名称" @select="handleSelect"></el-autocomplete>
-                <el-button style="margin-right: 10px;" type="primary" @click="getHttp()" icon="search">搜索</el-button>
+                <el-autocomplete style="width: 200px; margin-right:10px;" v-model="getParams.keyWord" :fetch-suggestions="querySearchAsync" placeholder="请输入药材名称" @select="handleSelect"></el-autocomplete>
+                <el-button type="primary" @click="getHttp()" icon="search">搜索</el-button>
                 <el-button type="primary" @click="reset">重置</el-button>
+                <el-button type="primary" @click="newAdd">新建</el-button>
             </div>
         </div>
         <div class="table">
@@ -109,7 +118,13 @@
         </div>
         <el-dialog style="width: 920px; margin: auto" @close="closeDialog" title="热门搜索" v-model="addShow">
             <div class="hotBreed_img">
-                <imageUpload :imgUrl="httpParam.hotImg" :param='httpParam' v-on:postUrl="recieveUrlHotImg"></imageUpload>
+                <div class="breed_name_wrap">
+                    <span style="margin-right: 20px;">品名</span>
+                    <el-autocomplete style="width: 200px; margin-right: 20px;" v-model="breedName" :fetch-suggestions="querySearchAsync" placeholder="请输入药材名称" @select="handleSelectBreedId"></el-autocomplete>
+                </div>
+                <div>
+                    <imageUpload :imgUrl="httpParam.hotImg" :param='httpParam' v-on:postUrl="recieveUrlHotImg"></imageUpload>
+                </div>
                 <div class="btn_wrap">
                     <el-button type="primary" size="small" @click="submitImg">保存信息</el-button>
                 </div>
@@ -172,6 +187,9 @@ export default {
                 id: '',
                 keyName: 'news',
             },
+            keyBreedList: [],
+            breedName: '',
+            breedId: '',
             getParams: param,
             loading: false,
             addShow: false
@@ -208,6 +226,16 @@ export default {
             this.getParams.pn = val;
             this.getHttp();
         },
+        newAdd() {
+            this.httpParam.id = '';
+            this.httpParam.hotImg = '';
+            this.breedName = '';
+            this.breedId = '';
+            this.addShow = true;
+        },
+        handleSelectBreedId(val) {
+            this.breedId = val.breedId;
+        },
         getHttp() {
             let _self = this;
             this.loading = true
@@ -239,14 +267,41 @@ export default {
         },
         submitImg() {
             let _self = this;
-            this.loading = true
             let url = common.urlCommon + common.apiUrl.most;
-            let body = {
-                biz_module: 'searchKeywordService',
-                biz_method: 'updateHotSearchImage',
-                biz_param: {
-                    id: _self.httpParam.id,
-                    hotImg: _self.httpParam.hotImg
+            let body = {};
+            if (this.httpParam.id) {
+                body = {
+                    biz_module: 'searchKeywordService',
+                    biz_method: 'updateHotSearchImage',
+                    biz_param: {
+                        id: _self.httpParam.id,
+                        breedId: _self.breedId,
+                        hotImg: _self.httpParam.hotImg
+                    }
+                }
+            } else {
+                if (!_self.httpParam.hotImg) {
+                    this.$message({
+                        message: '请上传热搜药材图片',
+                        type: 'warning'
+                    });
+                    return;
+                }
+                if (!_self.breedId) {
+                    this.$message({
+                        message: '填写药材名称',
+                        type: 'warning'
+                    });
+                    return;
+                }
+                body = {
+                    biz_module: 'searchKeywordService',
+                    biz_method: 'addHotSearchImage',
+                    biz_param: {
+                        keyWord: _self.breedName,
+                        breedId: _self.breedId,
+                        hotImg: _self.httpParam.hotImg
+                    }
                 }
             }
             if (common.KEY) {
@@ -255,6 +310,7 @@ export default {
                 body.time = Date.parse(new Date()) + parseInt(common.difTime);
                 body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
             }
+            this.loading = true
             this.$store.dispatch('updateHotSearchImage', {
                 body: body,
                 path: url
@@ -269,7 +325,9 @@ export default {
         edit(index) {
             this.httpParam.id = this.hotBreedList[index].id;
             this.httpParam.hotImg = this.hotBreedList[index].hotImg;
-            this.addShow = true;
+            this.getkeyBreedList(this.hotBreedList[index].keyWord).then(() => {
+                this.addShow = true;
+            });
         },
         sortTop(paramId) {
             let _self = this;
@@ -321,6 +379,36 @@ export default {
                 _self.loading = false
             });
         },
+        getkeyBreedList(keyWord) {
+            let _self = this;
+            return new Promise((resolve, rejext) => {
+                let url = common.urlCommon + common.apiUrl.most;
+                let body = {
+                    biz_module: 'searchKeywordService',
+                    biz_method: 'querySearchKeywordBreed',
+                    biz_param: {
+                        keyWord: keyWord,
+                        pn: 1,
+                        pSize: 20
+                    }
+                }
+                let obj = {
+                    body: body,
+                    path: url
+                }
+                _self.$store.dispatch('getKeyBreedList', obj).then((res) => {
+                    for (var i = 0; i < res.biz_result.list.length; i++) {
+                        if (keyWord === res.biz_result.list[i].breedName) {
+                            _self.breedName = keyWord;
+                            _self.breedId = res.biz_result.list[i].breedId;
+                        }
+                    }
+                    resolve();
+                }, () => {
+                    rejext();
+                });
+            })
+        },
         querySearchAsync(queryString, cb) {
             if (!queryString) {
                 cb([{
@@ -335,7 +423,7 @@ export default {
                 let url = common.urlCommon + common.apiUrl.most;
                 let body = {
                     biz_module: 'searchKeywordService',
-                    biz_method: 'cmsHotSearchList',
+                    biz_method: 'querySearchKeywordBreed',
                     biz_param: {
                         keyWord: queryString,
                         pn: 1,

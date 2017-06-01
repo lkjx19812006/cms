@@ -5,7 +5,8 @@
 
 .img_upload .input_image {
     opacity: 0;
-    width: 70px;
+    display: inline-block;
+    width: 90px;
     text-align: center;
     height: 100%;
     position: absolute;
@@ -69,12 +70,17 @@ a {
 a:hover {
     color: #F69110;
 }
+
+.img_upload form input {
+    display: inline-block;
+    width: 90px;
+}
 </style>
 <template>
     <div class="img_upload" :v-loading.body="loading">
         <form>
             <input ref="imageUpload" type="file" @change="previewImg" :class="{'input_imgUrL': imgUrl}" class="input_image" name="photo" accept="image/png,image/jpeg,image/jpg,image/bmp">
-            <el-button size="small" type="primary" :loading="loading" v-show="!imgUrl">点击上传</el-button>
+            <el-button size="small" type="primary" :loading="loading" v-show="!imgUrl">点击上传图片</el-button>
             <div class="img_wrap" v-show="imgUrl" v-on:mouseenter="showModel = true" v-on:mouseleave="showModel = false">
                 <img v-bind:src="imgUrl" class="image_show">
                 <div class="model" v-show="showModel">

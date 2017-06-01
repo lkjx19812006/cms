@@ -24,7 +24,7 @@
 }
 
 .sort .top_wrap {
-    width: 620px;
+    width: 720px;
     overflow: hidden;
     margin: auto;
 }
@@ -47,7 +47,7 @@
                 </el-select>
                 <el-input style="width:200px;margin-right:20px;float: left " v-model="getParams.name" placeholder="请输入活动名称"></el-input>
                 <el-button type="primary" @click="getHttp()" icon="search">搜索</el-button>
-                <el-button type="primary" @click="add()" style="margin-left:50px">新增活动</el-button>
+                <el-button type="primary" @click="add()" style="margin-left:50px">新增banner</el-button>
             </div>
         </div>
         <div class="table">

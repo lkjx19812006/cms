@@ -18,15 +18,15 @@
         <el-form ref="httpParam" :model="httpParam" :rules="rules" label-width="120px" v-loading.body="loading">
             <el-form-item label="活动类型">
                 <el-checkbox-group v-model="httpParam.checkList" @change="changeCheckList">
-                    <el-checkbox :label="1">app活动</el-checkbox>
-                    <el-checkbox :label="2">h5活动</el-checkbox>
+                    <el-checkbox :label="1">app药材百科banner</el-checkbox>
+                    <el-checkbox :label="2">h5药材百科banner</el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
-            <el-form-item label="活动名称" prop="name">
+            <el-form-item label="banner名称" prop="name">
                 <el-input v-model="httpParam.name"></el-input>
             </el-form-item>
             <div v-if="httpParam.sendType === 1 || httpParam.sendType === 3">
-                <el-form-item label="app活动图片">
+                <el-form-item label="appBanner图片">
                     <imageUpload :imgUrl="httpParam.appImg" :param='httpParam' v-on:postUrl="recieveUrl"></imageUpload>
                 </el-form-item>
                 <!-- <el-form-item label="活动跳转">
@@ -36,13 +36,11 @@
                         <el-radio :label="9">备选项</el-radio>
                     </el-radio-group>
                 </el-form-item> -->
-                <el-form-item label="app活动地址">
+                <el-form-item label="appBanner地址">
                     <div class="url_wrap">
-                        <el-input @change="getAppUrl" v-model="httpParam.breedName" placeholder="请输入药材名">
-                            <template slot="prepend">
-                                <span>apps://</span>
-                            </template>
-                        </el-input>
+                        <span>apps://</span>
+                        <el-input v-on:focus="changShowSele" style="width: 140px; margin-left: 10px;" v-model="httpParam.breedName" v-if="!showSele"></el-input>
+                        <breed style="width: 140px; margin-left: 10px;" v-model="httpParam.breedName" v-on:getBreedId="getBreed" v-if="showSele"></breed>
                     </div>
                     <div class="input_wrap">
                         <el-input disabled class="appUrl" v-model="httpParam.appUrl"></el-input>
@@ -50,11 +48,11 @@
                 </el-form-item>
             </div>
             <div v-if="httpParam.sendType === 2 || httpParam.sendType === 3">
-                <el-form-item label="H5活动图片">
+                <el-form-item label="H5Banner图片">
                     <imageUpload :imgUrl="httpParam.htmlImg" :param='httpParam' v-on:postUrl="recieveUrlH5Img"></imageUpload>
                 </el-form-item>
-                <el-form-item label="H5活动地址">
-                    <el-input v-model="httpParam.htmlUrl" placeholder="请输入活动地址"></el-input>
+                <el-form-item label="H5Banner地址">
+                    <el-input v-model="httpParam.htmlUrl" placeholder="请输入H5Banner地址"></el-input>
                 </el-form-item>
             </div>
             <el-form-item>
@@ -68,6 +66,7 @@ import imageUpload from './imageUpload.vue';
 import imageUploadNoZip from './imageUploadNoZip.vue'
 import common from '../common/common.js'
 import httpService from '../common/httpService'
+import breed from '../components/breed.vue'
 let configUrl = [{
     title: '求购列表',
     index: '0',
@@ -78,8 +77,8 @@ export default {
     data() {
             let _self = this;
             return {
-                breedName: '',
                 loading: false,
+                showSele: false,
                 rules: {
                     name: [{
                         required: true,
@@ -123,8 +122,24 @@ export default {
         components: {
             imageUpload,
             imageUploadNoZip,
+            breed
+        },
+        mounted() {
+            if (!this.httpParam.id) {
+                this.showSele = true;
+            }
         },
         methods: {
+            changShowSele() {
+                if (this.httpParam.id) {
+                    this.showSele = true;
+                    return;
+                } else {
+                    if (!this.showSele) {
+                        this.showSele = true;
+                    }
+                }
+            },
             //app 图片
             recieveUrl(val) {
                 this.httpParam.appImg = val.url;
@@ -144,8 +159,8 @@ export default {
                 }
                 this.httpParam.sendType = num;
             },
-            getAppUrl() {
-                this.httpParam.appUrl = 'apps://ycmm?android=' + configUrl[0].android + '&ios=' + configUrl[0].ios + this.httpParam.breedName
+            getAppUrl(item) {
+
             },
             submitForm(formName) {
                 let _self = this;
@@ -230,7 +245,11 @@ export default {
                     this.sendObj.htmlUrl = this.httpParam.htmlUrl;
                     this.sendObj.type = this.httpParam.sendType;
                 }
+            },
+            getBreed(params) {
+                this.httpParam.appUrl = 'apps://ycmm?android=' + configUrl[0].android + '&ios=' + configUrl[0].ios + params.breedName
             }
+
         }
 }
 </script>

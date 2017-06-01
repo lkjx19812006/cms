@@ -31,6 +31,10 @@ module.exports = {
             test: /\.css$/,
             loader: 'style-loader!css-loader'
         }, {
+            test: /\.less$/,
+            // 将样式抽取出来为独立的文件 { fallback: 'style-loader', use: 'css-loader!autoprefixer-loader!less-loader' }
+            loader: 'style-loader!css-loader!less-loader'
+        }, {
             test: /\.vue$/,
             loader: 'vue-loader',
             options: vueConfig
