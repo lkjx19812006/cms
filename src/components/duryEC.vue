@@ -71,7 +71,7 @@ let configUrl = [{
     title: '求购列表',
     index: '0',
     android: 'com.yaocaimaimai.yaocaimaimai.newmvp.viewimpl.MedicineActivity',
-    ios: 'YCMM://push/YCMMHerbsHotInfoViewController?breedName='
+    ios: 'YCMM://push/YCMMHerbsHotInfoViewController&breedName='
 }]
 export default {
     data() {
