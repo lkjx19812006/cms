@@ -96,12 +96,12 @@ let configUrl = [{
     title: '求购列表',
     index: '0',
     android: 'com.yaocaimaimai.yaocaimaimai.mvp.emergencypurchase.EmergencyPurchaseActivity',
-    ios: 'YCMM://push/YCMMDemandViewController'
+    ios: 'YCMM://push/YCMMDemandHomeViewController'
 }, {
     title: '资源列表',
     index: '1',
     android: 'com.yaocaimaimai.yaocaimaimai.mvp.lowresource.LowResourceActivity',
-    ios: 'YCMM://push/YCMMSupplyViewController'
+    ios: 'YCMM://push/YCMMSupplyHomeViewController'
 }, {
     title: '预购列表',
     index: '2',
