@@ -259,7 +259,7 @@ export default {
                 body.version = 1;
                 body.time = Date.parse(new Date()) + parseInt(common.difTime);
                 body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
-                
+
                 let obj = {
                     body: body,
                     path: url
@@ -296,9 +296,6 @@ export default {
                 });
                 return;
             }
-            let _self = this;
-            this.loading = true;
-            let url = common.urlCommon + common.apiUrl.most;
             let body = {
                 biz_module: 'breedService',
                 biz_method: 'priceSortTop',
@@ -306,6 +303,14 @@ export default {
                     breedIdList: this.multipleSelection
                 }
             }
+            let _self = this;
+            this.loading = true;
+            let url = common.urlCommon + common.apiUrl.most;
+            url = common.addSID(url);
+            body.version = 1;
+            body.time = Date.parse(new Date()) + parseInt(common.difTime);
+            body.sign = common.getSign('biz_module=' + body.biz_module + '&biz_method=' + body.biz_method + '&time=' + body.time);
+
             let obj = {
                 body: body,
                 path: url
