@@ -16,7 +16,7 @@
 <template>
     <div class="duryEC">
         <el-form ref="httpParam" :model="httpParam" :rules="rules" label-width="120px" v-loading.body="loading">
-            <el-form-item label="活动类型">
+            <el-form-item label="banner类型">
                 <el-checkbox-group v-model="httpParam.checkList" @change="changeCheckList">
                     <el-checkbox :label="1">app药材百科banner</el-checkbox>
                     <el-checkbox :label="2">h5药材百科banner</el-checkbox>

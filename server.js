@@ -64,7 +64,7 @@ const serve = (path, cache) => express.static(resolve(path), {
     maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
 })
 
-var apiProxy = proxy("192.168.1.141", {
+var apiProxy = proxy("192.168.1.103:8080", {
     forwardPath: function(req, res) {
         return req._parsedUrl.path
     }

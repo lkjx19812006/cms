@@ -45,29 +45,29 @@
                     <el-option v-for="item in state" :label="item.label" :value="item.value">
                     </el-option>
                 </el-select>
-                <el-input style="width:200px;margin-right:20px;float: left " v-model="getParams.name" placeholder="请输入活动名称"></el-input>
+                <el-input style="width:200px;margin-right:20px;float: left " v-model="getParams.name" placeholder="请输入药材品名"></el-input>
                 <el-button type="primary" @click="getHttp()" icon="search">搜索</el-button>
                 <el-button type="primary" @click="add()" style="margin-left:50px">新增banner</el-button>
             </div>
         </div>
         <div class="table">
             <el-table align="center" v-bind:data="duryEnList" border style="width:1200px;margin:auto" max-height="600" v-loading.body="loading">
-                <el-table-column prop="name" label="活动名称" width="200">
+                <el-table-column prop="name" label="品名" width="200">
                 </el-table-column>
-                <el-table-column label="活动图片" width="200">
+                <el-table-column label="药材图片" width="200">
                     <template scope="scope">
                         <img style="width: 200px; max-height: 200px;" :src="scope.row.appImg">
                         <img style="width: 200px; max-height: 200px;" :src="scope.row.htmlImg">
                     </template>
                 </el-table-column>
-                <el-table-column prop="activityUrl" label="活动url" min-width="200">
+                <el-table-column prop="activityUrl" label="链接地址" min-width="200">
                     <template scope="scope">
                         <a class="link" :href="scope.row.activityUrl" target="_blank">{{scope.row.appUrl}}</a>
                         <br>
                         <a class="link" :href="scope.row.activityUrl" target="_blank">{{scope.row.htmlUrl}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="state" label="活动状态" width="100">
+                <el-table-column prop="state" label="启用状态" width="100">
                 </el-table-column>
                 <el-table-column label="创建时间" width="200">
                     <template scope="scope">
