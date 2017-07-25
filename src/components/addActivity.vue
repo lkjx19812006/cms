@@ -119,12 +119,12 @@
         title: '资源发布页',
         index: '3',
         android: 'com.yaocaimaimai.yaocaimaimai.mvp.main.resource.resourcepublish.ResourcePublishActivity',
-        ios: 'YCMMPublishSupplyViewController',
+        ios: 'YCMM://push/YCMMPublishSupplyViewController',
     }, {
         title: '求购发布页',
         index: '4',
         android: 'com.yaocaimaimai.yaocaimaimai.mvp.main.purchase.purchasepublish.PurchasePublishActivity',
-        ios: 'YCMMPublishDemandViewController'
+        ios: 'YCMM://push/YCMMPublishDemandViewController'
     }];
 
     export default {
