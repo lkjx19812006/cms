@@ -30,6 +30,10 @@
             "path": "/newsAdd",
             "title": "消息新建",
             "index": "2-1"
+        }, {
+            "path": "/Blacklist",
+            "title": "黑名单管理",
+            "index": "2-3"
         }]
     }, {
         "name": "用户列表",

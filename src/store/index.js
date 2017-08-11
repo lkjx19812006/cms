@@ -8,20 +8,22 @@ import version from './modules/version'
 import media from './modules/media'
 import marketInfo from './modules/marketInfo'
 import duryEn from './modules/duryEn'
+import sendMsg from './modules/sendMsg'
 
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
-  modules: {
-    user,
-    activity,
-    resource,
-    news,
-    version,
-    media,
-    marketInfo,
-    duryEn
-  }
+    modules: {
+        user,
+        activity,
+        resource,
+        news,
+        version,
+        media,
+        marketInfo,
+        duryEn,
+        sendMsg
+    }
 })
