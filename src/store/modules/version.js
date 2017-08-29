@@ -4,6 +4,7 @@ import httpService from '../../common/httpService'
 const state = {
     versionList: { list: [] },
     androidVersionList:{ list: [] },
+    ERPVersionList:{list:[]},
     versionDetail: {},
     errorList:{ list: [] }
 }
@@ -13,7 +14,8 @@ const getters = {
     versionList: state => state.versionList,
     versionDetail: state => state.versionDetail,
     errorList:state => state.errorList,
-    androidVersionList:state => state.androidVersionList
+    androidVersionList:state => state.androidVersionList,
+    ERPVersionList: state => state.ERPVersionList
 }
 
 // actions
@@ -65,6 +67,18 @@ const actions = {
                 })
         })
     },
+    ERPVersionList({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            httpService.commonPost(param.path, param.body,
+                function(res) {
+                    commit('initERPVersionList', res);
+                    resolve(res);
+                },
+                function(err) {
+                    reject(err);
+                })
+        })
+    },
     getVersionDetail({ commit, state }, param) {
         return new Promise((resolve, reject) => {
             commit('initVersionDetail', param);
@@ -77,6 +91,9 @@ const actions = {
 const mutations = {
     initAndroidVersionList(state, res) {
         state.androidVersionList = res.biz_result;
+    },
+    initERPVersionList(state, res) {
+        state.ERPVersionList = res.biz_result;
     },
     initVersionList(state, res) {
         state.versionList = res.biz_result;

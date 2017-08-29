@@ -67,6 +67,10 @@
             "path": "/androidVersionManagement",
             "title": "ANDROID版本管理",
             "index": "6-1"
+        }, {
+            "path": "/erpVersionManagement",
+            "title": "移动ERP版本管理",
+            "index": "6-2"
         }]
     }, {
         "name": "媒体报道",

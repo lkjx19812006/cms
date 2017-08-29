@@ -26,7 +26,7 @@ let httpService = new Vue({
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        window.location.href = "/login";
+                        window.location.href = "/cms/login";
                     }).catch((res) => {
                         _self.$message({
                             type: 'info',

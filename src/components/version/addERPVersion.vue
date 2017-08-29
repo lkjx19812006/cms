@@ -7,13 +7,13 @@
                 <el-input v-model="activityParam.version" placeholder="请先填写版本号"></el-input>
             </el-form-item>
             <el-form-item label="强制更新最低版本号" prop="compel">
-                <el-input v-model="activityParam.compel"></el-input>
+                <el-input v-model="activityParam.compel" placeholder="请填写强制更新最低版本号"></el-input>
             </el-form-item>
-            <el-form-item label="APK名称" prop="apk">
-                <uploadFile :param="addParam" v-on:postUrl="receiveApk"></uploadFile>
+            <el-form-item label="APK名称" prop="downUrl">
+                <uploadFile :param="addParam" v-on:postUrl="receiveUrl"></uploadFile>
             </el-form-item>
             <el-form-item label="版本更新介绍" prop="content">
-                <el-input type="textarea" :rows="4" v-model="activityParam.content"></el-input>
+                <el-input type="textarea" :rows="4" v-model="activityParam.content" placeholder="请填写版本更新介绍"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('activityParam')">确定</el-button>
@@ -35,21 +35,27 @@ export default {
                     version: [{
                         required: true,
                         message: '请输入版本号',
-                        trigger: 'blur'
+                        trigger: 'blur',
+                    },{
+                        pattern:/^[0-9]*.[0-9]*.[0-9]*$/,
+                        message: '版本号格式错误',
                     }],
                     compel: [{
                         required: true,
                         message: '请输入强制更新版本号',
                         trigger: 'blur'
+                    },{
+                        pattern:/^[0-9]*.[0-9]*.[0-9]*$/,
+                        message: '版本号格式错误',
                     }],
                     content: [{
                         required: true,
                         message: '请输入版本更新介绍',
                         trigger: 'blur'
                     }],
-                    apk: [{
+                    downUrl: [{
                         required: true,
-                        message: '请选择apk',
+                        message: '请选择apk, 或升级包',
                         trigger: 'blur'
                     }]
                 }
@@ -64,8 +70,8 @@ export default {
             uploadFile
         },
         methods: {
-            receiveApk(val) {
-                this.activityParam.apk=val.url;
+            receiveUrl(val) {
+                this.activityParam.downUrl=val.url;
             },
             submitForm(formName) {
                 let _self = this;
@@ -81,7 +87,8 @@ export default {
                                 version: _self.activityParam.version,
                                 compel: _self.activityParam.compel,
                                 content: _self.activityParam.content,
-                                detail: _self.activityParam.detail
+                                detail: _self.activityParam.detail,
+                                downUrl :  _self.activityParam.downUrl
                             }
                         }
                         if (this.activityParam.id) {
@@ -94,7 +101,8 @@ export default {
                                     version: _self.activityParam.version,
                                     compel: _self.activityParam.compel,
                                     content: _self.activityParam.content,
-                                    detail: _self.activityParam.detail
+                                    detail: _self.activityParam.detail,
+                                    downUrl :  _self.activityParam.downUrl
                                 }
                             }
                         }

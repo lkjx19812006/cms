@@ -25,7 +25,7 @@
 <template>
     <div class="img_upload">
         <form>
-            <input type="file" @change="previewImg" class="input_image" name="photo">
+            <input ref="input" type="file" @change="previewImg" class="input_image" name="photo">
             <span style="margin-right:10px">{{fileName}}</span>
             <el-button slot="trigger" size="small" :loading="isBtnLoading" type="primary">选取文件</el-button>
         </form>
@@ -39,7 +39,8 @@ export default {
             return {
                 loading: false,
                 fileList: [],
-                fileName: '',
+                fileName: '',//文件名
+                suffix: '', //後綴名
                 size: '',
                 isBtnLoading: false
             }
@@ -53,9 +54,10 @@ export default {
             previewImg(e) {
                 let _self = this;
                 if (!this.param.version) {
+                    this.$refs.input.value = '';
                     return _self.$message({
                         type: 'error',
-                        message: '请刷新后,先填写版本号,再选择文件'
+                        message: '先填写版本号,再选择文件'
                     });
                 }
                 let input = e.target;
@@ -63,8 +65,9 @@ export default {
                     let reader = new FileReader();
                     _self.size = input.files[0].size;
                     // input.files[0].name='ycmm.'+_self.param.version.apk;
-                    // _self.fileName = input.files[0].name;
                     _self.fileName = input.files[0].name;
+                    //拿到后缀
+                    _self.suffix = _self.fileName.split('.')[_self.fileName.split('.').length - 1];
                     _self.upload(input.files[0]);
                 }
             },
@@ -72,6 +75,7 @@ export default {
                 this.loading = true;
                 let _self = this;
                 let url = common.addSID(common.urlCommon + common.apiUrl.most);
+                var bucketName = _self.param.type === 1? 'android' : 'erpapp';
                 let body = {
                     biz_module: 'filesService',
                     biz_method: 'getQiNiuToken',
@@ -79,7 +83,7 @@ export default {
                     time: 0,
                     sign: '',
                     biz_param: {
-                        bucketName: 'android'
+                        bucketName: bucketName
                     }
                 };
                 body.time = Date.parse(new Date()) + parseInt(common.difTime);
@@ -94,7 +98,12 @@ export default {
                         var formData = new FormData();
                         formData.append('token', res.biz_result.token);
                         formData.append('file', file);
-                        formData.append('key', 'ycmm.' + _self.param.version + '.apk');
+                        //判断是android端 还是移动erp端 配置不同的文件名称 拼接後綴是為了 解決升級包文集的問題
+                        if(_self.param.type === 1){
+                            formData.append('key', 'ycmm.' + _self.param.version + '.' + _self.suffix);
+                        }else if(_self.param.type === 2){
+                            formData.append('key', 'ERP.' + _self.param.version + '.' + _self.suffix);
+                        }
                         xhr.onreadystatechange = function() {
                             _self.loading = false;
                             if (xhr.readyState == 4) {
